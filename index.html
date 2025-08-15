@@ -1,43 +1,832 @@
-
 <!DOCTYPE html>
+
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rumato - Möbel für Büros, Salons und moderne Räume</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Rumato - Möbel für Büros, Salons und moderne Räume</title>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<style>
+    :root{
+      --brand:#800020;
+      --text:#333;
+      --muted:#f5f5f5;
+      --bg:#f9f9f9;
+      --accent:#4b6b7d;
+      --green:#285943;
+    }
+    *{box-sizing:border-box}
+    body{
+      font-family:'Open Sans',sans-serif;
+      margin:0;
+      color:var(--text);
+      background:var(--bg);
+    }
+
+    /* Header */
+    header{
+      position:fixed; top:0; left:0; right:0;
+      z-index:1000;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:16px 24px;
+      background:#fff;
+      box-shadow:0 4px 6px rgba(0,0,0,.08);
+    }
+    .logo{font-size:28px; font-weight:600;}
+    nav ul{display:flex; gap:24px; list-style:none; margin:0; padding:0;}
+    nav a{color:var(--text); text-decoration:none; font-weight:600; font-size:16px; padding-bottom:3px;}
+    nav a:hover{color:var(--accent); border-bottom:2px solid var(--accent);}
+    .language-panel select{
+      padding:6px 10px; border:1px solid #ddd; border-radius:5px; cursor:pointer; background:#fff;
+    }
+
+    main{padding-top:88px;}
+
+    /* Hero / We are */
+    .custom-section{
+      display:grid;
+      grid-template-columns: 1fr 2fr 3fr 7fr 1fr; /* исходное распределение */
+      gap:0;
+      align-items:center;
+      min-height:300px;
+      margin:0 auto;
+      max-width:1200px;
+      padding:16px;
+    }
+    .section-part{
+      display:flex; align-items:center; justify-content:center;
+      font-size:28px;
+      font-weight:600;
+    }
+    .section-part-right{
+      display:flex; flex-direction:column; gap:12px;
+      font-size:16px;
+      padding-left:20px;
+      align-items:center;
+    }
+    .section-part-right .copy{
+      max-width:720px;
+      line-height:1.65;
+      text-align:left;
+    }
+    .underline{width:100%; max-width:720px; height:4px; background:#000; margin:4px 0 8px}
+
+    /* Column with words (boats animation) */
+    .section-part-left{
+      position:relative;
+      overflow:hidden;
+      display:flex;
+      align-items:flex-start;
+      justify-content:flex-start;
+      height:100%;
+    }
+    .section-part-left .words{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      font-size:28px;
+      font-weight:600;
+    }
+    .section-part-left .words span{
+      display:block;
+      will-change: transform;
+      transform: translateX(var(--sx, 0px));
+    }
+    .section-part-left .words span.anim{
+      transition-property: transform;
+      transition-timing-function: cubic-bezier(.25,.8,.25,1);
+    }
+    .section-part-left .words span.anim:nth-child(1){ transition-duration: 9.4s; }
+    .section-part-left .words span.anim:nth-child(2){ transition-duration: 10.2s; }
+    .section-part-left .words span.anim:nth-child(3){ transition-duration: 8.8s; }
+    .section-part-left .words span.anim:nth-child(4){ transition-duration: 10.8s; }
+    .section-part-left .words span.anim:nth-child(5){ transition-duration: 9.8s; }
+
+    /* Info line */
+    .shop-favorites-line{
+      width:100%; height:40px; background:var(--green);
+      display:flex; align-items:center; justify-content:center;
+      color:#fff; font-size:20px; font-weight:700; text-transform:uppercase;
+      text-align:center; margin:32px 0 8px;
+    }
+
+    /* Features */
+    .features{
+      display:flex; gap:40px; justify-content:center; align-items:flex-start;
+      max-width:1240px; margin:0 auto; padding:0 16px; text-align:center;
+      flex-wrap:wrap;
+    }
+    .feature{
+      min-width:260px; width:30%; max-width:380px;
+      display:flex; flex-direction:column; gap:6px; align-items:center;
+    }
+    .feature h3{margin:0; font-size:18px; font-weight:700;}
+    .feature p{margin:0; font-size:16px; line-height:1.6}
+
+    /* Product card fullwidth */
+    .fullwidth-card{
+      display:grid;
+      grid-template-columns: 5% 30% 22% 33% 5%;
+      align-items:stretch;
+      width:100%;
+      min-height:265px;
+      margin:40px 0;
+      background:var(--muted);
+      box-shadow:0 4px 8px rgba(0,0,0,.1);
+    }
+    .image{
+      background-size:cover; background-position:center;
+      min-height:220px;
+    }
+    .filters, .description{
+      background:var(--muted);
+      padding:20px;
+      display:flex; flex-direction:column; gap:10px;
+      position:relative;
+    }
+    .filters label{display:flex; align-items:center; justify-content:space-between; gap:10px; font-weight:600;}
+    .filters select{width:150px; padding:6px; font-size:14px; border-radius:5px; border:1px solid #ccc;}
+    .radio-group{display:flex; gap:15px; justify-content:flex-end;}
+    .price-tag, .price-fixed{
+       bottom:20px; right:20px; font-size:16px; font-weight:700;
+    }
+    .description .title{font-size:28px; font-weight:600; margin:0 0 6px; text-align:right;}
+    .description p{margin:6px 0;}
+    .buttons{display:flex; flex-direction:column; gap:10px; align-items:flex-end;}
+    .btn{
+      padding:10px; font-size:14px; font-weight:700; cursor:pointer; max-width:150px; width:100%;
+      border-radius:5px; transition:transform .2s ease, filter .2s ease, background .2s ease, color .2s ease;
+    }
+    .btn.view{background:#fff; color:#000; border:1px solid #000;}
+    .btn.view:hover{background:#f4f4f4; transform:scale(1.05); filter:brightness(1.05)}
+    .btn.cart{background:var(--brand); color:#fff; border:none;}
+    .btn.cart:hover{background:#6a001a; transform:scale(1.05); filter:brightness(1.05)}
+
+    /* Content pairs */
+    .content-pairs{
+      display:flex; flex-direction:column; gap:32px; max-width:1240px;
+      margin:80px auto; padding:0 16px;
+    }
+    .pair{display:flex; gap:20px; align-items:center; justify-content:center; flex-wrap:wrap;}
+    .pair .tile{
+      width:242px; height:242px; border-radius:4px;
+      background-size:cover; background-position:center;
+      box-shadow:0 4px 10px rgba(0,0,0,.15);
+    }
+    .pair .text{
+      width:500px; max-width:100%;
+      background:var(--bg); padding:20px; line-height:1.6; font-size:16px; text-align:left;
+    }
+    .pair .text h3{margin:0 0 10px; font-size:28px; font-weight:600; color:#000;}
+    .pair .text .underline{height:4px; background:#000; width:100%; margin-bottom:15px}
+
+    /* Footer */
+    footer .footer-bars{
+      width:100%; min-height:200px; display:flex; flex-direction:column;
+    }
+    footer .bar-top{
+      flex:7;
+      display:flex; flex-direction:row;
+    }
+    footer .bar-top .left{
+      flex:1; background:#C08081; display:flex; align-items:center; justify-content:center;
+      font-size:16px; font-weight:600; color:#fff; text-align:center; padding:8px;
+    }
+    footer .bar-top .right{
+      flex:1; background:#98FF98; display:flex; flex-direction:column; align-items:center; justify-content:center;
+      font-size:16px; font-weight:600; color:#000; text-align:center; padding:8px; gap:6px;
+    }
+    footer .bar-bottom{
+      flex:3; background:#013220; display:flex; align-items:center; justify-content:center;
+      font-size:20px; font-weight:bold; color:#fff;
+    }
+
+    /* Responsive */
+    @media (max-width: 992px){
+      .custom-section{grid-template-columns: 1fr 1fr; row-gap:12px}
+      .section-part{grid-column:1 / -1}
+      .section-part-left{grid-column:1 / -1}
+      .section-part-right{grid-column:1 / -1}
+      .fullwidth-card{grid-template-columns: 1fr;}
+      .image{min-height:240px}
+      .price-tag, .price-fixed{position:relative; bottom:auto; right:auto; margin-top:8px}
+      .buttons{align-items:flex-start}
+      .section-part-right .copy{max-width:100%}
+      .underline{max-width:100%}
+    }
+    @media (max-width: 640px){
+      header{padding:12px 16px}
+      .logo{font-size:22px}
+      nav ul{gap:12px}
+      nav a{font-size:14px}
+      .shop-favorites-line{font-size:16px}
+    }
+  
+@media (max-width: 480px){
+  
+}
+
+/* Drawer offset below fixed header (88px) so it doesn't cover the top menu/video */
+
+/* Checkout form inside drawer */
+
+.pay-pill{
+  border:1px solid #ddd; border-radius:999px; padding:8px 12px; cursor:pointer; user-select:none;
+}
+.pay-pill input{ margin-right:6px; }
+
+/* Sticky actions at bottom, prominent checkout */
+
+/* Notes textarea */
+#order-notes{
+  width:100%;
+  min-height:72px;
+  border:1px solid #ddd;
+  border-radius:6px;
+  padding:8px 10px;
+  font-size:14px;
+}
+
+/* Improve items visuals */
+
+
+
+/* ==== Rumato Cart v1 (namespaced) ==== */
+#rc-popup{
+  position:fixed; top:88px; right:24px; z-index:1100;
+  display:none; align-items:center; gap:12px;
+  background:#800020; color:#fff; padding:10px 14px;
+  border-radius:0 0 12px 12px; font-weight:700;
+}
+#rc-popup button{ background:#fff; color:#800020; border:none; padding:8px 12px; border-radius:10px; font-weight:700; cursor:pointer; }
+#rc-popup button:hover{ filter:brightness(1.05); transform:translateY(-1px); }
+
+#rc-overlay{ position:fixed; inset:0; background:rgba(0,0,0,.45); display:none; z-index:1200; }
+#rc-overlay.show{ display:block; }
+
+#rc-drawer{
+  position:fixed; right:-960px; top:88px; width:960px; height:calc(100vh - 88px);
+  background:#fff; box-shadow:-6px 0 18px rgba(0,0,0,.2);
+  z-index:1210; border-top-left-radius:12px; transition:right .35s ease;
+  display:flex; flex-direction:column;
+}
+#rc-drawer.open{ right:0; }
+#rc-drawer header{ position:sticky; top:0; background:#fff; z-index:2; padding:14px 16px; border-bottom:1px solid #eee; display:flex; align-items:center; justify-content:space-between; font-weight:700; font-size:18px; }
+#rc-drawer header .rc-x{ background:none; border:none; font-size:22px; cursor:pointer; }
+
+#rc-content{ display:grid; grid-template-columns: 1.2fr 1fr; gap:16px; padding:12px 16px; height:100%; box-sizing:border-box; }
+.rc-left, .rc-right{ display:flex; flex-direction:column; min-height:0; }
+.rc-left{ border-right:1px solid #eee; padding-right:8px; }
+.rc-right{ padding-left:8px; }
+
+#rc-items{ flex:1; overflow:auto; display:flex; flex-direction:column; gap:12px; }
+.rc-item{
+  display:grid; grid-template-columns: 1fr 2fr 1fr; gap:12px; align-items:center;
+  border:1px solid #eee; border-radius:12px; padding:12px; background:#fff;
+  min-height:100px;
+}
+.rc-thumb{ width:100%; height:100%; min-height:80px; border-radius:8px; background:center/cover no-repeat; border:1px solid #eee; }
+.rc-filters{ display:flex; flex-wrap:wrap; gap:6px 10px; font-size:12px; color:#555; line-height:1.4; }
+.rc-details{ display:flex; flex-direction:column; align-items:flex-end; gap:6px; }
+.rc-details .rc-name{ font-weight:700; font-size:14px; border-bottom:1px solid #000; width:100%; text-align:right; }
+.rc-details .rc-each{ font-size:12px; color:#666; }
+.rc-details .rc-sum{ font-weight:800; color:#7b0f2a; font-size:15px; }
+.rc-qty{ display:flex; align-items:center; gap:6px; }
+.rc-qty button{ width:32px; height:32px; border:1px solid #ddd; background:#fff; border-radius:8px; cursor:pointer; }
+.rc-qty input{ width:32px; height:32px; text-align:center; border:1px solid #ddd; border-radius:8px; }
+.rc-remove{ width:32px; height:32px; border-radius:8px; border:1px solid #d92c2c; color:#d92c2c; background:#fff; display:inline-flex; align-items:center; justify-content:center; cursor:pointer; }
+.rc-remove:hover{ background:#d92c2c; color:#fff; }
+.rc-remove::before{ content:"✕"; font-size:16px; }
+
+#rc-left-summary{ border-top:1px solid #eee; padding-top:10px; margin-top:4px; display:flex; flex-direction:column; gap:8px; }
+#rc-left-summary .row{ display:flex; justify-content:space-between; }
+#rc-left-summary .row.total{ font-weight:800; font-size:16px; }
+.rc-note{ font-size:12px; color:#666; }
+
+#rc-form{ flex:1; overflow:auto; display:flex; flex-direction:column; gap:10px; }
+#rc-form .field{ display:flex; flex-direction:column; gap:6px; }
+#rc-form .field-row{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+#rc-form label{ font-size:12px; color:#555; }
+#rc-form input, #rc-form select{ height:36px; border:1px solid #ddd; border-radius:6px; padding:0 10px; font-size:14px; }
+#rc-notes{ width:100%; min-height:72px; border:1px solid #ddd; border-radius:6px; padding:8px 10px; font-size:14px; }
+
+#rc-actions{ position:sticky; bottom:0; background:#fff; border-top:1px solid #eee; padding:12px 16px 16px; display:flex; flex-direction:column; gap:10px; }
+#rc-actions .btn-primary{ height:56px; font-size:16px; letter-spacing:.2px; border-radius:10px; background:#000; color:#fff; font-weight:700; border:none; cursor:pointer; }
+#rc-actions .btn-secondary{ height:48px; border-radius:10px; background:#fff; color:#000; border:1px solid #000; font-weight:700; cursor:pointer; }
+
+@media (max-width: 992px){
+  #rc-drawer{ width:100vw; right:-100vw; }
+  #rc-content{ grid-template-columns: 1fr; gap:8px; }
+  .rc-left{ border-right:none; border-bottom:1px solid #eee; padding-right:0; padding-bottom:8px; }
+  .rc-right{ padding-left:0; }
+}
+</style>
 </head>
-<body class="font-sans bg-gray-100">
-    <header class="bg-white shadow-md fixed w-full top-0 z-10">
-        <div class="max-w-6xl mx-auto p-4 flex justify-between items-center">
-            <a href="/" class="text-2xl font-bold text-black">Rumato</a>
-            <nav>
-                <ul class="flex space-x-6">
-                    <li><a href="#office" class="text-black hover:text-green-500">Офис</a></li>
-                    <li><a href="#furniture" class="text-black hover:text-green-500">Мебель</a></li>
-                    <li><a href="#beauty" class="text-black hover:text-green-500">Салон красоты</a></li>
-                    <li><a href="#panels" class="text-black hover:text-green-500">Стеновые панели</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+<body>
+<header>
+<div class="logo">Rumato</div>
+<nav>
+<ul>
+<li><a href="#">Büro</a></li>
+<li><a href="#">Betten</a></li>
+<li><a href="#">Sofas</a></li>
+<li><a href="#">Gartenmöbel</a></li>
+<li><a href="#">Schönheitssalon</a></li>
+<li><a href="#">Ladenbausysteme</a></li>
+<li><a href="#">Wandpaneele</a></li>
+</ul>
+</nav>
+<div class="language-panel">
+<select aria-label="Sprache wählen">
+<option value="de">DE</option>
+<option value="fr">FR</option>
+<option value="en">EN</option>
+</select>
+</div>
+</header>
 
-    <main class="mt-20">
-        <section id="office" class="p-8">
-            <h2 class="text-4xl font-bold text-center mb-6">Офисные решения</h2>
-            <div class="grid grid-cols-3 gap-8">
-                <div class="border rounded-lg p-4">
-                    <img src="product1.jpg" alt="Resepchion" class="w-full h-48 object-cover mb-4">
-                    <h3 class="font-bold">Ресепшен</h3>
-                    <p class="text-gray-500">Цена: 1000€</p>
-                    <button class="mt-4 bg-green-500 text-white py-2 px-4 rounded-full">Купить</button>
-                </div>
-            </div>
-        </section>
-    </main>
+<main>
+<!-- Hero -->
+<section class="custom-section" style="height: 260px; max-width: 1800px;">
+<div></div>
+<!-- Wir sind: keep static and aligned upward to ~KREATOREN line -->
+<div class="section-part" style="align-self: flex-start; margin-top: 107px; display: flex; align-items: center; justify-content: center;"><span>Wir sind</span></div>
+<!-- Words column with smooth boats animation -->
+<div class="section-part-left" id="words-sector" style="margin-top: 20px;">
+<div class="words" id="words">
+<span>DESIGNER</span>
+<span>PARTNER</span>
+<span>KREATOREN</span>
+<span>BAUERN</span>
+<span>TRÄUMER</span>
+</div>
+</div>
+<div class="section-part-right" style="display: flex; flex-direction: column; align-items: stretch; justify-content: center; max-width: 900px;">
+<div class="underline" style="height: 5px; background: #000; width: 100%; max-width: 720px; margin: 0 0 4px 0;"></div>
+<div class="copy" style="text-align: justify; hyphens: auto; max-width: 900px; min-height: 180px; display: flex; flex-direction: column; justify-content: space-between;">
+<p>In Deutschland gefertigt – inspirierende, einzigartige Möbel und Installationen für Büros, Einzelhandel, Restaurants und Wohnräume mit großen Ideen und noch größerem, modernem Stil.</p>
+<p>Besondere Möbelstücke, die zum Sitzen, Zusammenkommen, Aufbewahren und Innehalten einladen – für eine wohlverdiente Pause. Handgefertigte Möbel, die zuverlässig und langlebig sind.</p>
+</div>
+</div>
+<div></div>
+</section>
+<div class="shop-favorites-line">Unsere Vorteile</div>
+<!-- Features -->
+<section class="features">
+<div class="feature" style="display: flex; flex-direction: column; align-items: center;">
+<h3>Höchste Qualität</h3>
+<p style="text-align: justify; hyphens: auto; max-width: 350px;">Jedes Möbelstück wird vor dem Versand sorgfältig geprüft. Verschraubungen sitzen fest, Polster sind weich und komfortabel.</p>
+</div>
+<div class="feature" style="display: flex; flex-direction: column; align-items: center;">
+<h3>Individuelle Anpassung</h3>
+<p style="text-align: justify; hyphens: auto; max-width: 350px;">Maßgeschneiderte Lösungen – vom gekürzten Sofa bis zur zusätzlichen Schublade ganz nach Ihren Wünschen.</p>
+</div>
+<div class="feature" style="display: flex; flex-direction: column; align-items: center;">
+<h3>Kostenlose Lieferung</h3>
+<p style="text-align: justify; hyphens: auto; max-width: 350px;">Wir liefern Ihre Möbel kostenlos und sicher verpackt direkt zu Ihnen nach Hause.</p>
+</div>
+</section>
+<div class="shop-favorites-line">Entdecken Sie unsere Favoriten</div>
+<!-- Product card 1 (dynamic price) -->
+<section class="fullwidth-card">
+<div></div>
+<div class="image" style="background-image: url('images/1.jpg');"></div>
+<div class="filters">
+<label>Schlaffläche:
+          <select id="sizeSelect">
+<option value="90x200">90x200</option>
+<option value="140x200">140x200</option>
+<option selected="" value="160x200">160x200</option>
+<option value="180x200">180x200</option>
+<option value="200x200">200x200</option>
+</select>
+</label>
+<label>Farbe:
+          <span style="display: flex; gap: 6px; width: 150px; justify-content: flex-end;">
+<select style="width: 60%;"><option>LULU</option><option>LOTUS</option><option>RUNO</option><option>ALMIRA</option></select>
+<select style="width: 40%;"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option><option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option><option>19</option><option>20</option></select>
+</span>
+</label>
+<div class="price-tag" id="priceDisplay">Preis: 1000 €</div>
+<label>Bettkasten:
+          <span class="radio-group">
+<label><input name="kasten" type="radio" value="ja"/> Ja</label>
+<label><input checked="" name="kasten" type="radio" value="nein"/> Nein</label>
+</span>
+</label>
+<div id="massDisplay" style="display: flex; align-items: center; font-weight: 600; gap: 10px;">
+<span>Gesamtmaße:</span>
+<span id="massValue" style="margin-left: auto;">200x240 cm</span>
+</div>
+</div>
+<div class="description" style="display: flex; flex-direction: column; justify-content: flex-end;">
+<div class="title" style="text-align: right;">Modell K001</div>
+<div class="underline"></div>
+<div class="buttons" style="display: flex; flex-direction: row; gap: 10px; margin-top: auto; justify-content: flex-end; align-items: flex-end;">
+<button class="btn view" type="button">Mehr Details</button>
+<button class="btn cart add-to-cart-button" type="button">In den Warenkorb</button>
+</div>
+</div>
+<div></div>
+</section>
+<!-- Product card 2 -->
+<section class="fullwidth-card">
+<div></div>
+<div class="image" style="background-image: url('images/1.jpg');"></div>
+<div class="filters">
+<label>Breite x Tiefe:
+          <span style="display: flex; gap: 6px;">
+<select style="width: 71px;"><option>160</option><option>180</option><option>200</option><option>220</option><option>240</option><option>260</option><option>280</option><option>300</option><option>320</option><option>340</option><option>360</option><option>380</option><option>400</option></select>
+<select style="width: 71px;"><option>100</option><option>110</option><option>120</option><option>130</option><option>340</option></select>
+</span>
+</label>
+<label>Form:
+          <select><option>Rechteckig</option><option>Quadratisch</option><option>Rund</option><option>Oval</option></select>
+</label>
+<label>Ausrichtung:
+          <span class="radio-group">
+<label><input name="orientierung" type="radio"/> Rechts</label>
+<label><input name="orientierung" type="radio"/> Links</label>
+</span>
+</label>
+<label>Farbe:
+          <span style="display: flex; gap: 6px; width: 150px; justify-content: flex-end;">
+<select style="width: 60%;"><option>LULU</option><option>LOTUS</option><option>RUNO</option><option>ALMIRA</option></select>
+<select style="width: 40%;"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option><option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option><option>19</option><option>20</option></select>
+</span>
+</label>
+<div class="price-fixed">Preis: 1000 €</div>
+</div>
+<div class="description" style="display: flex; flex-direction: column; justify-content: flex-end;">
+<div class="title" style="text-align: right;">Modell K002</div>
+<div class="underline"></div>
+<div class="buttons" style="display: flex; flex-direction: row; gap: 10px; margin-top: auto; justify-content: flex-end; align-items: flex-end;">
+<button class="btn view" type="button">Mehr Details</button>
+<button class="btn cart add-to-cart-button" type="button">In den Warenkorb</button>
+</div>
+</div>
+<div></div>
+</section><section class="fullwidth-card">
+<div></div>
+<div class="image" style="background-image: url('images/1.jpg');"></div>
+<div class="filters">
+<label>Breite x Tiefe:
+          <span style="display: flex; gap: 6px;">
+<select style="width: 71px;"><option>160</option><option>180</option><option>200</option><option>220</option><option>240</option><option>260</option><option>280</option><option>300</option><option>320</option><option>340</option><option>360</option><option>380</option><option>400</option></select>
+<select style="width: 71px;"><option>100</option><option>110</option><option>120</option><option>130</option><option>340</option></select>
+</span>
+</label>
+<label>Form:
+          <select><option>Rechteckig</option><option>Quadratisch</option><option>Rund</option><option>Oval</option></select>
+</label>
+<label>Ausrichtung:
+          <span class="radio-group">
+<label><input name="orientierung" type="radio"/> Rechts</label>
+<label><input name="orientierung" type="radio"/> Links</label>
+</span>
+</label>
+<label>Farbe:
+          <span style="display: flex; gap: 6px; width: 150px; justify-content: flex-end;">
+<select style="width: 60%;"><option>LULU</option><option>LOTUS</option><option>RUNO</option><option>ALMIRA</option></select>
+<select style="width: 40%;"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option><option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option><option>19</option><option>20</option></select>
+</span>
+</label>
+<div class="price-fixed">Preis: 1000 €</div>
+</div>
+<div class="description" style="display: flex; flex-direction: column; justify-content: flex-end;">
+<div class="title" style="text-align: right;">Modell K003</div>
+<div class="underline"></div>
+<div class="buttons" style="display: flex; flex-direction: row; gap: 10px; margin-top: auto; justify-content: flex-end; align-items: flex-end;">
+<button class="btn view" type="button">Mehr Details</button>
+<button class="btn cart add-to-cart-button" type="button">In den Warenkorb</button>
+</div>
+</div>
+<div></div>
+</section>
+<!-- Product card 3 -->
+<!-- Product card 4 -->
+<!-- Content pairs -->
+<section class="content-pairs">
+<div class="pair">
+<div class="tile" style="background-image: url('images/03.png');"></div>
+<div class="text">
+<h3>Polsterstoffe</h3>
+<div class="underline"></div>
+          Unsere Stoff- und Kunstlederkollektion bietet eine außergewöhnliche Vielfalt an Farben und Texturen. Hochwertige Materialien, die Komfort und Langlebigkeit garantieren, verleihen jedem Möbelstück eine elegante и individuelle Note.
+          <div class="buttons" style="align-items: flex-start; margin-top: 10px;">
+<button class="btn view" style="display: block; margin-top: 10px; margin-left: auto;" type="button">Mehr Details</button>
+</div>
+</div>
+</div>
+<div class="pair">
+<div class="text">
+<h3 style="text-align: right;">Materialien</h3>
+<div class="underline"></div>Unsere Materialien für Empfangstresen, Tische und Schränke bestehen aus erstklassigem Holz, hochwertigem MDF und feinen Sperrholzplatten. Ein breites Farbspektrum ermöglicht maßgeschneiderte Lösungen für jeden Raum.<div class="buttons" style="align-items: flex-start; margin-top: 10px;">
+<button class="btn view" type="button">Mehr Details</button>
+</div>
+</div>
+<div class="tile" style="background-image: url('images/01.png');"></div>
+</div>
+</section>
+</main>
+<footer>
+<div class="footer-bars">
+<div class="bar-top">
+<div class="left">Deutschland, München, Leopoldstraße 50, 80802</div>
+<div class="right">
+<div>Sagen Sie Hallo</div>
+<div>T +49 123 456 7890</div>
+</div>
+</div>
+<div class="bar-bottom">Rumato</div>
+</div>
+</footer>
+<script>document.addEventListener("DOMContentLoaded", function () {
+// Dynamic price (card 1)
+      const sizeSelect = document.getElementById("sizeSelect");
+      const priceDisplay = document.getElementById("priceDisplay");
+      const massValue = document.getElementById("massValue");
+      const kastenRadios = document.querySelectorAll('input[name="kasten"]');
 
-    <footer class="bg-gray-900 text-white p-6 text-center">
-        <p>&copy; 2025 Rumato - Все права защищены.</p>
-    </footer>
-</body>
+      if(sizeSelect && priceDisplay && massValue){
+        const basePrices = {"90x200":800, "140x200":900, "160x200":1000, "180x200":1050, "200x200":1150};
+        function updatePrice(){
+          const selectedSize = sizeSelect.value;
+          let price = basePrices[selectedSize] || 0;
+          const kastenChecked = document.querySelector('input[name="kasten"]:checked');
+          if (kastenChecked && kastenChecked.value === "ja") price += 100;
+          priceDisplay.textContent = "Preis: " + price + " €";
+          const dims = selectedSize.split("x").map(Number);
+          const totalWidth = (dims[0]||0) + 40;
+          const totalDepth = (dims[1]||0) + 40;
+          massValue.textContent = totalWidth + "x" + totalDepth + " cm";
+        }
+        sizeSelect.addEventListener("change", updatePrice);
+        kastenRadios.forEach(r => r.addEventListener("change", updatePrice));
+        updatePrice();
+      }
+
+      // Smooth one-time "boats" animation
+      const sector = document.getElementById('words-sector');
+      const wordsWrap = document.getElementById('words');
+      const spans = wordsWrap ? Array.from(wordsWrap.querySelectorAll('span')) : [];
+      const isMobile = window.matchMedia('(max-width: 768px)').matches;
+
+      if (sector && wordsWrap && spans.length && !isMobile) {
+        const baseOffset = Math.max(sector.clientWidth - wordsWrap.clientWidth, 0);
+        const multipliers = [1.00, 1.06, 0.96, 1.10, 0.98];
+
+        spans.forEach((s, i) => {
+          const m = multipliers[i % multipliers.length];
+          const startX = Math.round(baseOffset * m);
+          s.style.setProperty('--sx', startX + 'px');
+        });
+
+        requestAnimationFrame(() => {
+          spans.forEach(s => {
+            s.classList.add('anim');
+            requestAnimationFrame(() => { s.style.transform = 'translateX(0px)'; });
+          });
+        });
+      }
+    }
+// Smooth one-time "boats" animation
+      const sector = document.getElementById('words-sector');
+      const wordsWrap = document.getElementById('words');
+      const spans = wordsWrap ? Array.from(wordsWrap.querySelectorAll('span')) : [];
+      const isMobile = window.matchMedia('(max-width: 768px)').matches;
+
+      if (sector && wordsWrap && spans.length && !isMobile) {
+        const baseOffset = Math.max(sector.clientWidth - wordsWrap.clientWidth, 0);
+        const multipliers = [1.00, 1.06, 0.96, 1.10, 0.98];
+
+        spans.forEach((s, i) => {
+          const m = multipliers[i % multipliers.length];
+          const startX = Math.round(baseOffset * m);
+          s.style.setProperty('--sx', startX + 'px');
+        });
+
+        requestAnimationFrame(() => {
+          spans.forEach(s => {
+            s.classList.add('anim');
+            requestAnimationFrame(() => { s.style.transform = 'translateX(0px)'; });
+          });
+        
+});
+</script>
+
+<div id="rc-popup"><span>Zwischensumme: <strong id="rc-total">0 €</strong></span><button id="rc-open" type="button">Zur Kasse</button></div>
+
+<div id="rc-overlay"></div>
+
+<aside aria-label="Warenkorb" id="rc-drawer">
+<header><button aria-label="Schließen" class="rc-x" id="rc-close-left">×</button><span>Warenkorb <span id="rc-count">(0)</span></span><button aria-label="Schließen" class="rc-x" id="rc-close">×</button></header>
+<div id="rc-content">
+<div class="rc-left">
+<h4 class="cart-section-title">Ihre Bestellung</h4>
+<div id="rc-items"></div>
+<div id="rc-left-summary">
+<div class="row"><span>Zwischensumme</span><strong id="rc-subtotal">0 €</strong></div>
+<div class="rc-note">zzgl. Versandkosten, inkl. MwSt.</div>
+</div>
+</div>
+<div class="rc-right">
+<h4 class="cart-section-title">Kundendaten</h4>
+<form id="rc-form" novalidate="">
+<div class="field-row">
+<div class="field"><label for="rc-vorname">Vorname</label><input autocomplete="given-name" id="rc-vorname"/></div>
+<div class="field"><label for="rc-nachname">Nachname</label><input autocomplete="family-name" id="rc-nachname"/></div>
+</div>
+<div class="field-row">
+<div class="field"><label for="rc-email">E‑Mail</label><input autocomplete="email" id="rc-email" type="email"/></div>
+<div class="field"><label for="rc-telefon">Telefon (optional)</label><input autocomplete="tel" id="rc-telefon"/></div>
+</div>
+<div class="field"><label for="rc-strasse">Straße und Hausnr.</label><input autocomplete="address-line1" id="rc-strasse"/></div>
+<div class="field-row">
+<div class="field"><label for="rc-plz">PLZ</label><input autocomplete="postal-code" id="rc-plz"/></div>
+<div class="field"><label for="rc-ort">Ort</label><input autocomplete="address-level2" id="rc-ort"/></div>
+</div>
+<div class="field"><label for="rc-land">Land</label>
+<select id="rc-land">
+<option selected="" value="DE">Deutschland</option>
+<option value="AT">Österreich</option>
+<option value="CH">Schweiz</option>
+</select>
+</div>
+<div class="field">
+<label>Zahlungsart</label>
+<div class="pay-row">
+<label class="pay-pill"><input checked="" name="rc-pay" type="radio" value="card"/> Kreditkarte</label>
+<label class="pay-pill"><input name="rc-pay" type="radio" value="paypal"/> PayPal</label>
+<label class="pay-pill"><input name="rc-pay" type="radio" value="klarna"/> Klarna</label>
+<label class="pay-pill"><input name="rc-pay" type="radio" value="sepa"/> SEPA‑Lastschrift</label>
+</div>
+</div>
+<div class="field"><label for="rc-notes">Bestellhinweise (optional)</label><textarea id="rc-notes" placeholder="Hinweise zur Lieferung oder Bestellung"></textarea></div>
+</form>
+<div id="rc-actions">
+<button class="btn-primary" id="rc-order" type="button">Jetzt bestellen</button>
+<button class="btn-secondary" id="rc-continue" type="button">Weiter einkaufen</button>
+</div>
+</div>
+</div>
+</aside>
+<script>
+/* ==== Rumato Cart v1 (namespaced, clean) ==== */
+(function(){
+  const state = {
+    items: [] // {id,title,price,qty,thumb,meta}
+  };
+
+  function money(n){ return (parseInt(n)||0) + ' €'; }
+
+  function compute(){
+    return state.items.reduce((s,i)=> s + (i.price||0)*(i.qty||1), 0);
+  }
+
+  function updateBars(){
+    const total = compute();
+    const popup = document.getElementById('rc-popup');
+    const totalEl = document.getElementById('rc-total');
+    const subEl = document.getElementById('rc-subtotal');
+    const count = document.getElementById('rc-count');
+    if(totalEl) totalEl.textContent = money(total);
+    if(subEl) subEl.textContent = money(total);
+    if(count) count.textContent = '(' + state.items.length + ')';
+    if(popup) popup.style.display = total > 0 ? 'flex' : 'none';
+  }
+
+  function renderDrawer(){
+    const list = document.getElementById('rc-items');
+    if(!list) return;
+    list.innerHTML = '';
+    if(state.items.length === 0){
+      const note = document.createElement('div');
+      note.textContent = 'Ihr Warenkorb ist leer.';
+      note.style.color = '#666';
+      list.append(note);
+    }else{
+      state.items.forEach((it,idx)=>{
+        const qty = Math.max(1, parseInt(it.qty)||1);
+        const line = (parseInt(it.price)||0)*qty;
+
+        const row = document.createElement('div'); row.className='rc-item';
+
+        const th = document.createElement('div'); th.className='rc-thumb';
+        if(it.thumb) th.style.backgroundImage = 'url('+it.thumb+')';
+
+        const mid = document.createElement('div'); mid.className='rc-filters';
+        (it.meta||'').split('·').filter(Boolean).forEach(raw=>{
+          const s = document.createElement('span'); s.textContent = raw.trim(); mid.appendChild(s);
+        });
+
+        const rt = document.createElement('div'); rt.className='rc-details';
+        const name = document.createElement('div'); name.className='rc-name'; name.textContent = it.title||'Produkt';
+        const each = document.createElement('div'); each.className='rc-each'; each.textContent = money(it.price) + ' / Stk.';
+        const qtyRow = document.createElement('div'); qtyRow.className='rc-qty';
+        const minus = document.createElement('button'); minus.textContent='−';
+        const input = document.createElement('input'); input.type='number'; input.min='1'; input.value=qty;
+        const plus = document.createElement('button'); plus.textContent='+';
+        const remove = document.createElement('button'); remove.className='rc-remove'; remove.title='Entfernen'; remove.setAttribute('aria-label','Entfernen');
+        qtyRow.append(minus,input,plus,remove);
+        const sum = document.createElement('div'); sum.className='rc-sum'; sum.textContent = money(line);
+        rt.append(name, each, qtyRow, sum);
+
+        row.append(th, mid, rt);
+        list.append(row);
+
+        minus.addEventListener('click', ()=>{ if(state.items[idx].qty>1){ state.items[idx].qty--; } updateBars(); renderDrawer(); });
+        plus.addEventListener('click', ()=>{ state.items[idx].qty++; updateBars(); renderDrawer(); });
+        input.addEventListener('change', ()=>{ const v = Math.max(1, parseInt(input.value)||1); state.items[idx].qty=v; updateBars(); renderDrawer(); });
+        remove.addEventListener('click', ()=>{ state.items.splice(idx,1); updateBars(); renderDrawer(); });
+      });
+    }
+    updateBars();
+  }
+
+  function openDrawer(){
+    const ov = document.getElementById('rc-overlay'); if(ov) ov.classList.add('show');
+    const dr = document.getElementById('rc-drawer'); if(dr) dr.classList.add('open');
+    renderDrawer();
+  }
+  function closeDrawer(){
+    const ov = document.getElementById('rc-overlay'); if(ov) ov.classList.remove('show');
+    const dr = document.getElementById('rc-drawer'); if(dr) dr.classList.remove('open');
+  }
+
+  function collectMeta(card){
+    let parts = [];
+    card.querySelectorAll('.filters label').forEach(lab=>{
+      const labelText = (lab.childNodes[0]?.textContent||'').trim().replace(/:$/,'');
+      const selects = lab.querySelectorAll('select');
+      if(selects.length){
+        const values = Array.from(selects).map(s=> s.options[s.selectedIndex]?.text?.trim()).filter(Boolean).join(' ');
+        if(values) parts.push((labelText?labelText+': ':'') + values);
+      }
+      const checked = lab.querySelector('input[type="radio"]:checked');
+      if(checked){
+        const radioLabel = checked.closest('label')?.textContent?.trim() || checked.value || 'Ja';
+        if(labelText) parts.push(labelText + ': ' + radioLabel);
+      }
+    });
+    const mass = card.querySelector('#massValue');
+    if(mass && mass.textContent.trim()) parts.push('Maße: ' + mass.textContent.trim());
+    return parts.join(' · ');
+  }
+
+  // Delegated handler for add-to-cart
+  document.addEventListener('click', function(e){
+    if(e.target && e.target.classList.contains('add-to-cart-button')){
+      const card = e.target.closest('.fullwidth-card');
+      if(!card) return;
+      const titleEl = card.querySelector('.description .title');
+      const priceTextEl = card.querySelector('.price-tag, .price-fixed');
+      const imgEl = card.querySelector('.image');
+      const title = titleEl ? titleEl.textContent.trim() : 'Produkt';
+      const price = priceTextEl ? (parseInt(priceTextEl.textContent.replace(/[^0-9]/g,''))||0) : 0;
+      let thumb='';
+      if(imgEl){
+        const bg = imgEl.getAttribute('style')||'';
+        const m = bg.match(/url\(['"]?([^'"]+)['"]?\)/);
+        if(m) thumb = m[1];
+      }
+      const meta = collectMeta(card);
+
+      const existing = state.items.find(i=> i.title===title && i.price===price && i.meta===meta);
+      if(existing){ existing.qty += 1; } else { state.items.push({id:Date.now(), title, price, qty:1, thumb, meta}); }
+      updateBars(); // show popup, totals
+    }
+  });
+
+  // Popup controls -> open
+  document.addEventListener('click', function(e){
+    if(e.target && (e.target.id === 'rc-open')){ openDrawer(); }
+  });
+
+  // Close controls
+  document.addEventListener('click', function(e){
+    if(e.target && (e.target.id === 'rc-close' || e.target.id === 'rc-close-left')) closeDrawer();
+  });
+  const ov = document.getElementById('rc-overlay'); if(ov){ ov.addEventListener('click', closeDrawer); }
+  const cont = document.getElementById('rc-continue'); if(cont){ cont.addEventListener('click', closeDrawer); }
+
+  // Order button (demo validation)
+  const orderBtn = document.getElementById('rc-order');
+  if(orderBtn){ orderBtn.addEventListener('click', function(){
+    const needIds = ['rc-vorname','rc-nachname','rc-email','rc-strasse','rc-plz','rc-ort'];
+    let ok = true, first = null;
+    needIds.forEach(id=>{
+      const el = document.getElementById(id);
+      if(!el || !el.value.trim()){ ok=false; if(!first) first=el; if(el) el.style.borderColor = '#d33'; }
+      else{ el.style.borderColor = '#ddd'; }
+    });
+    if(!ok){ alert('Bitte füllen Sie die erforderlichen Felder aus.'); if(first) first.focus(); return; }
+    alert('Bestellung gesendet! (Demo)');
+  });}
+
+  // Initial update
+  updateBars();
+})();
+</script></body>
 </html>
+
