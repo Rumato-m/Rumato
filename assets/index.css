@@ -1,0 +1,289 @@
+/* === Beds: превью + описание, возможность двигать изображение === */
+:root {
+  --bg: #fff;
+  --ink: #111;
+  --muted: #6b7280;
+  --line: #e5e7eb;
+  --accent: #23483e;
+  --radius: 14px;
+  --page-pad: 50px;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: 'Open Sans', Arial, sans-serif;
+}
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--ink);
+}
+html {
+  scroll-behavior: smooth;
+}
+body {
+  padding: 0 var(--page-pad);
+  overflow-x: hidden;
+}
+
+/* a11y скрытый текст */
+.sr-only {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Верхняя полоса */
+.top-accent-bar {
+  background: rgba(35, 72, 62, 0.65);
+  color: #fff;
+  text-align: center;
+  font-weight: 600;
+  font-size: 14px;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  padding: 12px 0;
+  margin-bottom: 12px;
+}
+
+/* Карточка кровати */
+.sofa-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: calc(50% + 300px) calc(50% - 300px);
+  align-items: center;
+  gap: clamp(12px, 2vw, 24px);
+  width: 100vw;
+  max-width: 100vw;
+  padding: clamp(6px, 1.2vw, 16px) var(--page-pad);
+  margin-left: calc(50% - 50vw - var(--page-pad));
+  margin-right: calc(50% - 50vw);
+  overflow: visible; /* ← теперь изображение можно двигать без ограничений */
+}
+.sofa-info::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 3px;
+  background: var(--ink);
+  margin-top: 2px;
+}
+
+.sofa-card img {
+  width: 100%;
+  height: clamp(280px, 42vw, 520px);
+  object-fit: cover;
+  object-position: 50% 50%; /* ← центр по умолчанию */
+  display: block;
+  position: relative;
+  z-index: 1;
+  transition: object-position 0.3s ease;
+}
+
+/* Примеры настройки: 
+.sofa-card:nth-of-type(1) img { object-position: 60% center; }
+.sofa-card:nth-of-type(2) img { object-position: 40% center; }
+*/
+
+/* Текстовая часть */
+.sofa-info {
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;   /* ← добавь */
+  text-align: right;       /* ← чтобы текст тоже смотрел вправо */
+}
+
+
+.model-title {
+  margin: 0 0 0px 0;
+  font-size: 22px;
+  font-weight: 800;
+  border-bottom: none;     /* ← было 3px solid var(--ink); убираем */
+  padding-bottom: 0;
+}
+.model-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 26px;
+
+  font-size: 16px;
+  font-weight: 600;
+  font-family: 'Open Sans', Arial, sans-serif;
+
+  color: var(--ink);
+  text-decoration: none;
+
+  background-image: linear-gradient(90deg, #0e1a16 0%, #23483e 100%);
+  background-size: 0% 100%;
+  background-repeat: no-repeat;
+  background-position: left top;
+
+  cursor: pointer;
+  transition:
+    background-size 0.6s cubic-bezier(0.45, 0, 0.2, 1),
+    color 0.3s ease;
+}
+
+.model-link:hover {
+  background-size: 100% 100%;
+  color: #fff;
+}
+
+
+/* ховер: залилось медно-зелёным, текст стал белым */
+.model-link:hover {
+  background-size: 100% 100%;
+  color: #fff;
+}
+
+
+.sofa-info p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--muted);
+  margin-top: 0px;
+  text-align: justify;     /* выравнивание по ширине */
+  text-align-last: left;
+  hyphens: none;           /* ❌ убираем переносы */
+  word-break: normal;
+  max-width: 420px;
+}
+
+
+
+/* Кнопка — заливка слева направо, мягкий накат, текст белеет */
+.sofa-btn {
+  align-self: flex-end;
+  margin-top: 24px;
+  padding: 10px 26px;
+  font: 600 14px/1 'Open Sans', Arial, sans-serif;
+  color: var(--ink);
+  background-image: linear-gradient(90deg, #0e1a16 0%, #23483e 100%);
+  background-size: 0% 100%;
+  background-repeat: no-repeat;
+  background-position: left top;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-size 0.6s cubic-bezier(0.45, 0, 0.2, 1), color 0.3s ease;
+}
+
+.sofa-btn:hover {
+  background-size: 100% 100%;
+  color: #fff;
+}
+
+.sofa-btn span {
+  position: relative;
+}
+
+/* Footer фиксация */
+[data-include="footer"],
+footer,
+.site-footer {
+  max-width: none !important;
+  width: 100% !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+/* Адаптив */
+@media (max-width: 1200px) {
+  .sofa-card {
+    grid-template-columns: 1fr;
+    padding-right: var(--page-pad);
+  }
+  .sofa-card img {
+    height: clamp(240px, 48vw, 420px);
+  }
+  .sofa-info {
+    padding-top: 8px;
+  }
+}
+
+@media (max-width: 600px) {
+  .sofa-info p {
+    font-size: 13px;
+  }
+}
+/* --- Articles (3 колонки) --- */
+.articles{
+  margin: 40px auto 20px;
+  width: 100%;
+}
+.article-grid{
+  display: grid;
+  grid-template-columns: repeat(3, minmax(240px,1fr));
+  gap: clamp(20px, 3vw, 40px);
+  max-width: clamp(700px, 82vw, 1200px);
+  margin: 0 auto;
+}
+.article-card{
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  padding: 12px 0;
+}
+.article-card h3{
+  margin: 0 0 10px 0;
+  font-size: 16px;
+  font-weight: 600;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 8px;
+}
+.article-card p{
+  margin: 10px 0 14px 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+  max-width: 52ch; /* аккуратная ширина строки */
+  text-align: left; /* без лишних переносов */
+}
+.article-link{
+  margin-top: auto;
+  align-self: flex-start;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent);
+  text-decoration: none;
+  position: relative;
+  padding: 2px 0;
+}
+.article-link::after{
+  content:"";
+  position:absolute;
+  left:0; right:0; bottom:-2px;
+  height:1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .35s ease;
+}
+.article-link:hover::after{ transform: scaleX(1); }
+
+/* Адаптив для статей */
+@media (max-width: 980px){
+  .article-grid{ grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 640px){
+  .article-grid{ grid-template-columns: 1fr; }
+}
+.articles {
+  margin-top: 120px;  /* ← регулируй здесь расстояние от карточек */
+  margin-bottom: 120px;
+}

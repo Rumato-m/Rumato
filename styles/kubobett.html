@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="index, follow" />
+
+  <title>Ліжко Kubo — дизайнерське ліжко під замовлення | Rumato</title>
+  <meta name="description" content="Ліжко Kubo — створене для спокійного сну й бездоганного комфорту. Індивідуальні розміри, тканина, висота узголів’я, підйомний механізм." />
+
+  <link rel="canonical" href="https://rumato.com.ua/kubobett.html" />
+  <meta property="og:title" content="Ліжко Kubo — дизайнерське ліжко під замовлення" />
+  <meta property="og:description" content="Ліжко Kubo — створене для спокійного сну й бездоганного комфорту. Індивідуальні розміри, тканина, висота узголів’я, підйомний механізм." />
+  <meta property="og:type" content="product" />
+  <meta property="og:image" content="https://rumato.com.ua/images/Sofas/kubobett/kubobett.png" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap" as="style">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="./assets/styles.css">
+  <link rel="preload" href="./assets/kubobett.css" as="style">
+  <link rel="stylesheet" href="./assets/kubobett.css">
+</head>
+<body>
+  <!-- Header include -->
+  <div data-include="header"></div>
+
+  <div class="top-accent-bar" role="status">Це щось неймовірне:</div>
+
+  <!-- Hero -->
+  <section class="sofa-card">
+    <img id="heroImg"
+         alt="Ліжко Kubo — головний візуал"
+         loading="eager" decoding="async"
+         src="./images/Sofas/kubobett/kubobett.png"
+         width="1600" height="520">
+
+    <div class="sofa-info">
+      <h1 class="model-title">KUBO</h1>
+
+      <!-- SEO / assistive text -->
+      <div class="sr-only" lang="uk">
+        М’які лінії та стримана геометрія Kubo створюють атмосферу спокою й балансу.
+Це ліжко не прагне домінувати — воно доповнює простір, мов тиша після музики.
+
+У кожній деталі — уважність до дотику, до кольору, до вас.
+Kubo легко підлаштовується під ваш настрій: світле, темне, контрастне чи м’яке — воно завжди ваше, як ідеально скроєний костюм.
+      </div>
+      <div class="sr-only" lang="ru">
+        Кровать Kubo — дизайнерская кровать на заказ с мягким изголовьем и индивидуальными параметрами. Доставка по всей Украине.
+      </div>
+
+      <p>М’які лінії та стримана геометрія Kubo створюють атмосферу спокою й балансу.
+Це ліжко не прагне домінувати — воно доповнює простір, мов тиша після музики.
+
+У кожній деталі — уважність до дотику, до кольору, до вас.
+Kubo легко підлаштовується під ваш настрій: світле, темне, контрастне чи м’яке — воно завжди ваше, як ідеально скроєний костюм.</p>
+    </div>
+  </section>
+
+  <!-- Filters -->
+  <section class="filter-strip" id="filterStrip" aria-label="Фільтри конфігурації Kubo">
+    <div class="filter-bar" id="filterBar" role="toolbar" aria-label="Фільтри конфігурації">
+      <div class="filter-item">
+        <label class="label" for="sleepSize">Спальне місце</label>
+        <select id="sleepSize" class="select select-center" aria-label="Вибір спального місця">
+          <option value="160x200" selected>160 × 200</option>
+          <option value="180x200">180 × 200</option>
+          <option value="200x200">200 × 200</option>
+        </select>
+      </div>
+
+      <span class="filter-sep" aria-hidden="true"></span>
+
+      <div class="filter-item">
+        <label class="label" for="borderSelect">Товщина борта</label>
+        <select id="borderSelect" class="select select-center" aria-label="Товщина борта">
+          <option value="20" selected>20 см</option>
+          <option value="10">10 см</option>
+          <option value="5">5 см</option>
+        </select>
+      </div>
+
+      <span class="filter-sep" aria-hidden="true"></span>
+
+      <div class="filter-item">
+        <label class="label" for="liftSelect">Підйомний механізм</label>
+        <select id="liftSelect" class="select select-center" aria-label="Підйомний механізм">
+          <option value="off" selected>Ні</option>
+          <option value="on">Так</option>
+        </select>
+      </div>
+    </div>
+  </section>
+
+  <!-- Double preview -->
+  <section class="filter-preview" id="filterPreview" aria-live="polite" aria-label="Попередній перегляд">
+    <div class="preview-card">
+      <div class="preview-grid">
+        <img id="filterPreviewLeft" alt="Перегляд ліжка — основний ракурс" src="" loading="lazy" decoding="async" width="800" height="400">
+        <img id="filterPreviewRight" alt="Перегляд ліжка зверху — габарити" src="" loading="lazy" decoding="async" width="800" height="400">
+      </div>
+    </div>
+  </section>
+
+  <!-- Fabrics -->
+  <section class="fabric-selector" id="fabricSelector" aria-label="Вибір тканини та кольору">
+    <div class="fabric-grid" id="fabricGrid"></div>
+  </section>
+
+  <!-- Price & CTA -->
+  <section class="action-bar" id="actionBar" aria-label="Підсумкова вартість">
+    <div class="price">Ціна: <strong id="priceValue">—</strong></div>
+    <button type="button" id="addToCart" class="btn-primary">Додати в кошик</button>
+  </section>
+
+  <!-- Addons (3 в ряд) -->
+  <section class="addons" id="extraItems" aria-label="Додаткові вироби">
+    <div class="addons-header"><span>Додатково:</span></div>
+
+    <div class="addon-grid">
+      <!-- 1 -->
+      <article class="addon-card" data-item="chair">
+        <div class="addon-media" style="background-image:url('./images/Sofas/kubobett/1 kubobett.png')"></div>
+        <div class="addon-row">
+          <div class="addon-body">
+            <div class="addon-title">Матрас Лотос-Гуру</div>
+            <div class="addon-gabarit">Габарит: <span id="chairSize" class="addon-gabarit-val">160×200</span></div>
+            <div class="addon-price">Ціна: <span class="addon-price-val" data-price-for="chair">10 000 ₴</span></div>
+            <button class="article-link spec-link" data-spec="chair" type="button">Характеристики</button>
+          </div>
+          <div class="addon-ctrl">
+            <button class="btn-add" data-item="chair">Додати</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- 2 -->
+      <article class="addon-card" data-item="pouf">
+        <div class="addon-media" style="background-image:url('./images/Sofas/kubobett/2 kubobett.png')"></div>
+        <div class="addon-row">
+          <div class="addon-body">
+            <div class="addon-title">Матрас Лотос-Етерно</div>
+            <div class="addon-gabarit">Габарит: <span id="poufSize" class="addon-gabarit-val">160×200</span></div>
+            <div class="addon-price">Ціна: <span class="addon-price-val" data-price-for="pouf">10 000 ₴</span></div>
+            <button class="article-link spec-link" data-spec="pouf" type="button">Характеристики</button>
+          </div>
+          <div class="addon-ctrl">
+            <button class="btn-add" data-item="pouf">Додати</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- 3 (статична) -->
+      <article class="addon-card" data-item="static">
+        <div class="addon-media" style="background-image:url('./images/Sofas/kubobett/3 kubobett.png')"></div>
+        <div class="addon-row">
+          <div class="addon-body">
+            <div class="addon-title">Пуф</div>
+            <div class="addon-gabarit">Габарит: <span class="addon-gabarit-val">120×40</span></div>
+            <div class="addon-price">Ціна: <span class="addon-price-val">11 000 ₴</span></div>
+            <button class="article-link spec-link" data-spec="cushion-rect" type="button"></button>
+          </div>
+          <div class="addon-ctrl">
+            <button class="btn-add" data-item="static">Додати</button>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- Articles -->
+  <section class="articles" aria-label="Корисні поради та натхнення">
+    <div class="article-grid">
+      <article class="article-card">
+        <h3>20 днів щоб створювати те, що стане частиною вашого дому:</h3>
+        <p> Є речі, яким потрібно дозріти. Ми не поспішаємо з тим, що справді цінуємо, і не створюємо наполовину те, що має зробити ваш дім теплішим. Так само і ваш майбутній диван чи ліжко. Вони не народжуються миттєво, їх не можна заздалегідь сховати на склад і чекати, поки хтось обере саме їх.
+
+Кожен виріб починається з вашого рішення, з вашого бачення комфорту. Ви обираєте форму, розмір, колір і тканину, а ми уважно слухаємо, пояснюємо деталі, пропонуємо рішення та супроводжуємо на кожному етапі. Це спільна подорож, у якій ваш майбутній предмет інтер’єру проходить шлях від ідеї до теплих рук майстра.
+
+Ми не прискорюємо те, що потребує часу. Тому що справжня річ, створена саме для вас, не може бути випадковою. Вона має жити у вашому ритмі, відповідати вашим очікуванням і приносити радість багато років.
+
+Саме тому важливо враховувати: від моменту замовлення до того дня, коли диван або ліжко з’являться у вашому домі, пройде щонайменше двадцять днів. Це час, необхідний для того, щоб створити річ, у якій буде частинка вашого характеру та нашого ремесла.
+
+І коли цей день настане, коли ви вперше торкнетеся тканини, сядете, ляжете, вдихнете запах нового дому — очікування виправдає себе повністю. Бо речі, зроблені з увагою, ніколи не бувають швидкими, зате завжди стають незамінними.</p>
+        
+      </article>
+
+      <!-- ЛЕВАЯ статья остаётся -->
+
+<div class="article-divider"></div>
+
+
+<!-- ПРАВАЯ статья остаётся -->
+
+
+      <article class="article-card">
+        <h3>Комфорт, який створює атмосферу дому:</h3>
+        <p>
+
+Ліжко Kubo — це те місце, де день нарешті відпускає. Воно зустрічає м’яко, без напруги, без вимог «сісти правильно» чи «виглядати красиво». Просто ліжко, на якому добре. Тепло. Спокійно. Так, як має бути у власній спальні.
+
+Спинка Kubo приємна на дотик і тримає вас так, ніби знає ваші звички напам’ять: читати перед сном, поставити поруч чашку ранкової кави, увімкнути ліхтарик і зручно вмоститися під ковдрою. Це усе відбувається природно — нічого не треба підлаштовувати, нічого не заважає розслабитися.
+
+Вибір розміру та тканини дозволяє зробити ліжко таким, яким ви його відчуваєте: трохи теплішим, трохи м’якшим, трохи світлішим або глибшим за тоном. Воно легко вписується у простір і додає йому затишку, навіть якщо інтер’єр стриманий. Kubo створює атмосферу, у якій хочеться повільніше рухатися, тихіше говорити, довше залишатися в тиші.
+
+Це не просто місце для сну.
+Kubo стає тією частиною дому, де назбираються ваші вечірні спогади і спокійні ранки. Ліжко, яке не намагається «вразити», але кожного дня нагадує, що комфорт — це прості речі, зроблені добре й від душі.
+
+Воно входить у життя м’яко, майже непомітно, але швидко стає тим предметом, без якого складно уявити свій дім.</p>
+        
+      </article>
+    </div>
+  </section>
+
+  <!-- Article modal -->
+  <div class="article-modal-backdrop" id="articleModal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="article-modal-box">
+      <button class="article-modal-close" id="articleClose" aria-label="Закрити">✕</button>
+      <h4 class="article-modal-title" id="articleTitle"></h4>
+      <div class="article-modal-body" id="articleBody"></div>
+    </div>
+  </div>
+
+  <!-- Fabric modal -->
+  <div class="fabric-modal-backdrop" id="fabricModal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="fabric-modal-box">
+      <button class="fabric-modal-close" id="fabricClose" aria-label="Закрити">✕</button>
+      <h4 class="fabric-modal-title" id="fabricTitle"></h4>
+      <div class="fabric-modal-body" id="fabricBody"></div>
+    </div>
+  </div>
+
+  <!-- RU SEO blocks -->
+  <div class="sr-only" lang="ru">
+    Купить дизайнерскую кровать Kubo — точные размеры, ткани премиум-класса, опции: подъёмный механизм, ниша для хранения.
+  </div>
+
+  <!-- Footer include -->
+  <div data-include="footer"></div>
+
+  <!-- JS -->
+  <script src="./assets/main.js" defer></script>
+  <script src="./assets/kubobett.js" defer></script>
+</body>
+</html>
