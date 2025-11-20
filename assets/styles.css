@@ -36,7 +36,7 @@
   --line-mb: 10px;
   --desc-max: 60ch;
 
-  /* Брендовые цвета по умолчанию (чтобы страницы без своих :root не ломались) */
+  /* Брендовые цвета по умолчанию */
   --ink: #111;
   --muted: #6b7280;
   --line: #e5e7eb;
@@ -56,7 +56,8 @@ body{
 
 .container{
   width:100%;
-  max-width:none;
+  max-width:1200px;
+  margin:0 auto;
   padding:0 var(--container-pad);
   box-sizing:border-box;
 }
@@ -583,7 +584,6 @@ body.is-shrink .nav a + a::before{
   flex-direction:column;
   justify-content:center;
 
-  /* небольшой зазор от картинки и ровный край по правому краю контейнера */
   padding-left:24px;
   padding-right:0;
   box-sizing:border-box;
@@ -662,6 +662,14 @@ body.is-shrink .nav a + a::before{
 /* ===================== АДАПТИВ: ОБЩИЕ БЛОКИ ===================== */
 
 @media (max-width:900px){
+  /* Все картинки по центру, чтобы превью красиво смотрелись */
+  img{
+    max-width:100%;
+    height:auto;
+    display:block;
+    margin:0 auto;
+  }
+
   /* обычные блоки — в колонку */
   .content-block{
     flex-direction:column;
@@ -729,9 +737,9 @@ body.is-shrink .nav a + a::before{
 
 /* ===================== MOBILE: HEADER & FOOTER ===================== */
 
-@media (max-width:768px){
+@media (max-width: 768px) {
   /* Чуть уменьшаем базовые размеры через переменные */
-  :root{
+  :root {
     --container-pad: 16px;
     --header-height-open: 140px;
     --header-height-closed: 64px;
@@ -766,80 +774,80 @@ body.is-shrink .nav a + a::before{
     display:flex;
   }
 
-  /* убираем разделители в меню на мобильных */
+  /* убираем разделители между пунктами в мобильной версии */
   .nav a + a::before{
     display:none;
   }
 
-  .site-header{
-    border-bottom:1px solid #e5e5e5;
-    height:auto;          /* высота по контенту */
-    overflow:visible;     /* показываем меню целиком */
+  .site-header {
+    border-bottom: 1px solid #e5e5e5;
+    height:auto;
+    overflow:visible;
   }
 
-  .header-inner{
-    align-items:flex-start;
-    padding-top:10px;
+  .header-inner {
+    align-items: flex-start;
+    padding-top: 10px;
   }
 
-  .site-logo{
-    font-size:32px;       /* подстраховка, если переменные не сработают */
+  .site-logo {
+    font-size: 32px;
   }
 
-  body.is-shrink .site-logo{
-    font-size:18px;
+  body.is-shrink .site-logo {
+    font-size: 18px;
   }
 
-  .right-block{
-    padding-right:0;
-    align-items:flex-start;
-    gap:8px;
+  .right-block {
+    padding-right: 0;
+    align-items: flex-start;
+    gap: 8px;
   }
 
-  .tagline{
-    font-size:14px;
-    max-width:220px;
+  .tagline {
+    font-size: 14px;
+    max-width: 220px;
     transform:none;
   }
 
-  .nav{
-    margin-top:8px;
-    gap:12px;
-    flex-wrap:wrap;
+  .nav {
+    margin-top: 8px;
+    gap: 12px;
+    flex-wrap: wrap;
   }
 
-  .nav a{
-    font-size:14px;
-    padding:4px 8px;
+  .nav a {
+    font-size: 14px;
+    padding: 4px 8px;
   }
 
   /* Спейсер даёт отступ под фиксированной шапкой */
-  .header-spacer{
-    height:84px;
+  .header-spacer {
+    height: 84px;
   }
 
   /* FOOTER */
-  .footer-inner{
-    flex-direction:column;
-    align-items:flex-start;
-    justify-content:flex-start;
-    padding:16px var(--footer-pad-x);
-    height:auto;
-    gap:8px;
+  .footer-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 16px var(--footer-pad-x);
+    height: auto;
+    gap: 8px;
   }
 
-  .footer-left{
-    font-size:32px;
-    margin-bottom:4px;
+  .footer-left {
+    font-size: 32px;
+    margin-bottom: 4px;
   }
 
-  .footer-right{
-    text-align:left;
-    align-items:flex-start;
+  .footer-right {
+    text-align: left;
+    align-items: flex-start;
   }
 
-  .footer-right p{
-    font-size:14px;
+  .footer-right p {
+    font-size: 14px;
   }
 }
 
@@ -929,4 +937,18 @@ body.is-shrink .nav a + a::before{
   font-weight:600;
   color:var(--r-green);
   padding:8px 0;
+}
+
+/* ===================== FIX ЦВЕТА КНОПКИ "МЕНЮ" ===================== */
+
+.menu-toggle,
+.menu-toggle:link,
+.menu-toggle:visited,
+.menu-toggle:hover,
+.menu-toggle:active{
+  color:#000;
+  text-decoration:none;
+}
+.menu-toggle-label{
+  color:#000;
 }
