@@ -388,11 +388,13 @@ body.is-shrink .nav a + a::before{
 .footer-inner{
   display:flex;
   justify-content:space-between;
-  align-items:var(--footer-align-y);
+  align-items:flex-start;  /* вместо center — правильное выравнивание по верхам */
   width:100%;
-  padding:0 var(--footer-pad-x);
+  padding:20px var(--footer-pad-x);
   box-sizing:border-box;
-  height:var(--footer-height);
+  min-height:var(--footer-height); /* футер растягивается по содержимому */
+  height:auto;                     /* убираем жесткую высоту */
+  gap:20px;                        /* аккуратный промежуток */
 }
 
 .footer-left{
