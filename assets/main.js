@@ -127,9 +127,15 @@ function injectWidgetStyles(){
 
   /* Овальна плашка всередині круга */
   .fab-pill{
-    display:none;
+    position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+    height:var(--pill-h); line-height:var(--pill-h);
+    padding:0 12px; border-radius:999px; white-space:nowrap;
+    background:#fff; border:2px solid var(--r-green); color:var(--r-green);
+    font-size:12px; font-weight:800; letter-spacing:.2px; font-variant-numeric:tabular-nums;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 2px 6px rgba(0,0,0,.10);
+    pointer-events:none;
   }
-
 
   /* Меню контактів (дві бульки) */
   .contact-menu{
