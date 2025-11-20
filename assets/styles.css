@@ -137,6 +137,7 @@ body.is-shrink .tagline{ display:none; }
   font-weight:700;
   padding:var(--menu-item-pad-v) var(--menu-item-pad-h);
 }
+
 /* Кнопка-бургер + надпись «Меню» */
 .menu-toggle{
   display:none;            /* по умолчанию спрятан (десктоп) */
@@ -148,7 +149,6 @@ body.is-shrink .tagline{ display:none; }
   align-items:center;
   gap:8px;
 }
-
 
 .menu-toggle-icon{
   position:relative;
@@ -188,7 +188,6 @@ body.menu-open .menu-toggle-icon::after{
   bottom:6px;
   transform:rotate(-45deg);
 }
-
 
 /* underline-хелпер, если надо использовать вне меню */
 .u-underline{ position:relative; }
@@ -388,11 +387,13 @@ body.is-shrink .nav a + a::before{
 .footer-inner{
   display:flex;
   justify-content:space-between;
-  align-items:var(--footer-align-y);
+  align-items:flex-start;
   width:100%;
-  padding:0 var(--footer-pad-x);
+  padding:20px var(--footer-pad-x);
   box-sizing:border-box;
-  height:var(--footer-height);
+  min-height:var(--footer-height);
+  height:auto;
+  gap:20px;
 }
 
 .footer-left{
@@ -727,6 +728,7 @@ body.is-shrink .nav a + a::before{
     margin-top:12px;
   }
 }
+
 /* ===================== MOBILE: HEADER ===================== */
 
 @media (max-width: 768px) {
@@ -744,9 +746,6 @@ body.is-shrink .nav a + a::before{
     --footer-right-size: 14px;
     --footer-pad-x: 16px;
   }
-@media (max-width: 768px) {
-
-  /* ... у тебя здесь уже есть :root, .site-header, .header-inner и т.д. ... */
 
   /* показываем бургер только на мобильных */
   .menu-toggle{
@@ -773,10 +772,11 @@ body.is-shrink .nav a + a::before{
   .nav a + a::before{
     display:none;
   }
-}
 
   .site-header {
     border-bottom: 1px solid #e5e5e5;
+    height:auto;
+    overflow:visible;
   }
 
   .header-inner {
@@ -785,7 +785,6 @@ body.is-shrink .nav a + a::before{
   }
 
   .site-logo {
-    /* подстраховка, если переменные где-то не сработают */
     font-size: 32px;
   }
 
@@ -802,9 +801,10 @@ body.is-shrink .nav a + a::before{
   .tagline {
     font-size: 14px;
     max-width: 220px;
+    transform:none;
   }
 
-    .nav {
+  .nav {
     margin-top: 8px;
     gap: 12px;
     flex-wrap: wrap;
@@ -820,15 +820,9 @@ body.is-shrink .nav a + a::before{
     left: -6px;
   }
 
-  /* ВАЖНО: на телефоне шапка тянется по контенту, ничего не обрезаем */
-  .site-header {
-    height: auto;
-    overflow: visible;
-  }
-
-  /* Спейсер просто даёт фиксированный отступ сверху для контента */
+  /* Спейсер даёт отступ под фиксированной шапкой */
   .header-spacer {
-    height: 84px; /* можно 80–90px, подбери по вкусу */
+    height: 84px;
   }
 }
 
@@ -858,88 +852,90 @@ body.is-shrink .nav a + a::before{
     font-size: 14px;
   }
 }
-  /* Опции товара под названием */
-  .cart-line-main{
-    flex:1 1 auto;
-    min-width:0;
-  }
-  .cart-line-options{
-    margin:4px 0 0;
-    padding:0;
-    list-style:none;
-    font-size:12px;
-    color:#6b7280;
-  }
-  .cart-line-options li{
-    margin:0;
-  }
-  .cart-line-options li span{
-    font-weight:600;
-    color:#4b5563;
-  }
 
-  /* Шаг оформления заказа */
-  .cart-checkout{
-    padding:10px 0 0;
-    border-top:1px solid #e5e7eb;
-    margin-top:8px;
-  }
-  .cart-checkout-title{
-    font-weight:700;
-    margin:0 0 8px;
-    font-size:15px;
-  }
-  .cart-checkout-form{
-    display:flex;
-    flex-direction:column;
-    gap:8px;
-  }
-  .cart-checkout-form label{
-    display:flex;
-    flex-direction:column;
-    font-size:13px;
-    gap:4px;
-  }
-  .cart-checkout-form input,
-  .cart-checkout-form textarea{
-    border-radius:8px;
-    border:1px solid #e5e7eb;
-    padding:6px 8px;
-    font-size:14px;
-    font-family:inherit;
-    resize:vertical;
-  }
-  .cart-checkout-actions{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-top:4px;
-    gap:8px;
-  }
+/* ===================== КОРЗИНА / ОФОРМЛЕНИЕ ===================== */
 
-  /* Аккуратные текстовые кнопки с подчёркиванием и зелёным при ховере */
-  .btn-link{
-    border:none;
-    background:transparent;
-    padding:0;
-    font-size:14px;
-    font-weight:600;
-    color:#111827;
-    cursor:pointer;
-    text-decoration:none;
-    border-bottom:1px solid transparent;
-  }
-  .btn-link.primary{
-    color:#111827;
-  }
-  .btn-link:hover{
-    color:var(--r-green);
-    border-bottom-color:var(--r-green);
-  }
+.cart-line-main{
+  flex:1 1 auto;
+  min-width:0;
+}
+.cart-line-options{
+  margin:4px 0 0;
+  padding:0;
+  list-style:none;
+  font-size:12px;
+  color:#6b7280;
+}
+.cart-line-options li{
+  margin:0;
+}
+.cart-line-options li span{
+  font-weight:600;
+  color:#4b5563;
+}
 
-  .cart-thankyou{
-    font-size:14px;
-    font-weight:600;
-    color:var(--r-green);
-    padding:8px 0;
-  }
+/* Шаг оформления заказа */
+.cart-checkout{
+  padding:10px 0 0;
+  border-top:1px solid #e5e7eb;
+  margin-top:8px;
+}
+.cart-checkout-title{
+  font-weight:700;
+  margin:0 0 8px;
+  font-size:15px;
+}
+.cart-checkout-form{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+.cart-checkout-form label{
+  display:flex;
+  flex-direction:column;
+  font-size:13px;
+  gap:4px;
+}
+.cart-checkout-form input,
+.cart-checkout-form textarea{
+  border-radius:8px;
+  border:1px solid #e5e7eb;
+  padding:6px 8px;
+  font-size:14px;
+  font-family:inherit;
+  resize:vertical;
+}
+.cart-checkout-actions{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:4px;
+  gap:8px;
+}
+
+/* Аккуратные текстовые кнопки с подчёркиванием и зелёным при ховере */
+.btn-link{
+  border:none;
+  background:transparent;
+  padding:0;
+  font-size:14px;
+  font-weight:600;
+  color:#111827;
+  cursor:pointer;
+  text-decoration:none;
+  border-bottom:1px solid transparent;
+}
+.btn-link.primary{
+  color:#111827;
+}
+.btn-link:hover{
+  color:var(--r-green);
+  border-bottom-color:var(--r-green);
+}
+
+.cart-thankyou{
+  font-size:14px;
+  font-weight:600;
+  color:var(--r-green);
+  padding:8px 0;
+}
