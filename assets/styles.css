@@ -390,10 +390,13 @@ body.is-shrink .nav a + a::before{
   justify-content:space-between;
   align-items:var(--footer-align-y);
   width:100%;
-  padding:0 var(--footer-pad-x);
+  padding:16px var(--footer-pad-x);
   box-sizing:border-box;
-  height:var(--footer-height);
+  min-height:var(--footer-height);  /* вместо фиксированной height */
+  height:auto;                      /* позволяет расширяться */
+  gap:20px;                         /* аккуратный промежуток между блоками */
 }
+
 
 .footer-left{
   font-size:var(--footer-left-size);
@@ -998,8 +1001,9 @@ body.is-shrink .nav a + a::before{
 
   /* Подвал на всю ширину экрана, без ощущения "сжатого" блока */
   .site-footer{
-    padding:0;
-  }
+  width:100%;
+  display:block;
+}
 
   .site-footer .container{
     max-width:none;
