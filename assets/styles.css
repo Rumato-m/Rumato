@@ -952,3 +952,63 @@ body.is-shrink .nav a + a::before{
 .menu-toggle-label{
   color:#000;
 }
+/* ========================================================= */
+/*  MOBILE FIX: sofa-card, зелёные полосы, подвал           */
+/* ========================================================= */
+
+@media (max-width: 900px) {
+
+  /* Герой-блоки (Kubo, Beds, Sofas): картинка + текст по центру */
+  .sofa-card{
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:center !important;
+    text-align:center !important;
+    gap:16px;
+  }
+
+  .sofa-card img{
+    max-width:100% !important;
+    height:auto !important;
+    display:block;
+    margin:0 auto;
+  }
+
+  .sofa-card .sofa-info{
+    width:100%;
+    max-width:700px;
+    text-align:center !important;
+    margin:16px auto 0;
+  }
+
+  .sofa-card .model-title{
+    margin-top:0;
+  }
+
+  /* Верхние зелёные полосы "Персонально для вас" / "Це щось неймовірне" */
+  .top-accent-bar{
+    height:3px !important;
+    padding:0 !important;
+    margin:0 !important;
+    font-size:0 !important;
+    line-height:0 !important;
+    border:0 !important;
+    overflow:hidden;
+  }
+
+  /* Подвал на всю ширину экрана, без ощущения "сжатого" блока */
+  .site-footer{
+    padding:0;
+  }
+
+  .site-footer .container{
+    max-width:none;
+    margin:0;
+    padding:0;
+  }
+
+  .footer-inner{
+    width:100%;
+    padding:16px var(--container-pad);
+  }
+}
