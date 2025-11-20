@@ -103,21 +103,16 @@ function injectWidgetStyles(){
   }
 
   /* Круги (кошик + контакти) */
-    .cart-fab, .call-fab{
+  .cart-fab, .call-fab{
     position:fixed;
     right:var(--fab-right);
     width:var(--fab-size); height:var(--fab-size);
     border-radius:50%;
-    background:#fff;
-    border:1px solid var(--r-green);
-    color:var(--r-green);
-    display:grid; place-items:center;
-    cursor:pointer;
-    z-index:2147483002;
-    box-shadow:0 4px 14px rgba(0,0,0,.12);
+    background:#fff; border:2px solid var(--r-green); color:var(--r-green);
+    display:grid; place-items:center; cursor:pointer; z-index:2147483002;
+    box-shadow:var(--fab-shadow);
     transition:transform .15s ease, box-shadow .2s ease, opacity .15s ease;
   }
-
   .cart-fab{ bottom:92px; }
   .call-fab{ bottom:20px; text-decoration:none; }
   .cart-fab:hover, .call-fab:hover{
@@ -152,22 +147,13 @@ function injectWidgetStyles(){
     transform:translateX(0);
   }
 
-    .contact-subfab{
-    width:48px; height:48px;
-    border-radius:50%;
-    background:#fff;
-    border:1px solid var(--r-green);
-    color:var(--r-green);
-    display:grid; place-items:center;
-    box-shadow:0 4px 14px rgba(0,0,0,.12);
-    cursor:pointer;
-    position:relative;
-    text-decoration:none;
-    font-size:18px;
-    font-weight:700;
-    line-height:1;
+  .contact-subfab{
+    width:48px; height:48px; border-radius:50%;
+    background:#fff; border:2px solid var(--r-green); color:var(--r-green);
+    display:grid; place-items:center; box-shadow:var(--fab-shadow); cursor:pointer;
+    position:relative; text-decoration:none;
+    font-size:20px; font-weight:900; line-height:1;
   }
-
   .contact-subfab:hover{ transform:translateY(-1px); }
 
   /* Напівпрозорий фон під кошиком */
