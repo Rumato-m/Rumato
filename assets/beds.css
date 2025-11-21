@@ -198,3 +198,133 @@ input[type="checkbox"].toggle:checked + .switch::before{left:24px;}
     display: none;
   }
 }
+/* MOBILE: кровати на всю ширину */
+@media (max-width: 768px) {
+
+  body{
+    margin:0;
+    padding:0 12px;
+    overflow-x:hidden;
+  }
+
+  .top-accent-bar{
+    margin:0 -12px 16px;
+    height:3px;
+    line-height:0;
+    font-size:0;
+  }
+
+  /* большая картинка */
+  .sofa-card{
+    width:100%;
+    max-width:100%;
+    margin:0;
+    display:block;
+  }
+  .sofa-card > img{
+    display:block;
+    width:100%;
+    height:auto;
+    margin:0 0 16px;
+  }
+  .sofa-info{
+    max-width:100%;
+    padding:0 0 16px;
+  }
+
+  /* фильтры колонкой */
+  .filter-strip{
+    width:100%;
+    margin:0 0 16px;
+  }
+  .filter-bar{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+  .filter-item{
+    width:100%;
+  }
+  .filter-item .label{
+    display:block;
+    margin:0 0 4px;
+  }
+  .filter-item select,
+  .filter-item .option-list,
+  .filter-item .option-list button{
+    width:100%;
+  }
+  .filter-sep{display:none;}
+
+  /* только вид сверху */
+  .filter-preview,
+  .preview-card,
+  .preview-grid{
+    width:100%;
+    margin:0 0 16px;
+  }
+  #filterPreviewLeft{display:none;}
+  #filterPreviewRight{
+    display:block;
+    width:100%;
+    height:auto;
+  }
+
+  /* ткани по одной */
+  .fabric-selector{margin-top:16px;}
+  .fabric-grid{
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+  }
+  .fabric-card{
+    width:100%;
+    min-height:220px;
+    background-size:cover;
+    background-position:center;
+    border-radius:12px;
+  }
+
+  /* цена + кнопка */
+  .action-bar{
+    width:100%;
+    margin:20px 0;
+    padding:0;
+    display:block;
+  }
+  .action-bar .price{margin-bottom:8px;}
+  .action-bar .btn-primary{
+    width:100%;
+    padding:14px 16px;
+  }
+
+  /* доп. товары по одному, картинка на всю ширину */
+  .addons{margin-top:24px;}
+  .addon-grid{
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+  }
+  .addon-card{
+    width:100%;
+  }
+  .addon-media{
+    width:100%;
+    height:auto;
+    padding-top:0;
+    background-size:cover;
+    background-position:center;
+  }
+
+  /* статьи одной колонкой */
+  .articles{margin-top:24px;}
+  .article-grid{display:block;}
+  .article-card{
+    width:100%;
+    margin:0 0 24px;
+  }
+  .article-card img{
+    width:100%;
+    height:auto;
+  }
+}
