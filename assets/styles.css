@@ -943,348 +943,205 @@ body.is-shrink .nav a + a::before{
   color:var(--r-green);
   padding:8px 0;
 }
-/* ===================== MOBILE FULL REWORK ===================== */
+/* ==================== MOBILE HARD RESET (ALL FULL-WIDTH) ==================== */
 @media (max-width: 768px) {
 
-  /* Общие отступы */
-  body {
-    padding: 0 14px;
-  }
-
-  /* ----- 1. ХЕДЕР ОСТАЁТСЯ КАК ЕСТЬ ----- */
-
-  /* ----- 2. БОЛЬШОЕ ПРЕВЬЮ НА ВСЮ ШИРИНУ ----- */
-  .sofa-card {
-    margin: 0;
+  /* Убираем любой боковой скролл */
+  html, body {
+    width: 100%;
+    overflow-x: hidden !important;
     padding: 0;
-    display: block;
+    margin: 0;
   }
 
-  .sofa-card > img {
-    width: 100%;
-    height: auto;
-    border-radius: 12px;
-    margin-bottom: 16px;
+  /* Всё содержимое — полноширинное */
+  main, section, div, .container, .wrapper, .content {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
 
-  /* ----- 3. НАЗВАНИЕ МОДЕЛИ С ПОДЧЕРКИВАНИЕМ ----- */
-  .sofa-info h1,
-  .product-title {
-    font-size: 24px;
-    margin-top: 12px;
-    margin-bottom: 4px;
+  /* ----- 1. ПРЕВЬЮ: БОЛЬШАЯ КАРТИНКА НА ВЕСЬ ЭКРАН ----- */
+  .sofa-card,
+  .sofa-card img {
+    width: 100% !important;
+    max-width: 100% !important;
+    display: block !important;
   }
 
-  .product-title-line,
-  .top-accent-bar {
-    height: 3px !important;
-    margin: 0 -14px 16px;
-    background: var(--ink);
-    opacity: 0.9;
+  .sofa-card img {
+    height: auto !important;
+    border-radius: 0 !important;
   }
 
-  /* ----- 4. ФИЛЬТРЫ СТРОГО ПО ОДНОМУ В СТРОКУ ----- */
-  .filter-bar,
+  /* ----- 2. НАЗВАНИЕ + ОПИСАНИЕ ----- */
+  .sofa-info {
+    padding: 16px !important;
+  }
+
+  .sofa-info h1 {
+    font-size: 26px !important;
+    margin-bottom: 8px !important;
+  }
+
+  .sofa-info p {
+    font-size: 16px !important;
+    line-height: 1.45 !important;
+  }
+
+  /* ----- 3. ВСЕ ФИЛЬТРЫ В ОДНУ КОЛОНКУ (ПО ОДНОМУ) ----- */
   .filter-strip,
+  .filter-bar,
   .filter-item {
-    width: 100%;
-    display: block;
-    margin-bottom: 16px;
+    width: 100% !important;
+    display: block !important;
+    margin: 0 0 16px 0 !important;
+    padding: 0 !important;
   }
 
   .filter-item label {
-    display: block;
-    font-size: 16px;
-    margin-bottom: 6px;
+    padding: 0 16px !important;
+    margin-bottom: 6px !important;
+    display: block !important;
   }
 
   .filter-item select,
-  .filter-item .option-list {
-    width: 100%;
+  .option-list,
+  .option-list button {
+    width: 100% !important;
+    margin: 0 !important;
+    border-radius: 8px !important;
   }
 
-  .option-list button,
-  .option-list .btn {
-    width: 100%;
-    margin-bottom: 8px;
+  .filter-sep {
+    display: none !important;
   }
 
-  /* ----- 5. ПРЕВЬЮ — ТОЛЬКО ВИД СВЕРХУ ----- */
+  /* ----- 4. ПРЕВЬЮ «ВИД СВЕРХУ» — ОДНО И НА ВСЮ ШИРИНУ ----- */
   #filterPreviewLeft {
     display: none !important;
   }
 
   #filterPreviewRight {
-    width: 100%;
-    height: auto;
-    display: block;
-    margin: 0 0 20px 0;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    display: block !important;
   }
 
-  /* ----- 6. ТКАНИ ПО ОДНОЙ НА ВСЮ ШИРИНУ ----- */
+  .filter-preview,
+  .preview-grid,
+  .preview-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 0 20px 0 !important;
+  }
+
+  /* ----- 5. ТКАНИ — ПО ОДНОЙ НА ВСЮ ШИРИНУ ----- */
   .fabric-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 20px !important;
+    width: 100% !important;
   }
 
   .fabric-card {
-    width: 100%;
-    min-height: 200px;
-    border-radius: 12px;
-    background-size: cover;
-    background-position: center;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 220px !important;
+    border-radius: 0 !important;
+    background-size: cover !important;
+    background-position: center !important;
   }
 
   .fabric-title {
-    font-size: 18px;
-    padding: 8px 0;
+    font-size: 18px !important;
+    padding: 12px 16px !important;
   }
 
-  /* ----- 7. ПАЛИТРА — НА ВЕСЬ ЭКРАН ----- */
+  /* ПАЛИТРА НА ВЕСЬ ЭКРАН */
   .palette {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    top: 0;
-    background: white;
-    z-index: 9999;
-    padding: 20px;
-    display: none;
-    overflow-y: scroll;
+    position: fixed !important;
+    inset: 0 !important;
+    background: #fff !important;
+    z-index: 99999 !important;
+    width: 100% !important;
+    height: 100% !important;
+    padding: 20px !important;
+    overflow-y: auto !important;
+    display: none !important;
+    grid-template-columns: repeat(5, 1fr) !important;
+    gap: 12px !important;
   }
 
   .palette.open {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 12px;
+    display: grid !important;
   }
 
-  .palette-close {
-    display: block;
-    text-align: center;
-    font-size: 16px;
-    margin-bottom: 20px;
+  /* ----- 6. ЦЕНА + КНОПКА ----- */
+  .action-bar {
+    display: block !important;
+    width: 100% !important;
+    padding: 20px 16px !important;
   }
 
-  /* ----- 8. ЦЕНА И КНОПКА ----- */
-  .price-block {
-    text-align: center;
-    margin: 30px 0;
+  .price {
+    font-size: 22px !important;
+    margin-bottom: 14px !important;
   }
 
-  .price-block .price {
-    font-size: 26px;
-    font-weight: 700;
+  .btn-primary,
+  #addToCart {
+    width: 100% !important;
+    padding: 16px !important;
+    font-size: 18px !important;
+    border-radius: 10px !important;
   }
 
-  .btn-add-to-cart {
-    width: 100%;
-    padding: 16px;
-    font-size: 20px;
-    border-radius: 10px;
-    margin-top: 10px;
+  /* ----- 7. ДОп. ТОВАРЫ — ПО ОДНОМУ, НА ВСЮ ШИРИНУ ----- */
+  .addon-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 24px !important;
+    width: 100% !important;
   }
 
-  /* ----- 9. ТОНКАЯ ЛИНИЯ ПЕРЕД БЛОКОМ ТОВАРОВ ----- */
-  .mobile-separator {
-    width: 100%;
-    height: 3px;
-    background: var(--ink);
-    margin: 20px 0;
-    opacity: 0.3;
+  .addon-card {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
 
-  /* ----- 10. ЧЕТЫРЕ ТОВАРНЫХ КАРТОЧКИ ПОДРЯД ПО ОДНОЙ ----- */
-  .product-cards {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
+  .addon-media {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 220px !important;
+    background-size: cover !important;
+    background-position: center !important;
   }
 
-  .product-card {
-    width: 100%;
+  /* ----- 8. СТАТЬИ — ОДНА КОЛОНКА НА ВСЮ ШИРИНУ ----- */
+  .articles,
+  .article-grid,
+  .article-card {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 0 20px 0 !important;
+    display: block !important;
   }
 
-  .product-card img {
-    width: 100%;
-    border-radius: 12px;
+  .article-card img {
+    width: 100% !important;
+    border-radius: 0 !important;
+    margin-bottom: 12px !important;
   }
 
-  .product-card .title {
-    margin-top: 8px;
-    font-size: 18px;
-  }
-
-  .product-card .btn {
-    width: 100%;
-    margin-top: 8px;
-  }
-
-  /* ----- 11. ОДНА СТАТЬЯ ПРО 20 ДНЕЙ ----- */
-  .articles {
-    display: block;
-  }
-
-  .article {
-    margin-bottom: 24px;
-  }
-
-  .article img {
-    width: 100%;
-    border-radius: 12px;
-  }
-
-  /* ----- 12. ПОДВАЛ ----- */
+  /* ----- 9. ПОДВАЛ — ПОЛНАЯ ШИРИНА, БЕЗ ВЫЕЗДОВ ----- */
   .site-footer {
-    margin-left: calc(50% - 50vw);
-    margin-right: calc(50% - 50vw);
-    padding: 30px 20px;
-  }
-}
-/* ================= MOBILE: BEDS LAYOUT =================== */
-@media (max-width: 768px) {
-
-  body{
-    padding:0 12px;
-  }
-
-  /* тонкая зелёная полоса без текста */
-  .top-accent-bar{
-    margin:0 -12px 16px;
-    padding:0;
-    height:3px;
-    line-height:0;
-    font-size:0;
-  }
-
-  /* большая картинка на всю ширину, текст ниже */
-  .sofa-card{
-    display:block;
-    margin:0;
-    padding:0;
-  }
-  .sofa-card > img{
-    width:100%;
-    height:auto;
-    border-radius:12px;
-    margin-bottom:16px;
-  }
-  .sofa-info{
-    padding:0 0 16px;
-  }
-  .sofa-info h1{
-    font-size:24px;
-    margin:8px 0 4px;
-  }
-
-  /* фильтры – по одному в столбик */
-  .filter-strip{
-    margin-top:8px;
-  }
-  .filter-bar{
-    display:flex;
-    flex-direction:column;
-    gap:12px;
-  }
-  .filter-item{
-    width:100%;
-  }
-  .filter-item .label{
-    display:block;
-    margin-bottom:4px;
-  }
-  .filter-item .select,
-  .filter-item .option-list,
-  .filter-item .option-list button{
-    width:100%;
-  }
-  .filter-sep{
-    display:none;
-  }
-
-  /* превью – только вид сверху */
-  .filter-preview .preview-grid{
-    display:block;
-  }
-  #filterPreviewLeft{
-    display:none !important;
-  }
-  #filterPreviewRight{
-    display:block;
-    width:100%;
-    height:auto;
-    margin:0 0 20px;
-  }
-
-  /* ткани по одной в колонку */
-  .fabric-selector{
-    margin-top:16px;
-  }
-  .fabric-grid{
-    display:flex;
-    flex-direction:column;
-    gap:16px;
-  }
-  .fabric-card{
-    width:100%;
-    min-height:200px;
-    border-radius:12px;
-    background-size:cover;
-    background-position:center;
-  }
-  .fabric-title{
-    font-size:16px;
-    padding:8px 12px;
-  }
-
-  /* палитра на весь экран (JS уже включает display:grid) */
-  .palette{
-    position:fixed;
-    inset:0;
-    background:#fff;
-    z-index:9999;
-    padding:16px;
-    overflow-y:auto;
-    display:none;
-    grid-template-columns:repeat(5,minmax(0,1fr));
-    gap:8px;
-  }
-
-  /* цена и кнопка – блоком, кнопка на всю ширину */
-  .action-bar{
-    display:flex;
-    flex-direction:column;
-    align-items:flex-start;
-    gap:8px;
-    margin:20px 0;
-  }
-  .action-bar .price{
-    font-size:18px;
-  }
-  .action-bar .btn-primary{
-    width:100%;
-    text-align:center;
-    padding:14px 18px;
-    font-size:18px;
-  }
-
-  /* доп. товары – по одному */
-  .addons{
-    margin-top:24px;
-  }
-  .addon-grid{
-    display:flex;
-    flex-direction:column;
-    gap:20px;
-  }
-  .addon-card{
-    max-width:100%;
-  }
-
-  /* статья – одна колонка */
-  .articles{
-    margin-top:24px;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 30px 16px !important;
   }
 }
