@@ -150,9 +150,6 @@ input[type="checkbox"].toggle:checked + .switch::before{left:24px;}
 }
 
 
-/* Footer width guard */
-[data-include="footer"],footer,.site-footer{max-width:none!important;width:100%!important;margin-left:0!important;margin-right:0!important;}
-
 .addon-row{
   display: flex;
   align-items: stretch;       /* тянем блоки по высоте */
