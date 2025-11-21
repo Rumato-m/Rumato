@@ -198,134 +198,219 @@ input[type="checkbox"].toggle:checked + .switch::before{left:24px;}
     display: none;
   }
 }
-/* ================= MOBILE: PRODUCT FULL-WIDTH ================= */
+/* ================= MOBILE LAYOUT (≤768px) ================= */
 @media (max-width: 768px) {
 
-  html, body{
-    margin:0;
-    padding:0;
-    width:100%;
-    overflow-x:hidden;
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow-x: hidden;
   }
 
-  /* общие отступы для блоков после большой картинки */
-  .sofa-info,
-  .filter-strip,
-  .filter-preview,
-  .fabric-selector,
-  .action-bar,
-  .addons,
-  .articles{
-    padding:0 16px;
-    max-width:100%;
+  /* общий отступ для блоков */
+  main {
+    padding: 0;
   }
 
-  /* hero-превью на всю ширину */
-  .sofa-card{
-    margin:0;
-    padding:0;
-    display:block;
-  }
-  .sofa-card > img{
-    display:block;
-    width:100%;
-    height:auto;
+  /* ---------- 1. HERO-ПРЕВЬЮ ---------- */
+  .sofa-card {
+    display: block;
+    margin: 0 0 16px;
+    padding: 0;
+    width: 100%;
+    max-width: 100%;
   }
 
-  /* текст модели под фото */
-  .sofa-info h1{
-    font-size:24px;
-    margin:12px 0 4px;
+  .sofa-card > img {
+    display: block;
+    width: 100%;
+    height: auto;
   }
 
-  /* фильтры – строго колонкой, один под другим */
-  .filter-bar{
-    display:flex;
-    flex-direction:column;
-    gap:12px;
+  /* ---------- 2. НАЗВАНИЕ + ОПИСАНИЕ ---------- */
+  .sofa-info {
+    padding: 0 16px 24px;
+    max-width: 100%;
   }
-  .filter-item{
-    width:100%;
+
+  .sofa-info h1 {
+    font-size: 24px;
+    margin: 8px 0 6px;
   }
-  .filter-item .label{
-    display:block;
-    margin-bottom:4px;
+
+  /* ---------- 3. ФИЛЬТРЫ: НАЗВАНИЕ СВЕРХУ, ОКНО СНИЗУ ---------- */
+  .filter-strip {
+    padding: 0 16px;
+    margin: 0 0 20px;
+    width: 100%;
   }
+
+  .filter-bar {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    border-radius: 0;
+    white-space: normal;
+  }
+
+  .filter-item {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+    width: 100%;
+  }
+
+  .filter-item .label,
+  .filter-item label {
+    font-size: 14px;
+  }
+
+  .select,
   .filter-item select,
   .filter-item .option-list,
-  .filter-item .option-list button{
-    width:100%;
-  }
-  .filter-sep{display:none;}
-
-  /* превью – только вид сверху, на всю ширину */
-  .filter-preview,
-  .preview-card,
-  .preview-grid{
-    width:100%;
-    margin:16px 0;
-  }
-  #filterPreviewLeft{display:none;}
-  #filterPreviewRight{
-    display:block;
-    width:100%;
-    height:auto;
+  .filter-item .option-list button {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    text-align: left;
   }
 
-  /* ткани – по одной карточке на всю ширину */
-  .fabric-grid{
-    display:flex;
-    flex-direction:column;
-    gap:16px;
-  }
-  .fabric-card{
-    width:100%;
-    min-height:220px;
-    border-radius:12px;
-    background-size:cover;
-    background-position:center;
+  .filter-sep {
+    display: none;
   }
 
-  /* цена + кнопка – блочно, кнопка на всю ширину */
-  .action-bar{
-    margin:24px 0;
-    display:block;
-  }
-  .action-bar .price{
-    margin-bottom:10px;
-  }
-  .action-bar .btn-primary{
-    width:100%;
-    padding:14px 16px;
+  /* ---------- 4. ПРЕВЬЮ – ТОЛЬКО ВИД СВЕРХУ ---------- */
+  .filter-preview {
+    padding: 0 16px;
+    margin: 0 0 24px;
+    width: 100%;
   }
 
-  /* доптовары – по одному, картинка на всю ширину */
-  .addon-grid{
-    display:flex;
-    flex-direction:column;
-    gap:20px;
-  }
-  .addon-card{
-    width:100%;
-  }
-  .addon-media{
-    width:100%;
-    height:auto;
-    padding-top:0;
-    background-size:cover;
-    background-position:center;
+  .preview-grid {
+    display: block;
   }
 
-  /* статьи – одна колонка */
-  .articles .article-grid{
-    display:block;
+  #filterPreviewLeft {
+    display: none;
   }
-  .article-card{
-    width:100%;
-    margin-bottom:24px;
+
+  .preview-grid img,
+  #filterPreviewRight {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: 0;
   }
-  .article-card img{
-    width:100%;
-    height:auto;
+
+  /* ---------- 5. ТКАНИ – ПО ОДНОЙ НА ВСЮ ШИРИНУ ---------- */
+  .fabric-selector {
+    padding: 0 16px 24px;
   }
+
+  .fabric-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+  }
+
+  .fabric-card {
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+  }
+
+  /* ---------- 6. ЦЕНА + КНОПКА ---------- */
+  .action-bar {
+    padding: 0 16px 24px;
+    margin: 0;
+    width: 100%;
+    display: block;
+  }
+
+  .action-bar .price {
+    margin-bottom: 12px;
+  }
+
+  .action-bar .btn-primary,
+  .action-bar button {
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 10px;
+  }
+
+  /* ---------- 7. ДОП. ТОВАРЫ – ПО ОДНОЙ КАРТОЧКЕ ---------- */
+  .addons {
+    padding: 0 16px 32px;
+  }
+
+  .addon-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+  }
+
+  .addon-card {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .addon-media {
+    width: 100%;
+    min-height: 220px;
+    background-size: cover;
+    background-position: center;
+  }
+
+  /* ---------- 8. СТАТЬИ – ОДНА КОЛОНКА ---------- */
+  .articles {
+    padding: 0 16px 40px;
+    margin: 40px 0 0;
+  }
+
+  .article-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    max-width: 100%;
+  }
+
+  .article-card {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .article-card img {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin-bottom: 12px;
+  }
+
+  /* ---------- 9. ПОДВАЛ ---------- */
+  .site-footer {
+    padding: 24px 16px;
+    margin: 0;
+    width: 100%;
+  }
+}
+
+/* Цвет ссылки "Меню" в шапке (глобально, не только мобилка) */
+.site-header a,
+.site-header a:visited {
+  color: #111827;
+  text-decoration: none;
+}
+.site-header a:hover {
+  color: var(--r-green);
 }
