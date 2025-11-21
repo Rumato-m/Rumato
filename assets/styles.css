@@ -943,3 +943,203 @@ body.is-shrink .nav a + a::before{
   color:var(--r-green);
   padding:8px 0;
 }
+/* ===================== MOBILE FULL REWORK ===================== */
+@media (max-width: 768px) {
+
+  /* Общие отступы */
+  body {
+    padding: 0 14px;
+  }
+
+  /* ----- 1. ХЕДЕР ОСТАЁТСЯ КАК ЕСТЬ ----- */
+
+  /* ----- 2. БОЛЬШОЕ ПРЕВЬЮ НА ВСЮ ШИРИНУ ----- */
+  .sofa-card {
+    margin: 0;
+    padding: 0;
+    display: block;
+  }
+
+  .sofa-card > img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    margin-bottom: 16px;
+  }
+
+  /* ----- 3. НАЗВАНИЕ МОДЕЛИ С ПОДЧЕРКИВАНИЕМ ----- */
+  .sofa-info h1,
+  .product-title {
+    font-size: 24px;
+    margin-top: 12px;
+    margin-bottom: 4px;
+  }
+
+  .product-title-line,
+  .top-accent-bar {
+    height: 3px !important;
+    margin: 0 -14px 16px;
+    background: var(--ink);
+    opacity: 0.9;
+  }
+
+  /* ----- 4. ФИЛЬТРЫ СТРОГО ПО ОДНОМУ В СТРОКУ ----- */
+  .filter-bar,
+  .filter-strip,
+  .filter-item {
+    width: 100%;
+    display: block;
+    margin-bottom: 16px;
+  }
+
+  .filter-item label {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 6px;
+  }
+
+  .filter-item select,
+  .filter-item .option-list {
+    width: 100%;
+  }
+
+  .option-list button,
+  .option-list .btn {
+    width: 100%;
+    margin-bottom: 8px;
+  }
+
+  /* ----- 5. ПРЕВЬЮ — ТОЛЬКО ВИД СВЕРХУ ----- */
+  #filterPreviewLeft {
+    display: none !important;
+  }
+
+  #filterPreviewRight {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 0 20px 0;
+  }
+
+  /* ----- 6. ТКАНИ ПО ОДНОЙ НА ВСЮ ШИРИНУ ----- */
+  .fabric-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .fabric-card {
+    width: 100%;
+    min-height: 200px;
+    border-radius: 12px;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .fabric-title {
+    font-size: 18px;
+    padding: 8px 0;
+  }
+
+  /* ----- 7. ПАЛИТРА — НА ВЕСЬ ЭКРАН ----- */
+  .palette {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    background: white;
+    z-index: 9999;
+    padding: 20px;
+    display: none;
+    overflow-y: scroll;
+  }
+
+  .palette.open {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+  }
+
+  .palette-close {
+    display: block;
+    text-align: center;
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+
+  /* ----- 8. ЦЕНА И КНОПКА ----- */
+  .price-block {
+    text-align: center;
+    margin: 30px 0;
+  }
+
+  .price-block .price {
+    font-size: 26px;
+    font-weight: 700;
+  }
+
+  .btn-add-to-cart {
+    width: 100%;
+    padding: 16px;
+    font-size: 20px;
+    border-radius: 10px;
+    margin-top: 10px;
+  }
+
+  /* ----- 9. ТОНКАЯ ЛИНИЯ ПЕРЕД БЛОКОМ ТОВАРОВ ----- */
+  .mobile-separator {
+    width: 100%;
+    height: 3px;
+    background: var(--ink);
+    margin: 20px 0;
+    opacity: 0.3;
+  }
+
+  /* ----- 10. ЧЕТЫРЕ ТОВАРНЫХ КАРТОЧКИ ПОДРЯД ПО ОДНОЙ ----- */
+  .product-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .product-card {
+    width: 100%;
+  }
+
+  .product-card img {
+    width: 100%;
+    border-radius: 12px;
+  }
+
+  .product-card .title {
+    margin-top: 8px;
+    font-size: 18px;
+  }
+
+  .product-card .btn {
+    width: 100%;
+    margin-top: 8px;
+  }
+
+  /* ----- 11. ОДНА СТАТЬЯ ПРО 20 ДНЕЙ ----- */
+  .articles {
+    display: block;
+  }
+
+  .article {
+    margin-bottom: 24px;
+  }
+
+  .article img {
+    width: 100%;
+    border-radius: 12px;
+  }
+
+  /* ----- 12. ПОДВАЛ ----- */
+  .site-footer {
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    padding: 30px 20px;
+  }
+}
