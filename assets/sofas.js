@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const $ = id => document.getElementById(id);
 
   // Папка с рендерами дивана
-  const SOFA_BASE = 'images/sofas/Kubo';
+  const SOFA_BASE = 'images/sofas/kubo';
 
   // SVG-заглушка, если нет картинки конфигурации
   const PLACEHOLDER_IMG = (() => {

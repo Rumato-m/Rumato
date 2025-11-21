@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   // --- File naming for previews (как было у тебя) ---
-  const SOFA_BASE = 'images/Sofas/Kornilon';
+  const SOFA_BASE = 'images/sofas/kornilon';
   const TRY_EXTS  = ['png','jpg','jpeg','PNG','JPG','JPEG'];
   function buildCode(){
     const m = state.sleepplace.match(/^(\d{3})/);
