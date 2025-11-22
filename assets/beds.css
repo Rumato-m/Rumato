@@ -60,7 +60,84 @@ input[type="checkbox"].toggle:checked + .switch{background:var(--accent);}
 input[type="checkbox"].toggle:checked + .switch::before{left:24px;}
 
 /* Modals */
-.fabric-modal-backdrop,.article-modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.4);display:none;align-items:center;justify-content:center;z-index:2147483001;padding:24px;}
+.fabric-modal-backdrop,.article-modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.4);display:none;align-items:center;justify-content:center;z-index:2147483001;padding:24px;}/* ===== FULLSCREEN FABRIC WHEEL (mobile palette) ===== */
+.fabric-wheel-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.7);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:2147483600;
+  padding:16px;
+}
+
+.fabric-wheel-overlay.is-open{
+  display:flex;
+}
+
+.fabric-wheel-box{
+  width:100%;
+  max-width:420px;
+  max-height:90vh;
+  background:#fff;
+  border-radius:18px;
+  padding:20px 16px 24px;
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+  box-shadow:0 24px 60px rgba(0,0,0,0.35);
+}
+
+.fabric-wheel-close{
+  border:0;
+  background:transparent;
+  align-self:flex-end;
+  font-size:18px;
+  line-height:1;
+  cursor:pointer;
+}
+
+.fabric-wheel-title{
+  font-size:15px;
+  font-weight:600;
+}
+
+.fabric-wheel-preview{
+  width:100%;
+  height:96px;          /* примерно те самые ~3 см на экране */
+  border-radius:12px;
+  background-size:cover;
+  background-position:center;
+}
+
+.fabric-wheel-code{
+  font-size:13px;
+  color:#6b7280;
+  text-align:center;
+}
+
+.fabric-wheel-controls{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+}
+
+.fabric-wheel-controls .wheel-btn{
+  flex:1;
+  padding:10px 0;
+  border-radius:999px;
+  border:1px solid #d1d5db;
+  background:#f9fafb;
+  font-size:14px;
+  font-weight:600;
+  cursor:pointer;
+}
+
+.fabric-wheel-controls .wheel-btn:active{
+  background:#e5e7eb;
+}
+
 .article-modal-backdrop{z-index:2147483000;}
 .fabric-modal-box,.article-modal-box{background:#fff;border-radius:14px;max-width:560px;max-height:80vh;overflow:auto;box-shadow:0 24px 60px rgba(0,0,0,.4);padding:24px 24px 32px;color:#111;position:relative;}
 .fabric-modal-close,.article-modal-close{appearance:none;border:0;background:transparent;font-size:16px;font-weight:600;color:#111;cursor:pointer;position:absolute;top:16px;right:20px;}
@@ -309,9 +386,14 @@ input[type="checkbox"].toggle:checked + .switch::before{left:24px;}
     margin: 0;
   }
 
-  /* ---------- 5. ТКАНИ – ПО ОДНОЙ НА ВСЮ ШИРИНУ ---------- */
+    /* ---------- 5. ТКАНИ – ЛЕНТЫ НА ВСЮ ШИРИНУ ---------- */
   .fabric-selector {
     padding: 0 16px 24px;
+    height: auto;              /* убираем фиксированные 300px от десктопа */
+    border: none;              /* "оболочку" убираем */
+    border-radius: 0;
+    margin-top: 20px;
+    background: transparent;
   }
 
   .fabric-grid {
@@ -321,13 +403,51 @@ input[type="checkbox"].toggle:checked + .switch::before{left:24px;}
     width: 100%;
   }
 
+  /* сама лента-превью ткани */
   .fabric-card {
+    position: relative;
     width: 100%;
+    min-height: 90px;          /* ориентир под ~3 см */
+    height: 90px;
     border-radius: 12px;
     overflow: hidden;
     background-size: cover;
     background-position: center;
   }
+
+  /* заголовок ткани поверх ленты, снизу слева */
+  .fabric-title {
+    position: absolute;
+    left: 16px;
+    right: 16px;
+    bottom: 10px;
+    top: auto;
+    display: block;
+    padding: 0;
+    font-size: 13px;
+    font-weight: 600;
+    color: #111;
+    text-align: left;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.35);
+  }
+
+  .fabric-title::after{
+    display:none;              /* убираем подпись "натисніть..." из десктопа */
+  }
+
+  /* в самой карте никакой палетки, она только в полноэкранной модалке */
+  .palette{
+    display:none !important;
+  }
+
+  /* нижняя полоска: слева текст, справа свитчер, без рамок-оболочек */
+  .fabric-select{
+    padding: 8px 4px 16px;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+  }
+
 
   /* ---------- 6. ЦЕНА + КНОПКА ---------- */
   .action-bar {

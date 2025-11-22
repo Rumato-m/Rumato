@@ -72,65 +72,232 @@ document.addEventListener('DOMContentLoaded', () => {
   function formatUAH(n){ return new Intl.NumberFormat('uk-UA').format(n) + ' грн.'; }
   function updateMainPrice(){ if (el.priceValue) el.priceValue.textContent = formatUAH(computeMainPrice()); }
 
-  // --- Fabrics (минимально; пути не меняю) ---
+    // --- Fabrics (минимально; пути не меняю) ---
   const FABRICS = [
     { code:'f01', name:'Тканина Lili' },
     { code:'f02', name:'Тканина Lotus' },
     { code:'f03', name:'Тканина Alpaca' },
     { code:'f04', name:'Тканина Spark' }
   ];
+
   const FABRIC_INFO = {
     f01:{title:'Тканина Lili',  body:'шлифованний велюр, антикіготь, антібруд.'},
     f02:{title:'Тканина Lotus', body:'Щільний велюр з антикогтем, легко чиститься.'},
     f03:{title:'Тканина Alpaca',body:'Фактурне букле, трендовий тактильний ефект.'},
     f04:{title:'Тканина Spark', body:'Преміальний велюр, стійкість до зношення.'}
   };
-  (function renderFabrics(){
-    const grid = $('fabricGrid'); if (!grid) return;
-    const folders = {f01:1, f02:2, f03:3, f04:4};
 
-const tiles = {
-  f01: ['03','04','05','61','63','65','82','84','88','91','92','94','95','96','97','98','99'],
+  // папки и палитры – общие для гріда и колесика
+  const FABRIC_FOLDERS = { f01:1, f02:2, f03:3, f04:4 };
+
+  const FABRIC_TILES = {
+    f01: ['03','04','05','61','63','65','82','84','88','91','92','94','95','96','97','98','99'],
     f02: ['02','03','05','09','15','20','37','39','45','54','62','65','67','83','85','88','90','92','93','94','95','96','97','98','99','100'],
     f03: ['02','04','12','20','37','48','61','82','88','90','93','97','99'],
     f04: ['01','02','03','04','05','06','08','09','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','32','33','34','35','36','38','39','40','41']
-};
+  };
 
-    grid.innerHTML='';
-    FABRICS.forEach((fab,i)=>{
-      const col = document.createElement('div'); col.className='fabric-col';
-      const card = document.createElement('div'); card.className='fabric-card'; card.dataset.fabric=fab.code;
-      card.style.backgroundImage = `url('./filter/stof/${folders[fab.code]}/${tiles[fab.code][0]}.jpg')`;
-      const title = document.createElement('div'); title.className='fabric-title'; title.textContent=fab.name;
-      const palette = document.createElement('div'); palette.className='palette';
-      title.addEventListener('click', ()=>{
-        palette.style.display = palette.style.display==='grid' ? 'none' : 'grid';
-        if (!palette.childElementCount){
-          tiles[fab.code].forEach(n=>{
-            const sw=document.createElement('button'); sw.className='sw';
-            sw.style.background=`url('./filter/stof/${folders[fab.code]}/${n}.jpg') center/cover no-repeat`;
-            sw.innerHTML=`<span class="sw-badge">${n}</span>`;
-            sw.onclick=()=>{
-              card.style.backgroundImage=`url('./filter/stof/${folders[fab.code]}/${n}.jpg')`;
-              state.fabric=fab.code; updateMainPrice();
-              palette.style.display='none';
-            };
-            palette.appendChild(sw);
-          });
+  // === Мобильное "колесо" выбора цвета ткани ===
+  const fabricWheel = {
+    backdrop: null,
+    box: null,
+    preview: null,
+    title: null,
+    code: null,
+    tiles: [],
+    index: 0,
+    fabricCode: null,
+    card: null
+  };
+
+  function applyFabricWheelSelection(){
+    if (!fabricWheel.preview || !fabricWheel.tiles.length) return;
+    const num = fabricWheel.tiles[fabricWheel.index];
+    const folder = FABRIC_FOLDERS[fabricWheel.fabricCode];
+    const url = `url('./filter/stof/${folder}/${num}.jpg')`;
+
+    fabricWheel.preview.style.backgroundImage = url;
+    fabricWheel.code.textContent = `Колір ${num}`;
+
+    if (fabricWheel.card){
+      fabricWheel.card.style.backgroundImage = url;
+      state.fabric = fabricWheel.fabricCode;
+      updateMainPrice();
+    }
+  }
+
+  function closeFabricWheel(){
+    if (!fabricWheel.backdrop) return;
+    fabricWheel.backdrop.classList.remove('is-open');
+    document.body.style.overflow = '';
+  }
+
+  function ensureFabricWheel(){
+    if (fabricWheel.backdrop) return;
+
+    const backdrop = document.createElement('div');
+    backdrop.className = 'fabric-wheel-overlay';
+    backdrop.innerHTML = `
+      <div class="fabric-wheel-box">
+        <button type="button" class="fabric-wheel-close" aria-label="Закрити">✕</button>
+        <div class="fabric-wheel-title"></div>
+        <div class="fabric-wheel-preview"></div>
+        <div class="fabric-wheel-code"></div>
+        <div class="fabric-wheel-controls">
+          <button type="button" class="wheel-btn" data-dir="prev">Попередній</button>
+          <button type="button" class="wheel-btn" data-dir="next">Наступний</button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(backdrop);
+
+    const box = backdrop.querySelector('.fabric-wheel-box');
+    fabricWheel.backdrop = backdrop;
+    fabricWheel.box = box;
+    fabricWheel.preview = box.querySelector('.fabric-wheel-preview');
+    fabricWheel.title = box.querySelector('.fabric-wheel-title');
+    fabricWheel.code = box.querySelector('.fabric-wheel-code');
+
+    const closeBtn = box.querySelector('.fabric-wheel-close');
+    closeBtn.addEventListener('click', closeFabricWheel);
+
+    backdrop.addEventListener('click', (e) => {
+      if (e.target === backdrop) closeFabricWheel();
+    });
+
+    box.querySelectorAll('.wheel-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (!fabricWheel.tiles.length) return;
+        const dir = (btn.dataset.dir === 'prev') ? -1 : 1;
+        const len = fabricWheel.tiles.length;
+        fabricWheel.index = (fabricWheel.index + dir + len) % len; // по кругу
+        applyFabricWheelSelection();
+      });
+    });
+  }
+
+  function openFabricWheel(fabricCode, card){
+    ensureFabricWheel();
+
+    const tiles = FABRIC_TILES[fabricCode] || [];
+    if (!tiles.length) return;
+
+    fabricWheel.fabricCode = fabricCode;
+    fabricWheel.tiles = tiles;
+    fabricWheel.index = 0;
+    fabricWheel.card = card;
+
+    const info = FABRIC_INFO[fabricCode];
+    fabricWheel.title.textContent = info ? info.title : 'Тканина';
+
+    applyFabricWheelSelection();
+
+    fabricWheel.backdrop.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  (function renderFabrics(){
+    const grid = $('fabricGrid'); 
+    if (!grid) return;
+
+    grid.innerHTML = '';
+
+    FABRICS.forEach((fab, i) => {
+      const col = document.createElement('div');
+      col.className = 'fabric-col';
+
+      const card = document.createElement('div');
+      card.className = 'fabric-card';
+      card.dataset.fabric = fab.code;
+
+      const folder = FABRIC_FOLDERS[fab.code];
+      const firstTile = (FABRIC_TILES[fab.code] || [])[0];
+      if (folder && firstTile){
+        card.style.backgroundImage = `url('./filter/stof/${folder}/${firstTile}.jpg')`;
+      }
+
+      const title = document.createElement('div');
+      title.className = 'fabric-title';
+      title.textContent = fab.name;
+
+      const palette = document.createElement('div');
+      palette.className = 'palette';
+
+      // палетка для десктопа (как было)
+      const buildPalette = () => {
+        if (palette.childElementCount) return;
+        (FABRIC_TILES[fab.code] || []).forEach(n => {
+          const sw = document.createElement('button');
+          sw.className = 'sw';
+          sw.style.background = `url('./filter/stof/${FABRIC_FOLDERS[fab.code]}/${n}.jpg') center/cover no-repeat`;
+          sw.innerHTML = `<span class="sw-badge">${n}</span>`;
+          sw.onclick = () => {
+            card.style.backgroundImage = `url('./filter/stof/${FABRIC_FOLDERS[fab.code]}/${n}.jpg')`;
+            state.fabric = fab.code;
+            updateMainPrice();
+            palette.style.display = 'none';
+          };
+          palette.appendChild(sw);
+        });
+      };
+
+      const handleTitleClick = () => {
+        const isMobile = window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
+        if (isMobile){
+          openFabricWheel(fab.code, card);
+        } else {
+          buildPalette();
+          palette.style.display = (palette.style.display === 'grid') ? 'none' : 'grid';
         }
+      };
+
+      title.addEventListener('click', handleTitleClick);
+
+      // тап по превью (по всей карте) на мобиле — тоже открывает колесо
+      card.addEventListener('click', (e) => {
+        const isMobile = window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
+        if (!isMobile) return;
+        if (e.target.closest('.fabric-select')) return; // не ловим клик по "Про тканину"/свитчеру
+        openFabricWheel(fab.code, card);
       });
 
-      const sel=document.createElement('div'); sel.className='fabric-select';
-      const more=document.createElement('button'); more.className='fabric-more'; more.type='button'; more.textContent='Про тканину';
-      more.onclick=()=>openFabricModal(fab.code);
-      const input=document.createElement('input'); input.type='checkbox'; input.className='toggle'; input.id=`fabricToggle_${i}`; input.hidden=true;
-      const label=document.createElement('label'); label.className='switch'; label.htmlFor=input.id;
-      input.onchange=()=>{ if(input.checked){ state.fabric=fab.code; } else { state.fabric=null; } updateMainPrice(); };
-      sel.append(more,input,label);
+      // нижняя полоска: слева "Про тканину", справа переключатель
+      const sel = document.createElement('div');
+      sel.className = 'fabric-select';
 
-      card.append(title,palette); col.append(card,sel); grid.append(col);
+      const more = document.createElement('button');
+      more.className = 'fabric-more';
+      more.type = 'button';
+      more.textContent = 'Про тканину';
+      more.onclick = () => openFabricModal(fab.code);
+
+      const input = document.createElement('input');
+      input.type = 'checkbox';
+      input.className = 'toggle';
+      input.id = `fabricToggle_${i}`;
+      input.hidden = true;
+
+      const label = document.createElement('label');
+      label.className = 'switch';
+      label.htmlFor = input.id;
+
+      input.onchange = () => {
+        if (input.checked){
+          state.fabric = fab.code;
+        } else {
+          state.fabric = null;
+        }
+        updateMainPrice();
+      };
+
+      sel.append(more, input, label);
+
+      card.append(title, palette);
+      col.append(card, sel);
+      grid.append(col);
     });
   })();
+
 
   // --- Fabric modal ---
   const fModal=$('fabricModal'), fTitle=$('fabricTitle'), fBody=$('fabricBody'), fClose=$('fabricClose');
