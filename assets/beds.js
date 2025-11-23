@@ -14,51 +14,66 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // --- State ---
   const state = {
-    depth: '100',
-    width: '180',
-    headboard: 'standard',
-    feet: 'standard',
-    fabric: null,
-    addons: new Set()
+    sleepplace: '160x200',
+    border: 20,
+    lift: false,
+    fabric: null // f01..f04
   };
 
-  // --- Elements map ---
+  // --- Elements ---
   const el = {
+    sleepSize: $('sleepSize'),
+    borderSelect: $('borderSelect'),
+    liftSelect: $('liftSelect'),
     priceValue: $('priceValue'),
-    previewMain: $('previewMain'),
-    previewTop: $('previewTop')
+    previewLeft: $('filterPreviewLeft'),
+    previewRight: $('filterPreviewRight'),
+    addToCart: $('addToCart'),
+    chairSize: $('chairSize'),
+    poufSize: $('poufSize')
   };
 
-  // --- Price logic (simplified, same as before) ---
-  const BASE_PRICE = 21500;
-
-  function computeMainPrice(){
-    let price = BASE_PRICE;
-
-    if (state.width === '200') price += 1000;
-    if (state.width === '220') price += 2000;
-
-    if (state.headboard === 'high') price += 2500;
-    if (state.headboard === 'none') price -= 1500;
-
-    if (state.feet === 'metal') price += 1200;
-
-    if (state.fabric) price += 1500;
-
-    state.addons.forEach(id => {
-      if (id === 'pouf') price += 5500;
-      if (id === 'chair') price += 7800;
-      if (id === 'cushion-rect') price += 2200;
-    });
-
-    return price;
+  // --- File naming for previews (как было у тебя) ---
+  const SOFA_BASE = 'images/sofas/kornilon';
+  const TRY_EXTS  = ['png','jpg','jpeg','PNG','JPG','JPEG'];
+  function buildCode(){
+    const m = state.sleepplace.match(/^(\d{3})/);
+    const w = m ? m[1] : '160';
+    const b = String(state.border).padStart(2,'0');
+    return `${w}${b}`; // 16020, 18020, 20020 ...
+  }
+  function pickFirst(urls, img){
+    let i=0;
+    const probe=()=>{
+      if(i>=urls.length){ return; }
+      const u=urls[i++], im=new Image();
+      im.onload=()=>{ img.src=u; };
+      im.onerror=probe;
+      im.src=u;
+    };
+    probe();
+  }
+  function updatePreviews(){
+    const code = buildCode();
+    const left  = TRY_EXTS.map(e=>`./${SOFA_BASE}/${code}.${e}`);
+    const right = TRY_EXTS.map(e=>`./${SOFA_BASE}/${code}V.${e}`);
+    if (el.previewLeft)  pickFirst(left,  el.previewLeft);
+    if (el.previewRight) pickFirst(right, el.previewRight);
   }
 
+  // --- Main price (оставляю твою логику; можно подменить при необходимости) ---
+  function computeMainPrice(){
+    const map = {'160x200':23500,'180x200':24100,'200x200':26000};
+    let p = map[state.sleepplace] ?? 21500;
+    if (state.lift) p += 2000;
+    if (['f02','f03','f04'].includes(state.fabric)) p = Math.round(p*1.10);
+    return p;
+  }
   function formatUAH(n){ return new Intl.NumberFormat('uk-UA').format(n) + ' грн.'; }
   function updateMainPrice(){ if (el.priceValue) el.priceValue.textContent = formatUAH(computeMainPrice()); }
 
-  // --- Fabrics + колесо выбора ткани (револьвер) ---
-  const FABRICS = [
+    // --- Fabrics (минимально; пути не меняю) ---
+    const FABRICS = [
     { code:'f01', name:'Тканина Lili' },
     { code:'f02', name:'Тканина Lotus' },
     { code:'f03', name:'Тканина Alpaca' },
@@ -81,16 +96,13 @@ document.addEventListener('DOMContentLoaded', () => {
     f04: ['01','02','03','04','05','06','08','09','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','32','33','34','35','36','38','39','40','41']
   };
 
-  // состояние модалки-револьвера
+  // === заготовка под полноэкранное колесо (палетка на весь экран) ===
   const fabricWheel = {
     backdrop: null,
     box: null,
     preview: null,
     title: null,
     code: null,
-    windowEl: null,
-    list: null,
-    items: [],
     tiles: [],
     index: 0,
     fabricCode: null,
@@ -98,33 +110,18 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   function applyFabricWheelSelection(){
-    if (!fabricWheel.tiles.length) return;
-
+    if (!fabricWheel.preview || !fabricWheel.tiles.length) return;
     const num = fabricWheel.tiles[fabricWheel.index];
     const folder = FABRIC_FOLDERS[fabricWheel.fabricCode];
-    const url = folder && num ? `url('./filter/stof/${folder}/${num}.jpg')` : '';
+    const url = `url('./filter/stof/${folder}/${num}.jpg')`;
 
-    if (fabricWheel.preview){
-      fabricWheel.preview.style.backgroundImage = url;
-    }
-    if (fabricWheel.code){
-      fabricWheel.code.textContent = num ? `Колір ${num}` : '';
-    }
+    fabricWheel.preview.style.backgroundImage = url;
+    fabricWheel.code.textContent = `Колір ${num}`;
 
-    if (fabricWheel.card && url){
+    if (fabricWheel.card){
       fabricWheel.card.style.backgroundImage = url;
       state.fabric = fabricWheel.fabricCode;
       updateMainPrice();
-    }
-
-    if (fabricWheel.items && fabricWheel.items.length){
-      fabricWheel.items.forEach((item, idx) => {
-        if (idx === fabricWheel.index){
-          item.classList.add('is-active');
-        } else {
-          item.classList.remove('is-active');
-        }
-      });
     }
   }
 
@@ -142,17 +139,13 @@ document.addEventListener('DOMContentLoaded', () => {
     backdrop.innerHTML = `
       <div class="fabric-wheel-box">
         <button type="button" class="fabric-wheel-close" aria-label="Закрити">✕</button>
-
         <div class="fabric-wheel-title"></div>
         <div class="fabric-wheel-preview"></div>
         <div class="fabric-wheel-code"></div>
-
-        <div class="fabric-wheel-window">
-          <div class="fabric-wheel-list"></div>
-          <div class="fabric-wheel-highlight"></div>
+        <div class="fabric-wheel-controls">
+          <button type="button" class="wheel-btn" data-dir="prev">Попередній</button>
+          <button type="button" class="wheel-btn" data-dir="next">Наступний</button>
         </div>
-
-        <button type="button" class="fabric-wheel-choose">Вибрати</button>
       </div>
     `;
     document.body.appendChild(backdrop);
@@ -163,8 +156,6 @@ document.addEventListener('DOMContentLoaded', () => {
     fabricWheel.preview = box.querySelector('.fabric-wheel-preview');
     fabricWheel.title = box.querySelector('.fabric-wheel-title');
     fabricWheel.code = box.querySelector('.fabric-wheel-code');
-    fabricWheel.windowEl = box.querySelector('.fabric-wheel-window');
-    fabricWheel.list = box.querySelector('.fabric-wheel-list');
 
     const closeBtn = box.querySelector('.fabric-wheel-close');
     closeBtn.addEventListener('click', closeFabricWheel);
@@ -173,52 +164,15 @@ document.addEventListener('DOMContentLoaded', () => {
       if (e.target === backdrop) closeFabricWheel();
     });
 
-    // колесо: обработка скролла, ищем элемент ближе всего к центру
-    let scrollTimer = null;
-    fabricWheel.list.addEventListener('scroll', () => {
-      if (!fabricWheel.items.length) return;
-      if (scrollTimer) clearTimeout(scrollTimer);
-      scrollTimer = setTimeout(() => {
-        const rect = fabricWheel.list.getBoundingClientRect();
-        const centerY = rect.top + rect.height / 2;
-        let closestIndex = 0;
-        let minDist = Infinity;
-        fabricWheel.items.forEach((item, idx) => {
-          const r = item.getBoundingClientRect();
-          const itemCenter = r.top + r.height / 2;
-          const d = Math.abs(itemCenter - centerY);
-          if (d < minDist){
-            minDist = d;
-            closestIndex = idx;
-          }
-        });
-        fabricWheel.index = closestIndex;
+    box.querySelectorAll('.wheel-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (!fabricWheel.tiles.length) return;
+        const dir = (btn.dataset.dir === 'prev') ? -1 : 1;
+        const len = fabricWheel.tiles.length;
+        fabricWheel.index = (fabricWheel.index + dir + len) % len; // по колу
         applyFabricWheelSelection();
-      }, 80);
-    });
-
-    // клик по элементу колеса — центрируем его
-    fabricWheel.list.addEventListener('click', (e) => {
-      const item = e.target.closest('.fabric-wheel-item');
-      if (!item) return;
-      const idx = Number(item.dataset.index);
-      if (Number.isNaN(idx)) return;
-      fabricWheel.index = idx;
-      applyFabricWheelSelection();
-
-      const listRect = fabricWheel.list.getBoundingClientRect();
-      const itemRect = item.getBoundingClientRect();
-      const offset = (itemRect.top - listRect.top) - (listRect.height/2 - itemRect.height/2);
-      fabricWheel.list.scrollTop += offset;
-    });
-
-    // кнопка "Вибрати" — просто закрывает модалку, выбор уже применён
-    const chooseBtn = box.querySelector('.fabric-wheel-choose');
-    if (chooseBtn){
-      chooseBtn.addEventListener('click', () => {
-        closeFabricWheel();
       });
-    }
+    });
   }
 
   function openFabricWheel(fabricCode, card){
@@ -229,50 +183,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     fabricWheel.fabricCode = fabricCode;
     fabricWheel.tiles = tiles;
+    fabricWheel.index = 0;
     fabricWheel.card = card;
 
     const info = FABRIC_INFO[fabricCode];
     fabricWheel.title.textContent = info ? info.title : 'Тканина';
 
-    // перестраиваем список
-    const list = fabricWheel.list;
-    list.innerHTML = '';
-    fabricWheel.items = tiles.map((n, idx) => {
-      const item = document.createElement('div');
-      item.className = 'fabric-wheel-item';
-      item.dataset.index = String(idx);
-      item.dataset.color = n;
-      item.textContent = n;
-      const folder = FABRIC_FOLDERS[fabricCode];
-      if (folder){
-        item.style.backgroundImage = `url('./filter/stof/${folder}/${n}.jpg')`;
-      }
-      list.appendChild(item);
-      return item;
-    });
-
-    // выбираем стартовый индекс: если у карты уже есть цвет — берём его, иначе первый
-    let startIndex = 0;
-    if (card && card.style.backgroundImage){
-      const match = card.style.backgroundImage.match(/\/([0-9]+)\.jpg/);
-      if (match){
-        const currentNum = match[1];
-        const foundIndex = tiles.indexOf(currentNum);
-        if (foundIndex >= 0) startIndex = foundIndex;
-      }
-    }
-    fabricWheel.index = startIndex;
     applyFabricWheelSelection();
-
-    // скроллим так, чтобы выбранный элемент оказался по центру окна
-    requestAnimationFrame(() => {
-      const selected = fabricWheel.items[startIndex];
-      if (!selected) return;
-      const listRect = fabricWheel.list.getBoundingClientRect();
-      const itemRect = selected.getBoundingClientRect();
-      const offset = (itemRect.top - listRect.top) - (listRect.height/2 - itemRect.height/2);
-      fabricWheel.list.scrollTop += offset;
-    });
 
     fabricWheel.backdrop.classList.add('is-open');
     document.body.style.overflow = 'hidden';
@@ -334,7 +251,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       title.addEventListener('click', handleTitleClick);
 
-      // тап по превью (по всей карте) на мобиле — тоже открывает колесо
+      // Тап по всей ленте на мобиле — тоже открывает колесо
       card.addEventListener('click', (e) => {
         const isMobile = window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
         if (!isMobile) return;
@@ -342,7 +259,6 @@ document.addEventListener('DOMContentLoaded', () => {
         openFabricWheel(fab.code, card);
       });
 
-      // нижняя полоска: слева "Про тканину", справа переключатель
       const sel = document.createElement('div');
       sel.className = 'fabric-select';
 
@@ -379,6 +295,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   })();
 
+
+
   // --- Fabric modal ---
   const fModal=$('fabricModal'), fTitle=$('fabricTitle'), fBody=$('fabricBody'), fClose=$('fabricClose');
   function openFabricModal(code){
@@ -390,109 +308,112 @@ document.addEventListener('DOMContentLoaded', () => {
   fClose?.addEventListener('click', closeFabricModal);
   fModal?.addEventListener('click', e=>{ if(e.target===fModal) closeFabricModal(); });
 
-  // --- Filters (примерная логика; не трогаю, чтобы не ломать текущий вид) ---
-  function updatePreview(){
-    if (!el.previewMain || !el.previewTop) return;
-    const depth = state.depth;
-    const width = state.width;
-    el.previewMain.src = `./images/kubo/${width}-${depth}.png`;
-    el.previewTop.src = `./images/kubo/${width}-${depth}-top.png`;
-  }
-
-  ['depthSelect','widthSelect','headboardSelect','feetSelect'].forEach(id=>{
-    const node=$(id); if(!node) return;
-    node.addEventListener('change', e=>{
-      const v=e.target.value;
-      if(id==='depthSelect') state.depth=v;
-      if(id==='widthSelect') state.width=v;
-      if(id==='headboardSelect') state.headboard=v;
-      if(id==='feetSelect') state.feet=v;
-      updatePreview(); updateMainPrice();
-    });
-  });
-
-  // --- Addons handlers (оставляю, как были) ---
-  document.querySelectorAll('[data-addon]').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      const id=btn.dataset.addon;
-      if(state.addons.has(id)){
-        state.addons.delete(id);
-        btn.classList.remove('is-active');
-      } else {
-        state.addons.add(id);
-        btn.classList.add('is-active');
-      }
-      updateMainPrice();
-    });
-  });
-
-  updatePreview();
-  updateMainPrice();
-
-  // --- Articles modal (как было) ---
-  const aModal=$('articleModal');
-  const aTitle=$('articleTitle');
-  const aBody=$('articleBody');
-  const aClose=$('articleClose');
-
-  const ARTICLES = {
-    'how-to-care':{
-      title:'Догляд за тканиною ліжка',
-      body:'Використовуйте м’яку щітку або пилосос з насадкою для меблів.\nУникайте агресивних хімічних засобів.\nПри локальних забрудненнях — промокнути серветкою, не терти.'
-    },
-    'delivery':{
-      title:'Доставка та складання',
-      body:'Доставка по Києву та області — від 800 грн.\nМожливе занесення в квартиру та монтаж.\nПо Україні — відправка транспортними службами на палеті.'
-    },
-    'mattress':{
-      title:'Матрац та наповнення',
-      body:'Рекомендуємо матрац висотою 22–25 см.\nЛіжко підходить для більшості стандартних матраців.\nОснова — ламелі з бука, витримують навантаження до 180 кг на спальне місце.'
-    }
+  // --- Article modal (UA тексты — согласованные) ---
+  const aModal=$('articleModal'), aTitle=$('articleTitle'), aBody=$('articleBody'), aClose=$('articleClose');
+  const articleContent={
+    fabric:{ title:'Як обрати тканину для ліжка Kornilon',
+      body:`Ліжко Kornilon — індивідуальна робота під ваш простір. Вибирайте тканину за щільністю, фактурою та зносостійкістю. Для сімей і тварин — велюр з антикогтем або щільне букле. Спершу визначте розмір (160×200, 180×200, 200×200), далі — відтінок під освітлення кімнати.`},
+    color:{ title:'Колір ліжка як мова інтер’єру',
+      body:`Колір ліжка формує настрій спальні: світлі тони додають легкості, темні — камерності та глибини. Kornilon можна виконати у будь-якому відтінку й поєднати з текстилем або дерев’яними акцентами.`},
+    philosophy:{ title:'Комфорт щодня: філософія Kornilon',
+      body:`Міцний каркас, тиха конструкція, зручна висота узголів’я. Ви обираєте розмір, тканину та опції (підйомний механізм), а ми збираємо й акуратно доставляємо по Україні.`}
   };
-
-  function openArticle(id){
-    if (!aModal || !ARTICLES[id]) return;
-    const d = ARTICLES[id];
-    aTitle.textContent = d.title;
-    aBody.textContent = d.body;
-    aModal.style.display = 'flex';
-    aModal.setAttribute('aria-hidden','false');
-    document.body.style.overflow = 'hidden';
+  function openArticle(key){
+    const d=articleContent[key]; if(!d||!aModal) return;
+    aTitle.textContent=d.title; aBody.textContent=d.body;
+    aModal.style.display='flex'; aModal.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden';
   }
-
-  function closeArticle(){
-    if (!aModal) return;
-    aModal.style.display = 'none';
-    aModal.setAttribute('aria-hidden','true');
-    document.body.style.overflow = '';
-  }
-
+  function closeArticle(){ if(!aModal) return; aModal.style.display='none'; aModal.setAttribute('aria-hidden','true'); document.body.style.overflow=''; }
   document.addEventListener('click', e=>{
     const b=e.target.closest('.article-link[data-article]'); if(!b) return; openArticle(b.dataset.article);
   });
   aClose?.addEventListener('click', closeArticle);
   aModal?.addEventListener('click', e=>{ if(e.target===aModal) closeArticle(); });
 
+  // --- SPEC (характеристики) — кнопки уже в HTML, здесь открытие модалки ---
+  const SPEC_TEXT={
+    chair:{ title:'Технічні параметри матраца Lotos Guru',
+      body:['Висота — 25 см','Жорсткість — 5/4','Навантаження — не обмежене','Тип — Пружинний','Чохол — Незнімний','Пружинний блок — Premium PS 7-zone hard'].join('\n')},
+    pouf:{ title:'Матрас Лотос-Етерно — характеристики',
+      body:['Навантаження 180 кг','Жорсткість — 4/4','Наповнення — Ортопедична піна багатошаровий','Чохол — незмінний','Висота -25 см.'].join('\n')},
+    'cushion-rect':{ title:'Пуф',
+      body:['Габарит — 120×45','Наповнення — HR-пінa','Опції — індивідуальна тканина','Призначення — модуль до ліжка або окремо'].join('\n')}
+  };
+  document.addEventListener('click', e=>{
+    const b=e.target.closest('.spec-link[data-spec]'); if(!b) return;
+    const spec=SPEC_TEXT[b.dataset.spec] || {title:'Характеристики',body:'Дані уточнюються.'};
+    aTitle.textContent=spec.title; aBody.textContent=spec.body;
+    aModal.style.display='flex'; aModal.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden';
+  });
+
+  // --- Addons: габарит и цена зависят от sleepplace (только первые две карточки) ---
+  const ADDON_PRICE = {'160x200':19000,'180x200':23000,'200x200':25000};
+  function updateAddonsBySleep(){
+    const g = state.sleepplace.replace('x','×');
+    // размеры
+    if (el.chairSize) el.chairSize.textContent = g;
+    if (el.poufSize)  el.poufSize.textContent  = g;
+    // цены (первые две карточки)
+    document.querySelectorAll('.addon-price-val[data-price-for]').forEach(span=>{
+      span.textContent = new Intl.NumberFormat('uk-UA').format(ADDON_PRICE[state.sleepplace] || 10000) + ' ₴';
+    });
+  }
+
+  // --- Events ---
+  el.sleepSize?.addEventListener('change', e=>{
+    state.sleepplace = e.target.value;
+    updatePreviews();
+    updateMainPrice();
+    updateAddonsBySleep();
+  });
+  $('borderSelect')?.addEventListener('change', e=>{
+    state.border = Number(e.target.value)||20;
+    updatePreviews();
+  });
+  el.liftSelect?.addEventListener('change', e=>{
+    state.lift = (e.target.value==='on');
+    updateMainPrice();
+  });
+
+  // --- Init ---
+  updatePreviews();
+  updateMainPrice();
+  updateAddonsBySleep();
+
   // Add-to-cart toast (оставил как было)
   $('addToCart')?.addEventListener('click', ()=>{
     const p = el.priceValue ? el.priceValue.textContent : '';
     const t = document.createElement('div');
     t.textContent = `Додано до кошика. ${p}`;
-    Object.assign(t.style,{
-      position:'fixed',
-      bottom:'20px',
-      left:'20px',
-      padding:'10px 16px',
-      borderRadius:'999px',
-      background:'rgba(0,0,0,0.85)',
-      color:'#fff',
-      fontSize:'13px',
-      zIndex:2147483647,
-      opacity:'0',
-      transition:'opacity .25s'
-    });
-    document.body.append(t);
-    requestAnimationFrame(()=>{ t.style.opacity='1'; });
-    setTimeout(()=>{ t.style.opacity='0'; setTimeout(()=>t.remove(),250); },2000);
+    Object.assign(t.style,{position:'fixed',bottom:'20px',left:'50%',transform:'translateX(-50%)',background:'#23483e',color:'#fff',padding:'10px 20px',borderRadius:'30px',fontSize:'14px',opacity:'0',transition:'opacity .3s',zIndex:2147483647});
+    document.body.append(t); requestAnimationFrame(()=>t.style.opacity='1'); setTimeout(()=>t.remove(),2500);
   });
+  // ==== MOBILE: только первая статья + без дыр ====
+document.addEventListener('DOMContentLoaded', function () {
+  const isMobile = window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
+  if (!isMobile) return;
+
+  const articlesSection = document.querySelector('.articles');
+  const grid = articlesSection ? articlesSection.querySelector('.article-grid') : null;
+  if (!grid) return;
+
+  // прячем все article-card, кроме первого
+  const cards = grid.querySelectorAll('.article-card');
+  cards.forEach((card, index) => {
+    if (index > 0) {
+      card.style.display = 'none';
+    }
+  });
+
+  // прячем разделитель
+  const divider = grid.querySelector('.article-divider');
+  if (divider) {
+    divider.style.display = 'none';
+  }
+
+  // убираем лишние отступы, чтобы футер сразу шёл за статьёй
+  articlesSection.style.paddingBottom = '0';
+  articlesSection.style.marginBottom = '0';
+});
+
 });
