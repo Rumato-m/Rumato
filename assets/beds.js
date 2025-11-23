@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function updateMainPrice(){ if (el.priceValue) el.priceValue.textContent = formatUAH(computeMainPrice()); }
 
     // --- Fabrics (минимально; пути не меняю) ---
-  const FABRICS = [
+    const FABRICS = [
     { code:'f01', name:'Тканина Lili' },
     { code:'f02', name:'Тканина Lotus' },
     { code:'f03', name:'Тканина Alpaca' },
@@ -87,7 +87,6 @@ document.addEventListener('DOMContentLoaded', () => {
     f04:{title:'Тканина Spark', body:'Преміальний велюр, стійкість до зношення.'}
   };
 
-  // папки и палитры – общие для гріда и колесика
   const FABRIC_FOLDERS = { f01:1, f02:2, f03:3, f04:4 };
 
   const FABRIC_TILES = {
@@ -97,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
     f04: ['01','02','03','04','05','06','08','09','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','32','33','34','35','36','38','39','40','41']
   };
 
-  // === Мобильное "колесо" выбора цвета ткани ===
+  // === заготовка под полноэкранное колесо (палетка на весь экран) ===
   const fabricWheel = {
     backdrop: null,
     box: null,
@@ -170,7 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!fabricWheel.tiles.length) return;
         const dir = (btn.dataset.dir === 'prev') ? -1 : 1;
         const len = fabricWheel.tiles.length;
-        fabricWheel.index = (fabricWheel.index + dir + len) % len; // по кругу
+        fabricWheel.index = (fabricWheel.index + dir + len) % len; // по колу
         applyFabricWheelSelection();
       });
     });
@@ -223,7 +222,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const palette = document.createElement('div');
       palette.className = 'palette';
 
-      // палетка для десктопа (как было)
       const buildPalette = () => {
         if (palette.childElementCount) return;
         (FABRIC_TILES[fab.code] || []).forEach(n => {
@@ -253,15 +251,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
       title.addEventListener('click', handleTitleClick);
 
-      // тап по превью (по всей карте) на мобиле — тоже открывает колесо
+      // Тап по всей ленте на мобиле — тоже открывает колесо
       card.addEventListener('click', (e) => {
         const isMobile = window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
         if (!isMobile) return;
-        if (e.target.closest('.fabric-select')) return; // не ловим клик по "Про тканину"/свитчеру
+        if (e.target.closest('.fabric-select')) return;
         openFabricWheel(fab.code, card);
       });
 
-      // нижняя полоска: слева "Про тканину", справа переключатель
       const sel = document.createElement('div');
       sel.className = 'fabric-select';
 
@@ -297,6 +294,7 @@ document.addEventListener('DOMContentLoaded', () => {
       grid.append(col);
     });
   })();
+
 
 
   // --- Fabric modal ---

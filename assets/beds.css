@@ -275,6 +275,84 @@ input[type="checkbox"].toggle:checked + .switch::before{left:24px;}
     display: none;
   }
 }
+/* ===== FULLSCREEN FABRIC WHEEL (mobile palette) ===== */
+.fabric-wheel-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.7);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:2147483600;
+  padding:16px;
+}
+
+.fabric-wheel-overlay.is-open{
+  display:flex;
+}
+
+.fabric-wheel-box{
+  width:100%;
+  max-width:420px;
+  max-height:90vh;
+  background:#fff;
+  border-radius:18px;
+  padding:20px 16px 24px;
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+  box-shadow:0 24px 60px rgba(0,0,0,0.35);
+}
+
+.fabric-wheel-close{
+  border:0;
+  background:transparent;
+  align-self:flex-end;
+  font-size:18px;
+  line-height:1;
+  cursor:pointer;
+}
+
+.fabric-wheel-title{
+  font-size:15px;
+  font-weight:600;
+}
+
+.fabric-wheel-preview{
+  width:100%;
+  height:96px;
+  border-radius:12px;
+  background-size:cover;
+  background-position:center;
+}
+
+.fabric-wheel-code{
+  font-size:13px;
+  color:#6b7280;
+  text-align:center;
+}
+
+.fabric-wheel-controls{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+}
+
+.fabric-wheel-controls .wheel-btn{
+  flex:1;
+  padding:10px 0;
+  border-radius:999px;
+  border:1px solid #d1d5db;
+  background:#f9fafb;
+  font-size:14px;
+  font-weight:600;
+  cursor:pointer;
+}
+
+.fabric-wheel-controls .wheel-btn:active{
+  background:#e5e7eb;
+}
+
 /* ================= MOBILE LAYOUT (≤768px) ================= */
 @media (max-width: 768px) {
 
@@ -386,13 +464,12 @@ input[type="checkbox"].toggle:checked + .switch::before{left:24px;}
     margin: 0;
   }
 
-    /* ---------- 5. ТКАНИ – ЛЕНТЫ НА ВСЮ ШИРИНУ ---------- */
+      /* ---------- 5. ТКАНИ – ЛЕНТЫ НА ВСЮ ШИРИНУ ---------- */
   .fabric-selector {
     padding: 0 16px 24px;
-    height: auto;              /* убираем фиксированные 300px от десктопа */
-    border: none;              /* "оболочку" убираем */
+    height: auto;          /* не фиксируем 300px как на десктопе */
+    border: none;
     border-radius: 0;
-    margin-top: 20px;
     background: transparent;
   }
 
@@ -407,7 +484,7 @@ input[type="checkbox"].toggle:checked + .switch::before{left:24px;}
   .fabric-card {
     position: relative;
     width: 100%;
-    min-height: 90px;          /* ориентир под ~3 см */
+    min-height: 90px;      /* ~3 см на экране айфона */
     height: 90px;
     border-radius: 12px;
     overflow: hidden;
@@ -415,7 +492,7 @@ input[type="checkbox"].toggle:checked + .switch::before{left:24px;}
     background-position: center;
   }
 
-  /* заголовок ткани поверх ленты, снизу слева */
+  /* заголовок ткани сверху ленты */
   .fabric-title {
     position: absolute;
     left: 16px;
@@ -431,22 +508,21 @@ input[type="checkbox"].toggle:checked + .switch::before{left:24px;}
     text-shadow: 0 1px 3px rgba(0,0,0,0.35);
   }
 
-  .fabric-title::after{
-    display:none;              /* убираем подпись "натисніть..." из десктопа */
+  .fabric-title::after {
+    display: none; /* убираем подсказку из десктопной версии */
   }
 
-  /* в самой карте никакой палетки, она только в полноэкранной модалке */
-  .palette{
-    display:none !important;
+  /* в самой карточке палетки нет – только в полноэкранном режиме */
+  .palette {
+    display: none !important;
   }
 
-  /* нижняя полоска: слева текст, справа свитчер, без рамок-оболочек */
-  .fabric-select{
+  .fabric-select {
     padding: 8px 4px 16px;
     border: none;
-    border-radius: 0;
     background: transparent;
   }
+
 
 
   /* ---------- 6. ЦЕНА + КНОПКА ---------- */
