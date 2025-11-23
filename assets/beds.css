@@ -275,83 +275,6 @@ input[type="checkbox"].toggle:checked + .switch::before{left:24px;}
     display: none;
   }
 }
-/* ===== FULLSCREEN FABRIC WHEEL (mobile palette) ===== */
-.fabric-wheel-overlay{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.7);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  z-index:2147483600;
-  padding:16px;
-}
-
-.fabric-wheel-overlay.is-open{
-  display:flex;
-}
-
-.fabric-wheel-box{
-  width:100%;
-  max-width:420px;
-  max-height:90vh;
-  background:#fff;
-  border-radius:18px;
-  padding:20px 16px 24px;
-  display:flex;
-  flex-direction:column;
-  gap:16px;
-  box-shadow:0 24px 60px rgba(0,0,0,0.35);
-}
-
-.fabric-wheel-close{
-  border:0;
-  background:transparent;
-  align-self:flex-end;
-  font-size:18px;
-  line-height:1;
-  cursor:pointer;
-}
-
-.fabric-wheel-title{
-  font-size:15px;
-  font-weight:600;
-}
-
-.fabric-wheel-preview{
-  width:100%;
-  height:96px;
-  border-radius:12px;
-  background-size:cover;
-  background-position:center;
-}
-
-.fabric-wheel-code{
-  font-size:13px;
-  color:#6b7280;
-  text-align:center;
-}
-
-.fabric-wheel-controls{
-  display:flex;
-  justify-content:space-between;
-  gap:12px;
-}
-
-.fabric-wheel-controls .wheel-btn{
-  flex:1;
-  padding:10px 0;
-  border-radius:999px;
-  border:1px solid #d1d5db;
-  background:#f9fafb;
-  font-size:14px;
-  font-weight:600;
-  cursor:pointer;
-}
-
-.fabric-wheel-controls .wheel-btn:active{
-  background:#e5e7eb;
-}
 
 /* ================= MOBILE LAYOUT (≤768px) ================= */
 @media (max-width: 768px) {
@@ -363,7 +286,8 @@ input[type="checkbox"].toggle:checked + .switch::before{left:24px;}
     width: 100%;
     overflow-x: hidden;
   }
-    /* отключаем плавный скролл на мобилках — меньше лагов */
+
+  /* отключаем плавный скролл на мобилках — меньше лагов */
   html {
     scroll-behavior: auto;
   }
@@ -468,7 +392,7 @@ input[type="checkbox"].toggle:checked + .switch::before{left:24px;}
     margin: 0;
   }
 
-      /* ---------- 5. ТКАНИ – ЛЕНТЫ НА ВСЮ ШИРИНУ ---------- */
+  /* ---------- 5. ТКАНИ – ЛЕНТЫ НА ВСЮ ШИРИНУ ---------- */
   .fabric-selector {
     padding: 0 16px 24px;
     height: auto;          /* не фиксируем 300px как на десктопе */
@@ -527,8 +451,6 @@ input[type="checkbox"].toggle:checked + .switch::before{left:24px;}
     background: transparent;
   }
 
-
-
   /* ---------- 6. ЦЕНА + КНОПКА ---------- */
   .action-bar {
     padding: 0 16px 24px;
@@ -574,15 +496,14 @@ input[type="checkbox"].toggle:checked + .switch::before{left:24px;}
 
   /* ---------- 8. СТАТЬИ – ОДНА КОЛОНКА ---------- */
   .articles {
-    padding: 0 16px 24px;
-    margin: 24px 0 0;  /* меньше воздух сверху, без лишнего снизу */
+    padding: 0 16px 12px;
+    margin: 16px 0 0;
   }
-
 
   .article-grid {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 16px;
     max-width: 100%;
   }
 
@@ -590,11 +511,16 @@ input[type="checkbox"].toggle:checked + .switch::before{left:24px;}
     width: 100%;
     max-width: 100%;
   }
-    /* на мобильных показываем только первую статью */
-  .article-card:nth-child(n + 2) {
+
+  /* показываем только первую статью, всё, что ниже – скрываем */
+  .article-grid > .article-card:nth-of-type(n + 2) {
     display: none;
   }
 
+  /* на мобиле разделитель не нужен */
+  .article-divider {
+    display: none;
+  }
 
   .article-card img {
     width: 100%;
@@ -620,17 +546,3 @@ input[type="checkbox"].toggle:checked + .switch::before{left:24px;}
 .site-header a:hover {
   color: var(--r-green);
 }
-@media (max-width: 768px) {
-  .articles {
-    padding: 0 16px 0;
-    margin: 0;
-  }
-
-  .article-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    max-width: 100%;
-  }
-}
-
