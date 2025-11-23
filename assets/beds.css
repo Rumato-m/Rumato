@@ -570,9 +570,10 @@ input[type="checkbox"].toggle:checked + .switch::before{left:24px;}
 
   /* ---------- 8. СТАТЬИ – ОДНА КОЛОНКА ---------- */
   .articles {
-    padding: 0 16px 40px;
-    margin: 40px 0 0;
+    padding: 0 16px 24px;
+    margin: 24px 0 0;  /* меньше воздух сверху, без лишнего снизу */
   }
+
 
   .article-grid {
     display: flex;
@@ -585,6 +586,11 @@ input[type="checkbox"].toggle:checked + .switch::before{left:24px;}
     width: 100%;
     max-width: 100%;
   }
+    /* на мобильных показываем только первую статью */
+  .article-card:nth-child(n + 2) {
+    display: none;
+  }
+
 
   .article-card img {
     width: 100%;
