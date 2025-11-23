@@ -618,13 +618,14 @@ input[type="checkbox"].toggle:checked + .switch::before{left:24px;}
 }
 /* --- FIX: мобильная верстка статей и футера --- */
 @media (max-width: 768px) {
-  /* принудительно переопределяем старые значения */
+  /* убираем лишний воздух вокруг статей */
   .articles {
     padding: 0 16px 0 !important;
     margin: 0 !important;
     background: #fff !important;
   }
 
+  /* делаем колонку без зазора */
   .article-grid {
     display: flex !important;
     flex-direction: column !important;
@@ -632,10 +633,17 @@ input[type="checkbox"].toggle:checked + .switch::before{left:24px;}
     max-width: 100% !important;
   }
 
-  .article-card:nth-child(n + 2) {
+  /* показываем только первую статью */
+  .article-grid > .article-card:nth-of-type(n + 2) {
     display: none !important;
   }
 
+  /* сам разделитель на мобиле тоже прячем */
+  .article-divider {
+    display: none !important;
+  }
+
+  /* футер сразу после первой статьи */
   .site-footer {
     margin-top: 0 !important;
   }
