@@ -616,3 +616,27 @@ input[type="checkbox"].toggle:checked + .switch::before{left:24px;}
 .site-header a:hover {
   color: var(--r-green);
 }
+/* --- FIX: мобильная верстка статей и футера --- */
+@media (max-width: 768px) {
+  /* принудительно переопределяем старые значения */
+  .articles {
+    padding: 0 16px 0 !important;
+    margin: 0 !important;
+    background: #fff !important;
+  }
+
+  .article-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .article-card:nth-child(n + 2) {
+    display: none !important;
+  }
+
+  .site-footer {
+    margin-top: 0 !important;
+  }
+}
