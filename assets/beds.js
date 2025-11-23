@@ -388,4 +388,32 @@ document.addEventListener('DOMContentLoaded', () => {
     Object.assign(t.style,{position:'fixed',bottom:'20px',left:'50%',transform:'translateX(-50%)',background:'#23483e',color:'#fff',padding:'10px 20px',borderRadius:'30px',fontSize:'14px',opacity:'0',transition:'opacity .3s',zIndex:2147483647});
     document.body.append(t); requestAnimationFrame(()=>t.style.opacity='1'); setTimeout(()=>t.remove(),2500);
   });
+  // ==== MOBILE: только первая статья + без дыр ====
+document.addEventListener('DOMContentLoaded', function () {
+  const isMobile = window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
+  if (!isMobile) return;
+
+  const articlesSection = document.querySelector('.articles');
+  const grid = articlesSection ? articlesSection.querySelector('.article-grid') : null;
+  if (!grid) return;
+
+  // прячем все article-card, кроме первого
+  const cards = grid.querySelectorAll('.article-card');
+  cards.forEach((card, index) => {
+    if (index > 0) {
+      card.style.display = 'none';
+    }
+  });
+
+  // прячем разделитель
+  const divider = grid.querySelector('.article-divider');
+  if (divider) {
+    divider.style.display = 'none';
+  }
+
+  // убираем лишние отступы, чтобы футер сразу шёл за статьёй
+  articlesSection.style.paddingBottom = '0';
+  articlesSection.style.marginBottom = '0';
+});
+
 });
