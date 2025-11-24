@@ -1012,7 +1012,62 @@ input[type="checkbox"].toggle:checked + .switch::before{
     margin: 8px 0 6px;
   }
 
-  /* ---------- 3. ФИЛЬТРЫ: НАЗВАНИЕ СВЕРХУ, ОКНО СНИЗУ ---------- */
+  /* ---------- 3. ФИЛЬТРЫ ДИВАНА: НАЗВАНИЕ СВЕРХУ, ОКНО СНИЗУ ---------- */
+  .sofa-filter {
+    display: block;
+    padding: 0 16px;
+    margin: 0 0 20px;
+    width: 100%;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+  }
+
+  .sofa-filter .filters {
+    padding: 0 0 16px;
+    border: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .sofa-filter .field {
+    width: 100%;
+  }
+
+  .sofa-filter .label {
+    font-size: 14px;
+  }
+
+  .sofa-filter .select,
+  .sofa-filter textarea.comment {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .sofa-filter .inline-control {
+    align-items: flex-start;
+  }
+
+  .sofa-filter .preview {
+    position: relative;
+    width: 100%;
+    height: auto;
+    padding: 0;
+    margin: 0;
+  }
+
+  .sofa-filter .preview img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  /* Оставляю правила для filter-strip/filter-preview — они тебе не мешают,
+     но дают такую же сетку, если позже диваны/кровати будут использовать один шаблон */
+
   .filter-strip {
     padding: 0 16px;
     margin: 0 0 20px;
@@ -1058,7 +1113,7 @@ input[type="checkbox"].toggle:checked + .switch::before{
     display: none;
   }
 
-  /* ---------- 4. ПРЕВЬЮ – ТОЛЬКО ВИД СВЕРХУ ---------- */
+  /* ---------- 4. ПРЕВЬЮ – ТОЛЬКО ВИД СВЕРХУ (для шаблонов с filter-preview) ---------- */
   .filter-preview {
     padding: 0 16px;
     margin: 0 0 24px;
@@ -1144,7 +1199,7 @@ input[type="checkbox"].toggle:checked + .switch::before{
     background-position: center;
   }
 
-  /* ---------- 8. СТАТЬИ – ОДНА КОЛОНКА ---------- */
+  /* ---------- 8. СТАТЬИ – ОДНА КОЛОНКА, ТОЛЬКО ПЕРВАЯ ---------- */
   .articles {
     padding: 0 16px 40px;
     margin: 40px 0 0;
@@ -1167,6 +1222,12 @@ input[type="checkbox"].toggle:checked + .switch::before{
     height: auto;
     display: block;
     margin-bottom: 12px;
+  }
+
+  /* скрываем вторую и третью статьи на мобайле,
+     чтобы не было «второй статьи в футере» и лишней дырки */
+  .article-grid .article-card:nth-child(n + 2) {
+    display: none;
   }
 
   /* ---------- 9. ПОДВАЛ ---------- */
