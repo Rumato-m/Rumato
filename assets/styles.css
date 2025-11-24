@@ -177,7 +177,9 @@ body.is-shrink .tagline{ display:none; }
 .menu-toggle-label{
   font-size:14px;
   font-weight:700;
+  color:#111827;
 }
+
 
 /* Состояние, когда меню открыто: крестик вместо трёх полос */
 body.menu-open .menu-toggle-icon::before{

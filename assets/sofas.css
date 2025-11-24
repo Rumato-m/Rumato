@@ -1137,9 +1137,16 @@ input[type="checkbox"].toggle:checked + .switch::before{
   }
 
   /* ---------- 5. ТКАНИ – ПО ОДНОЙ НА ВСЮ ШИРИНУ ---------- */
-  .fabric-selector {
+    .fabric-selector {
     padding: 0 16px 24px;
+    height: auto;
+    margin-top: 20px;
+    border: none;
+    border-radius: 0;
+    overflow: visible;
+    background: transparent;
   }
+
 
   .fabric-grid {
     display: flex;
