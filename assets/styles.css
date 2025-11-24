@@ -980,3 +980,32 @@ body.is-shrink .nav a + a::before{
   background-color: var(--accent) !important;
   color: #fff !important;
 }
+/* === active state fix for selected filters === */
+.filter-bar button.is-active,
+.filter-item button.is-active,
+.inline-control button.is-active,
+.option button.is-active {
+  background-color: var(--accent) !important;
+  color: #fff !important;        /* <-- белый текст при активной */
+  border-color: var(--accent) !important;
+}
+
+.filter-bar button,
+.filter-item button,
+.inline-control button,
+.option button {
+  color: #111 !important;        /* обычное состояние — чёрный */
+  background-color: #f8f8f8;
+  border: 1px solid #e5e7eb;
+  border-radius: 999px;
+  font-weight: 600;
+  transition: background-color .2s ease, color .2s ease;
+}
+
+.filter-bar button:hover,
+.filter-item button:hover,
+.inline-control button:hover,
+.option button:hover {
+  background-color: #ececec;
+  color: #000;
+}
