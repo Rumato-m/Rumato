@@ -945,3 +945,38 @@ body.is-shrink .nav a + a::before{
   color:var(--r-green);
   padding:8px 0;
 }
+/* === unify filter button / link colors === */
+
+/* обычное состояние — черный */
+.filter-bar button,
+.filter-bar a,
+.filter-item button,
+.filter-item a,
+.inline-control button,
+.inline-control a,
+.option button,
+.option a {
+  color: #111 !important;
+  text-decoration: none !important;
+}
+
+/* наведение — чуть темнее */
+.filter-bar button:hover,
+.filter-bar a:hover,
+.filter-item button:hover,
+.filter-item a:hover,
+.inline-control button:hover,
+.inline-control a:hover,
+.option button:hover,
+.option a:hover {
+  color: #000 !important;
+}
+
+/* активная (выбранная) кнопка фильтра — фирменный зеленый фон, белый текст */
+.filter-bar button.is-active,
+.filter-item button.is-active,
+.inline-control button.is-active,
+.option button.is-active {
+  background-color: var(--accent) !important;
+  color: #fff !important;
+}
