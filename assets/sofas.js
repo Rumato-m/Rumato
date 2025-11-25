@@ -279,6 +279,133 @@ document.addEventListener('DOMContentLoaded', () => {
 • Для зон інтенсивного використання обирайте відтінки середньої насиченості.`
   }
 };
+  // === Повноекранна палiтра тканини для мобiльних (дивани) ===
+  const fabricOverlayMobile = {
+    backdrop: null,
+    grid: null,
+    title: null,
+    chooseBtn: null,
+    currentCard: null,
+    currentFabric: null,
+    samples: [],
+    selectedSample: null,
+    selectedEl: null
+  };
+
+  function ensureFabricOverlayMobile(){
+    if (fabricOverlayMobile.backdrop) return;
+
+    const backdrop = document.createElement('div');
+    backdrop.className = 'sofa-fabric-overlay';
+
+    const box = document.createElement('div');
+    box.className = 'sofa-fabric-box';
+
+    const titleEl = document.createElement('div');
+    titleEl.className = 'sofa-fabric-title';
+
+    const grid = document.createElement('div');
+    grid.className = 'sofa-fabric-grid';
+
+    box.appendChild(titleEl);
+    box.appendChild(grid);
+    backdrop.appendChild(box);
+    document.body.appendChild(backdrop);
+
+    const chooseBtn = document.createElement('button');
+    chooseBtn.type = 'button';
+    chooseBtn.className = 'sofa-fabric-choose';
+    chooseBtn.textContent = 'Обрати';
+    chooseBtn.style.display = 'none';
+    document.body.appendChild(chooseBtn);
+
+    // клик по затемнённому фону — просто закрываем
+    backdrop.addEventListener('click', (e) => {
+      if (e.target === backdrop){
+        closeFabricOverlayMobile();
+      }
+    });
+
+    // клик по кнопке "Обрати"
+    chooseBtn.addEventListener('click', () => {
+      applyMobileFabricSelection();
+    });
+
+    fabricOverlayMobile.backdrop = backdrop;
+    fabricOverlayMobile.grid = grid;
+    fabricOverlayMobile.title = titleEl;
+    fabricOverlayMobile.chooseBtn = chooseBtn;
+  }
+
+  function openFabricOverlayMobile({ fabric, card, samples }){
+    const isMobile = window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
+    if (!isMobile) return;
+
+    ensureFabricOverlayMobile();
+
+    const o = fabricOverlayMobile;
+    o.currentCard = card;
+    o.currentFabric = fabric.code;
+    o.samples = samples;
+    o.selectedSample = null;
+    o.selectedEl = null;
+
+    o.title.textContent = fabric.name;
+    o.grid.innerHTML = '';
+
+    samples.forEach(sample => {
+      const sw = document.createElement('button');
+      sw.type = 'button';
+      sw.className = 'sofa-fabric-swatch';
+      sw.style.backgroundImage = `url('${sample.url}')`;
+      sw.innerHTML = `<span class="sw-badge">${sample.name}</span>`;
+
+      sw.addEventListener('click', () => {
+        selectMobileFabricSwatch(sw, sample);
+      });
+
+      o.grid.appendChild(sw);
+    });
+
+    o.backdrop.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeFabricOverlayMobile(){
+    const o = fabricOverlayMobile;
+    if (!o.backdrop) return;
+    o.backdrop.classList.remove('is-open');
+    o.chooseBtn.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  function selectMobileFabricSwatch(el, sample){
+    const o = fabricOverlayMobile;
+    o.selectedSample = sample;
+
+    if (o.selectedEl){
+      o.selectedEl.classList.remove('is-selected');
+    }
+    o.selectedEl = el;
+    el.classList.add('is-selected');
+
+    // позиционируем круглую кнопку "Обрати" около выбранного свотча
+    const rect = el.getBoundingClientRect();
+    const btn = o.chooseBtn;
+    btn.style.display = 'block';
+    btn.style.top = `${rect.bottom + 8}px`;
+    btn.style.left = `${rect.left + rect.width / 2}px`;
+    btn.style.transform = 'translateX(-50%)';
+  }
+
+  function applyMobileFabricSelection(){
+    const o = fabricOverlayMobile;
+    if (!o.selectedSample || !o.currentCard) return;
+    o.currentCard.style.backgroundImage = `url('${o.selectedSample.url}')`;
+    state.fabric = o.currentFabric;
+    updatePreview();
+    closeFabricOverlayMobile();
+  }
 
 
   // Структура папок образцов
@@ -378,8 +505,21 @@ document.addEventListener('DOMContentLoaded', () => {
       const palette = document.createElement('div');
       palette.className = 'palette';
 
-      // раскрытие палитры по клику на названии ткани
+            // раскрытие палитри по кліку на назві тканини
       title.addEventListener('click', () => {
+        const isMobile = window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
+
+        // На мобільних відкриваємо повноекранну палiтру
+        if (isMobile && valid.length){
+          openFabricOverlayMobile({
+            fabric: fab,
+            card,
+            samples: valid
+          });
+          return;
+        }
+
+        // На десктопі залишаємо стару поведінку (палiтра всередині картки)
         const open = palette.style.display === 'grid';
         palette.style.display = open ? 'none' : 'grid';
 
@@ -400,6 +540,18 @@ document.addEventListener('DOMContentLoaded', () => {
           palette.dataset.built = '1';
         }
       });
+
+      // На мобільних по кліку на саму картку тканини теж відкриваємо повноекранну палiтру
+      card.addEventListener('click', () => {
+        const isMobile = window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
+        if (!isMobile || !valid.length) return;
+        openFabricOverlayMobile({
+          fabric: fab,
+          card,
+          samples: valid
+        });
+      });
+
 
       // нижняя панель:
       // слева "Про тканину" (открывает модалку),
