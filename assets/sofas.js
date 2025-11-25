@@ -338,7 +338,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function openFabricOverlayMobile({ fabric, card, samples }){
-    const isMobile = window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
+    const isMobile = window.matchMedia && window.matchMedia('(max-width: 600px)').matches;
     if (!isMobile) return;
 
     ensureFabricOverlayMobile();
@@ -507,7 +507,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // раскрытие палитри по кліку на назві тканини
       title.addEventListener('click', () => {
-        const isMobile = window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
+        const isMobile = window.matchMedia && window.matchMedia('(max-width: 600px)').matches;
 
         // На мобільних відкриваємо повноекранну палiтру
         if (isMobile && valid.length){

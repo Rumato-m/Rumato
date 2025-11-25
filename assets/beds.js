@@ -95,6 +95,133 @@ document.addEventListener('DOMContentLoaded', () => {
     f03: ['02','04','12','20','37','48','61','82','88','90','93','97','99'],
     f04: ['01','02','03','04','05','06','08','09','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','32','33','34','35','36','38','39','40','41']
   };
+  // === Повноекранна палiтра тканини для мобiльних (ліжка) ===
+  const bedFabricOverlay = {
+    backdrop: null,
+    grid: null,
+    title: null,
+    chooseBtn: null,
+    currentCard: null,
+    currentFabric: null,
+    samples: [],
+    selectedSample: null,
+    selectedEl: null
+  };
+
+  function ensureBedFabricOverlay(){
+    if (bedFabricOverlay.backdrop) return;
+
+    const backdrop = document.createElement('div');
+    backdrop.className = 'bed-fabric-overlay';
+
+    const box = document.createElement('div');
+    box.className = 'bed-fabric-box';
+
+    const titleEl = document.createElement('div');
+    titleEl.className = 'bed-fabric-title';
+
+    const grid = document.createElement('div');
+    grid.className = 'bed-fabric-grid';
+
+    box.appendChild(titleEl);
+    box.appendChild(grid);
+    backdrop.appendChild(box);
+    document.body.appendChild(backdrop);
+
+    const chooseBtn = document.createElement('button');
+    chooseBtn.type = 'button';
+    chooseBtn.className = 'bed-fabric-choose';
+    chooseBtn.textContent = 'Обрати';
+    chooseBtn.style.display = 'none';
+    document.body.appendChild(chooseBtn);
+
+    // клик по затемненному фону — закрыть без выбора
+    backdrop.addEventListener('click', (e) => {
+      if (e.target === backdrop){
+        closeBedFabricOverlay();
+      }
+    });
+
+    // клик по "Обрати" — применяем и закрываем
+    chooseBtn.addEventListener('click', () => {
+      applyBedFabricSelection();
+    });
+
+    bedFabricOverlay.backdrop = backdrop;
+    bedFabricOverlay.grid = grid;
+    bedFabricOverlay.title = titleEl;
+    bedFabricOverlay.chooseBtn = chooseBtn;
+  }
+
+  function openBedFabricOverlay({ fabric, card, samples }){
+    const isMobile = window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
+    if (!isMobile) return;
+
+    ensureBedFabricOverlay();
+
+    const o = bedFabricOverlay;
+    o.currentCard = card;
+    o.currentFabric = fabric.code;
+    o.samples = samples;
+    o.selectedSample = null;
+    o.selectedEl = null;
+
+    o.title.textContent = fabric.name;
+    o.grid.innerHTML = '';
+
+    samples.forEach(sample => {
+      const sw = document.createElement('button');
+      sw.type = 'button';
+      sw.className = 'bed-fabric-swatch';
+      sw.style.backgroundImage = `url('${sample.url}')`;
+      sw.innerHTML = `<span class="sw-badge">${sample.name}</span>`;
+
+      sw.addEventListener('click', () => {
+        selectBedFabricSwatch(sw, sample);
+      });
+
+      o.grid.appendChild(sw);
+    });
+
+    o.backdrop.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeBedFabricOverlay(){
+    const o = bedFabricOverlay;
+    if (!o.backdrop) return;
+    o.backdrop.classList.remove('is-open');
+    o.chooseBtn.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  function selectBedFabricSwatch(el, sample){
+    const o = bedFabricOverlay;
+    o.selectedSample = sample;
+
+    if (o.selectedEl){
+      o.selectedEl.classList.remove('is-selected');
+    }
+    o.selectedEl = el;
+    el.classList.add('is-selected');
+
+    // позиционируем круглую кнопку "Обрати" под выбранным свотчем
+    const rect = el.getBoundingClientRect();
+    const btn = o.chooseBtn;
+    btn.style.display = 'block';
+    btn.style.top = `${rect.bottom + 8}px`;
+    btn.style.left = `${rect.left + rect.width / 2}px`;
+    btn.style.transform = 'translateX(-50%)';
+  }
+
+  function applyBedFabricSelection(){
+    const o = bedFabricOverlay;
+    if (!o.selectedSample || !o.currentCard) return;
+    o.currentCard.style.backgroundImage = `url('${o.selectedSample.url}')`;
+    state.fabric = o.currentFabric;
+    updateMainPrice();
+    closeBedFabricOverlay();
+  }
 
   // === заготовка под полноэкранное колесо (палетка на весь экран) ===
   const fabricWheel = {
@@ -195,7 +322,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.style.overflow = 'hidden';
   }
 
-  (function renderFabrics(){
+    (function renderFabrics(){
     const grid = $('fabricGrid'); 
     if (!grid) return;
 
@@ -210,7 +337,13 @@ document.addEventListener('DOMContentLoaded', () => {
       card.dataset.fabric = fab.code;
 
       const folder = FABRIC_FOLDERS[fab.code];
-      const firstTile = (FABRIC_TILES[fab.code] || [])[0];
+      const tiles = FABRIC_TILES[fab.code] || [];
+      const valid = (folder ? tiles.map(n => ({
+        name: n,
+        url: `./filter/stof/${folder}/${n}.jpg`
+      })) : []);
+
+      const firstTile = tiles[0];
       if (folder && firstTile){
         card.style.backgroundImage = `url('./filter/stof/${folder}/${firstTile}.jpg')`;
       }
@@ -223,14 +356,14 @@ document.addEventListener('DOMContentLoaded', () => {
       palette.className = 'palette';
 
       const buildPalette = () => {
-        if (palette.childElementCount) return;
-        (FABRIC_TILES[fab.code] || []).forEach(n => {
+        if (palette.childElementCount || !valid.length) return;
+        valid.forEach(v => {
           const sw = document.createElement('button');
           sw.className = 'sw';
-          sw.style.background = `url('./filter/stof/${FABRIC_FOLDERS[fab.code]}/${n}.jpg') center/cover no-repeat`;
-          sw.innerHTML = `<span class="sw-badge">${n}</span>`;
+          sw.style.background = `url('${v.url}') center/cover no-repeat`;
+          sw.innerHTML = `<span class="sw-badge">${v.name}</span>`;
           sw.onclick = () => {
-            card.style.backgroundImage = `url('./filter/stof/${FABRIC_FOLDERS[fab.code]}/${n}.jpg')`;
+            card.style.backgroundImage = `url('${v.url}')`;
             state.fabric = fab.code;
             updateMainPrice();
             palette.style.display = 'none';
@@ -239,24 +372,35 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       };
 
-      const handleTitleClick = () => {
+      // клік по назві тканини
+      title.addEventListener('click', () => {
         const isMobile = window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
-        if (isMobile){
-          openFabricWheel(fab.code, card);
-        } else {
-          buildPalette();
-          palette.style.display = (palette.style.display === 'grid') ? 'none' : 'grid';
+
+        // мобільна версія — повноекранна палiтра
+        if (isMobile && valid.length){
+          openBedFabricOverlay({
+            fabric: fab,
+            card,
+            samples: valid
+          });
+          return;
         }
-      };
 
-      title.addEventListener('click', handleTitleClick);
+        // десктоп — стара палiтра в картці
+        buildPalette();
+        palette.style.display = (palette.style.display === 'grid') ? 'none' : 'grid';
+      });
 
-      // Тап по всей ленте на мобиле — тоже открывает колесо
+      // тап по самій картці тканини на мобiлi — теж відкриває повноекранну палiтру
       card.addEventListener('click', (e) => {
         const isMobile = window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
-        if (!isMobile) return;
+        if (!isMobile || !valid.length) return;
         if (e.target.closest('.fabric-select')) return;
-        openFabricWheel(fab.code, card);
+        openBedFabricOverlay({
+          fabric: fab,
+          card,
+          samples: valid
+        });
       });
 
       const sel = document.createElement('div');
@@ -294,8 +438,6 @@ document.addEventListener('DOMContentLoaded', () => {
       grid.append(col);
     });
   })();
-
-
 
   // --- Fabric modal ---
   const fModal=$('fabricModal'), fTitle=$('fabricTitle'), fBody=$('fabricBody'), fClose=$('fabricClose');
