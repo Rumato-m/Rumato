@@ -265,7 +265,6 @@ input[type="checkbox"].toggle:checked + .switch::before{
   overflow:hidden;
   background:var(--bg);
 }
-
 .fabric-grid{
   height:100%;
   display:grid;
