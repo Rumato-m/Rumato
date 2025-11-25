@@ -1067,10 +1067,10 @@ input[type="checkbox"].toggle:checked + .switch::before{
     margin: 0;
   }
 
-  /* ---------- 5. ТКАНИ – ПО ОДНОЙ НА ВСЮ ШИРИНУ ---------- */
+    /* ---------- 5. ТКАНИ – ПО ОДНОЙ НА ВСЮ ШИРИНУ (ТОЛЬКО МОБИЛЬНАЯ ВЕРСИЯ) ---------- */
   .fabric-selector {
     padding: 0 16px 24px;
-    height: auto;
+    height: auto;        /* вместо фиксированных 300px */
     margin-top: 20px;
     border: none;
     border-radius: 0;
@@ -1083,15 +1083,18 @@ input[type="checkbox"].toggle:checked + .switch::before{
     flex-direction: column;
     gap: 16px;
     width: 100%;
+    height: auto;
   }
 
   .fabric-card {
     width: 100%;
+    min-height: 90px;
     border-radius: 12px;
     overflow: hidden;
     background-size: cover;
     background-position: center;
   }
+
 
   /* ---------- 6. ЦЕНА + КНОПКА ---------- */
   .action-bar {
