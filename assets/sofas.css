@@ -1186,37 +1186,6 @@ input[type="checkbox"].toggle:checked + .switch::before{
 .site-header a:hover {
   color: var(--r-green);
 }
-/* === unify fabrics preview like beds === */
-.fabric-selector {
-  padding: 0 16px 24px;
-}
-
-.fabric-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  width: 100%;
-}
-
-.fabric-card {
-  width: 100%;
-  border-radius: 12px;
-  overflow: hidden;
-  background-size: cover;
-  background-position: center;
-  min-height: 90px; /* как в кроватях */
-}
-
-.fabric-title {
-  position: absolute;
-  left: 16px;
-  right: 16px;
-  bottom: 10px;
-  font-size: 13px;
-  font-weight: 600;
-  color: #111;
-  text-shadow: 0 1px 3px rgba(0,0,0,0.35);
-}
 
 /* === links and menu color fix === */
 a, a:visited, .site-header a, .site-header a:visited,
