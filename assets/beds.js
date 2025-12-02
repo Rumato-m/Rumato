@@ -19,10 +19,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // --- Карта путей к папкам с картинками по моделям ---
   const MODEL_ASSET_BASE = {
     kornilon: 'images/sofas/kornilon',
-    kubo: 'images/sofas/kubobett',
-    model3: 'images/sofas/model3',
-    model4: 'images/sofas/model4',
-    model5: 'images/sofas/model5'
+    kubo: 'images/sofas/kornilon',
+    model3: 'images/sofas/kornilon',
+    model4: 'images/sofas/kornilon',
+    model5: 'images/sofas/kornilon'
   };
   const SOFA_BASE = MODEL_ASSET_BASE[model] || MODEL_ASSET_BASE.kornilon;
 
