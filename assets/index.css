@@ -325,3 +325,11 @@ footer,
     align-self: center;
   }
 }
+.sofa-info::after {
+  order: 1; /* линия идёт сразу после заголовка */
+}
+
+.sofa-info p {
+  order: 2;  /* описание идёт после линии */
+  margin-top: 12px; /* создаём отступ от линии вниз */
+}
