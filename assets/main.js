@@ -102,161 +102,58 @@ function injectWidgetStyles(){
     --pill-h:26px;
   }
 
-     /* Круги (кошик + контакти) */
-  .cart-fab,
-  .call-fab{
+  /* Круги (кошик + контакти) */
+  .cart-fab, .call-fab{
     position:fixed;
     right:var(--fab-right);
-    width:var(--fab-size);
-    height:var(--fab-size);
+    width:var(--fab-size); height:var(--fab-size);
     border-radius:50%;
-    background:#fff;
-    display:grid;
-    place-items:center;
-    cursor:pointer;
-    z-index:2147483002;
+    background:#fff; border:2px solid var(--r-green); color:var(--r-green);
+    display:grid; place-items:center; cursor:pointer; z-index:2147483002;
     box-shadow:var(--fab-shadow);
     transition:transform .15s ease, box-shadow .2s ease, opacity .15s ease;
   }
-
-  /* кошик – как был, зелёный */
-  .cart-fab{
-    border:2px solid var(--r-green);
-    color:var(--r-green);
-    bottom:92px;
-  }
-
-  /* контакты – строгий чёрный круг */
-  .call-fab{
-    border:1.5px solid #111;
-    color:#111;
-    bottom:20px;
-    text-decoration:none;
-    font-size:0;
-  }
-
-  .cart-fab:hover,
-  .call-fab:hover{
+  .cart-fab{ bottom:92px; }
+  .call-fab{ bottom:20px; text-decoration:none; }
+  .cart-fab:hover, .call-fab:hover{
     transform:translateY(-2px);
     box-shadow:0 10px 26px rgba(0,0,0,.18);
   }
 
-  /* иконка внутри главного круга */
-  .call-fab .call-icon{
-    width:22px;
-    height:22px;
-    display:block;
-    background-repeat:no-repeat;
-    background-position:center;
-    background-size:contain;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7.5 3.5l3 2c.3.2.5.5.6.8l.5 2.3a1 1 0 0 1-.3.9l-1.3 1.3a12 12 0 0 0 4.8 4.8l1.3-1.3a1 1 0 0 1 .9-.3l2.3.5c.3.1.6.3.8.6l2 3a1 1 0 0 1-.2 1.3l-1.5 1.5c-.3.3-.8.5-1.2.5C13 22 7 16 3.7 9.2a2 2 0 0 1 .4-2.2L5.6 5.5a1 1 0 0 1 1.3-.2z' fill='none' stroke='%23111' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  /* Овальна плашка всередині круга */
+  .fab-pill{
+    position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+    height:var(--pill-h); line-height:var(--pill-h);
+    padding:0 12px; border-radius:999px; white-space:nowrap;
+    background:#fff; border:2px solid var(--r-green); color:var(--r-green);
+    font-size:12px; font-weight:800; letter-spacing:.2px; font-variant-numeric:tabular-nums;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 2px 6px rgba(0,0,0,.10);
+    pointer-events:none;
   }
 
-  /* Меню контактів – два кружка вертикально над основним */
+  /* Меню контактів (дві бульки) */
   .contact-menu{
     position:fixed;
-    bottom:calc(20px + var(--fab-size) + 10px);
-    right:var(--fab-right);
-    display:flex;
-    flex-direction:column;
-    gap:8px;
-    z-index:2147483001;
-    pointer-events:none;
-    opacity:0;
-    transform:translateY(6px);
+    bottom:20px;
+    right:calc(var(--fab-right) + var(--fab-size) + 30px);
+    display:flex; gap:10px; flex-direction:row-reverse;
+    z-index:2147483001; pointer-events:none; opacity:0; transform:translateX(6px);
     transition:opacity .15s ease, transform .15s ease;
   }
   .contact-menu.open{
     pointer-events:auto;
     opacity:1;
-    transform:translateY(0);
+    transform:translateX(0);
   }
 
   .contact-subfab{
-    width:48px;
-    height:48px;
-    border-radius:50%;
-    background:#fff;
-    border:1.5px solid #111;
-    color:#111;
-    display:grid;
-    place-items:center;
-    box-shadow:var(--fab-shadow);
-    cursor:pointer;
-    position:relative;
-    text-decoration:none;
-    font-size:0;
+    width:48px; height:48px; border-radius:50%;
+    background:#fff; border:2px solid var(--r-green); color:var(--r-green);
+    display:grid; place-items:center; box-shadow:var(--fab-shadow); cursor:pointer;
+    position:relative; text-decoration:none;
+    font-size:20px; font-weight:900; line-height:1;
   }
-  .contact-subfab:hover{
-    transform:translateY(-1px);
-  }
-
-  .contact-subfab .icon{
-    width:20px;
-    height:20px;
-    display:block;
-    background-repeat:no-repeat;
-    background-position:center;
-    background-size:contain;
-  }
-
-  .contact-subfab .icon-phone{
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7.5 3.5l3 2c.3.2.5.5.6.8l.5 2.3a1 1 0 0 1-.3.9l-1.3 1.3a12 12 0 0 0 4.8 4.8l1.3-1.3a1 1 0 0 1 .9-.3l2.3.5c.3.1.6.3.8.6l2 3a1 1 0 0 1-.2 1.3l-1.5 1.5c-.3.3-.8.5-1.2.5C13 22 7 16 3.7 9.2a2 2 0 0 1 .4-2.2L5.6 5.5a1 1 0 0 1 1.3-.2z' fill='none' stroke='%23111' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-  }
-
-  .contact-subfab .icon-chat{
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4 6.5h16a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1h-6.2L10 19.5v-3H4a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1z' fill='none' stroke='%23111' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-  }
-
-  .visually-hidden{
-    position:absolute;
-    width:1px;
-    height:1px;
-    padding:0;
-    margin:-1px;
-    overflow:hidden;
-    clip:rect(0,0,0,0);
-    white-space:nowrap;
-    border:0;
-  }
-
-  /* тултип с номером для десктопа */
-  .phone-tooltip{
-    position:fixed;
-    padding:6px 10px;
-    border-radius:999px;
-    background:#111;
-    color:#fff;
-    font-size:13px;
-    font-weight:600;
-    z-index:2147483001;
-    pointer-events:none;
-    opacity:0;
-    transform:translate(-50%, -80%);
-    transition:opacity .15s ease, transform .15s ease;
-    white-space:nowrap;
-  }
-  .phone-tooltip.visible{
-    opacity:1;
-    transform:translate(-50%, -100%);
-  }
-
-  @media(max-width:600px){
-    .cart-fab,
-    .call-fab{
-      width:var(--fab-size-sm);
-      height:var(--fab-size-sm);
-      right:var(--fab-right-sm);
-    }
-    .cart-fab{ bottom:88px; }
-    .call-fab{ bottom:16px; }
-    .contact-menu{
-      bottom:calc(16px + var(--fab-size-sm) + 10px);
-      right:var(--fab-right-sm);
-    }
-  }
-
-
   .contact-subfab:hover{ transform:translateY(-1px); }
 
   /* Напівпрозорий фон під кошиком */
@@ -925,110 +822,42 @@ function initCallWidget(){
 
   injectWidgetStyles();
 
-  const rawTel = mount.getAttribute('data-tel') || 'tel:+380955549707';
-  const tel = rawTel;
-  const telDisplay = rawTel.replace(/^tel:/i, '');
-
-  const chatHref =
-    mount.getAttribute('data-chat') ||
+  const tel = mount.getAttribute('data-tel') || 'tel:+380000000000';
+  const chatHref = mount.getAttribute('data-chat') ||
     (document.querySelector('.footer-right a[href^="mailto:"]')?.getAttribute('href') || 'mailto:info@example.com');
 
-  const isMobile =
-    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-    (window.matchMedia && window.matchMedia('(max-width: 768px)').matches);
-
-  // главный круг с трубкой
   const callFab = document.createElement('button');
   callFab.className = 'call-fab';
-  callFab.type = 'button';
+  callFab.setAttribute('type','button');
   callFab.setAttribute('aria-label','Контакти');
 
- const icon = document.createElement('span');
-icon.className = 'call-icon';
-callFab.appendChild(icon);
+  const pill = document.createElement('span');
+  pill.className = 'fab-pill';
+  pill.textContent = 'Контакти';
+  callFab.appendChild(pill);
 
-
-  // два строгих кружка-опции
   const menu = document.createElement('div');
   menu.className = 'contact-menu';
   menu.innerHTML = `
-  <a class="contact-subfab" data-type="phone" href="${tel}" aria-label="Подзвонити">
-    <span class="icon icon-phone" aria-hidden="true"></span>
-    <span class="visually-hidden">Подзвонити</span>
-  </a>
-  <a class="contact-subfab" data-type="chat" href="${chatHref}" aria-label="Чат">
-    <span class="icon icon-chat" aria-hidden="true"></span>
-    <span class="visually-hidden">Чат</span>
-  </a>
-`;
+    <a class="contact-subfab" href="${tel}" aria-label="Подзвонити">☎</a>
+    <a class="contact-subfab" href="${chatHref}" aria-label="Чат">💬</a>
+  `;
 
   let open = false;
-
   callFab.addEventListener('click', (e)=>{
     e.stopPropagation();
     open = !open;
     menu.classList.toggle('open', open);
   });
-
-  // тултип с номером
-  const phoneBtn = menu.querySelector('.contact-subfab[data-type="phone"]');
-
-  function getTooltip(){
-    let tip = document.querySelector('.phone-tooltip');
-    if (!tip){
-      tip = document.createElement('div');
-      tip.className = 'phone-tooltip';
-      document.body.appendChild(tip);
-    }
-    return tip;
-  }
-
-  function showPhoneTooltip(){
-    if (!phoneBtn) return;
-    const tip = getTooltip();
-    tip.textContent = telDisplay || '+380955549707';
-
-    const rect = phoneBtn.getBoundingClientRect();
-    tip.style.top  = `${rect.top}px`;
-    tip.style.left = `${rect.left + rect.width / 2}px`;
-
-    requestAnimationFrame(()=> tip.classList.add('visible'));
-  }
-
-  function hidePhoneTooltip(){
-    const tip = document.querySelector('.phone-tooltip');
-    if (tip) tip.classList.remove('visible');
-  }
-
-  if (phoneBtn){
-    phoneBtn.addEventListener('click', (e)=>{
-      // на мобилке — сразу звонок, на десктопе — только показать номер
-      if (!isMobile){
-        e.preventDefault();
-        hidePhoneTooltip();
-        showPhoneTooltip();
-      }
-    });
-  }
-
-  // клик вне меню — закрыть меню и спрятать номер
-  document.addEventListener('click', (event)=>{
-    const withinMenu = menu.contains(event.target);
-    const withinFab  = callFab.contains(event.target);
-
-    if (!withinMenu && !withinFab){
-      if (open){
-        open = false;
-        menu.classList.remove('open');
-      }
-      hidePhoneTooltip();
-    }
+  document.addEventListener('click', ()=>{
+    if (!open) return;
+    open = false;
+    menu.classList.remove('open');
   }, {capture:true});
 
   mount.appendChild(callFab);
   document.body.appendChild(menu);
 }
-
 
 /* ====== BOOT ====== */
 document.addEventListener('DOMContentLoaded', async ()=>{
