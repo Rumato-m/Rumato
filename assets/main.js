@@ -102,43 +102,83 @@ function injectWidgetStyles(){
     --pill-h:26px;
   }
 
-  /* Круги (кошик + контакти) */
-  .cart-fab, .call-fab{
+    /* Круги (кошик + контакти) */
+  .cart-fab,
+  .call-fab{
     position:fixed;
     right:var(--fab-right);
-    width:var(--fab-size); height:var(--fab-size);
+    width:var(--fab-size);
+    height:var(--fab-size);
     border-radius:50%;
-    background:#fff; border:2px solid var(--r-green); color:var(--r-green);
-    display:grid; place-items:center; cursor:pointer; z-index:2147483002;
+    background:#fff;
+    display:grid;
+    place-items:center;
+    cursor:pointer;
+    z-index:2147483002;
     box-shadow:var(--fab-shadow);
     transition:transform .15s ease, box-shadow .2s ease, opacity .15s ease;
   }
-  .cart-fab{ bottom:92px; }
-  .call-fab{ bottom:20px; text-decoration:none; }
-  .cart-fab:hover, .call-fab:hover{
+
+  /* кошик как был – зелёный */
+  .cart-fab{
+    border:2px solid var(--r-green);
+    color:var(--r-green);
+    bottom:92px;
+  }
+
+  /* контакты – строгий чёрный круг с трубкой */
+  .call-fab{
+    border:2px solid #111;
+    color:#111;
+    bottom:20px;
+    text-decoration:none;
+    font-size:22px;
+    font-weight:700;
+  }
+
+  .cart-fab:hover,
+  .call-fab:hover{
     transform:translateY(-2px);
     box-shadow:0 10px 26px rgba(0,0,0,.18);
   }
 
-  /* Овальна плашка всередині круга */
+  /* подпись внутри круга кошика – остаётся */
   .fab-pill{
-    position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
-    height:var(--pill-h); line-height:var(--pill-h);
-    padding:0 12px; border-radius:999px; white-space:nowrap;
-    background:#fff; border:2px solid var(--r-green); color:var(--r-green);
-    font-size:12px; font-weight:800; letter-spacing:.2px; font-variant-numeric:tabular-nums;
-    display:flex; align-items:center; justify-content:center;
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    height:var(--pill-h);
+    line-height:var(--pill-h);
+    padding:0 12px;
+    border-radius:999px;
+    white-space:nowrap;
+    background:#fff;
+    border:2px solid var(--r-green);
+    color:var(--r-green);
+    font-size:12px;
+    font-weight:800;
+    letter-spacing:.2px;
+    font-variant-numeric:tabular-nums;
+    display:flex;
+    align-items:center;
+    justify-content:center;
     box-shadow:0 2px 6px rgba(0,0,0,.10);
     pointer-events:none;
   }
 
-  /* Меню контактів (дві бульки) */
+  /* Меню контактів (два строгих кружка) */
   .contact-menu{
     position:fixed;
     bottom:20px;
     right:calc(var(--fab-right) + var(--fab-size) + 30px);
-    display:flex; gap:10px; flex-direction:row-reverse;
-    z-index:2147483001; pointer-events:none; opacity:0; transform:translateX(6px);
+    display:flex;
+    gap:10px;
+    flex-direction:row-reverse;
+    z-index:2147483001;
+    pointer-events:none;
+    opacity:0;
+    transform:translateX(6px);
     transition:opacity .15s ease, transform .15s ease;
   }
   .contact-menu.open{
@@ -148,12 +188,62 @@ function injectWidgetStyles(){
   }
 
   .contact-subfab{
-    width:48px; height:48px; border-radius:50%;
-    background:#fff; border:2px solid var(--r-green); color:var(--r-green);
-    display:grid; place-items:center; box-shadow:var(--fab-shadow); cursor:pointer;
-    position:relative; text-decoration:none;
-    font-size:20px; font-weight:900; line-height:1;
+    width:48px;
+    height:48px;
+    border-radius:50%;
+    background:#fff;
+    border:2px solid #111;
+    color:#111;
+    display:grid;
+    place-items:center;
+    box-shadow:var(--fab-shadow);
+    cursor:pointer;
+    position:relative;
+    text-decoration:none;
+    font-size:18px;
+    font-weight:700;
+    line-height:1;
   }
+  .contact-subfab:hover{
+    transform:translateY(-1px);
+  }
+
+  /* маленькая чёрная пилюля с номером для десктопа */
+  .phone-tooltip{
+    position:fixed;
+    padding:6px 10px;
+    border-radius:999px;
+    background:#111;
+    color:#fff;
+    font-size:13px;
+    font-weight:600;
+    z-index:2147483001;
+    pointer-events:none;
+    opacity:0;
+    transform:translate(-50%, -80%);
+    transition:opacity .15s ease, transform .15s ease;
+    white-space:nowrap;
+  }
+  .phone-tooltip.visible{
+    opacity:1;
+    transform:translate(-50%, -100%);
+  }
+
+  @media(max-width:600px){
+    .cart-fab,
+    .call-fab{
+      width:var(--fab-size-sm);
+      height:var(--fab-size-sm);
+      right:var(--fab-right-sm);
+    }
+    .cart-fab{ bottom:88px; }
+    .call-fab{ bottom:16px; }
+    .contact-menu{
+      right:calc(var(--fab-right-sm) + var(--fab-size-sm) + 30px);
+      bottom:16px;
+    }
+  }
+
   .contact-subfab:hover{ transform:translateY(-1px); }
 
   /* Напівпрозорий фон під кошиком */
@@ -822,42 +912,108 @@ function initCallWidget(){
 
   injectWidgetStyles();
 
-  const tel = mount.getAttribute('data-tel') || 'tel:+380000000000';
-  const chatHref = mount.getAttribute('data-chat') ||
+  const rawTel = mount.getAttribute('data-tel') || 'tel:+380955549707';
+  const tel = rawTel;
+  const telDisplay = rawTel.replace(/^tel:/i, '');
+
+  const chatHref =
+    mount.getAttribute('data-chat') ||
     (document.querySelector('.footer-right a[href^="mailto:"]')?.getAttribute('href') || 'mailto:info@example.com');
 
+  const isMobile =
+    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+    (window.matchMedia && window.matchMedia('(max-width: 768px)').matches);
+
+  // главный круг с трубкой
   const callFab = document.createElement('button');
   callFab.className = 'call-fab';
-  callFab.setAttribute('type','button');
+  callFab.type = 'button';
   callFab.setAttribute('aria-label','Контакти');
 
-  const pill = document.createElement('span');
-  pill.className = 'fab-pill';
-  pill.textContent = 'Контакти';
-  callFab.appendChild(pill);
+  const icon = document.createElement('span');
+  icon.className = 'call-icon';
+  icon.textContent = '☎';
+  callFab.appendChild(icon);
 
+  // два строгих кружка-опции
   const menu = document.createElement('div');
   menu.className = 'contact-menu';
   menu.innerHTML = `
-    <a class="contact-subfab" href="${tel}" aria-label="Подзвонити">☎</a>
-    <a class="contact-subfab" href="${chatHref}" aria-label="Чат">💬</a>
+    <a class="contact-subfab" data-type="phone" href="${tel}" aria-label="Подзвонити">
+      <span>☎</span>
+    </a>
+    <a class="contact-subfab" data-type="chat" href="${chatHref}" aria-label="Чат">
+      <span>✉</span>
+    </a>
   `;
 
   let open = false;
+
   callFab.addEventListener('click', (e)=>{
     e.stopPropagation();
     open = !open;
     menu.classList.toggle('open', open);
   });
-  document.addEventListener('click', ()=>{
-    if (!open) return;
-    open = false;
-    menu.classList.remove('open');
+
+  // тултип с номером
+  const phoneBtn = menu.querySelector('.contact-subfab[data-type="phone"]');
+
+  function getTooltip(){
+    let tip = document.querySelector('.phone-tooltip');
+    if (!tip){
+      tip = document.createElement('div');
+      tip.className = 'phone-tooltip';
+      document.body.appendChild(tip);
+    }
+    return tip;
+  }
+
+  function showPhoneTooltip(){
+    if (!phoneBtn) return;
+    const tip = getTooltip();
+    tip.textContent = telDisplay || '+380955549707';
+
+    const rect = phoneBtn.getBoundingClientRect();
+    tip.style.top  = `${rect.top}px`;
+    tip.style.left = `${rect.left + rect.width / 2}px`;
+
+    requestAnimationFrame(()=> tip.classList.add('visible'));
+  }
+
+  function hidePhoneTooltip(){
+    const tip = document.querySelector('.phone-tooltip');
+    if (tip) tip.classList.remove('visible');
+  }
+
+  if (phoneBtn){
+    phoneBtn.addEventListener('click', (e)=>{
+      // на мобилке — сразу звонок, на десктопе — только показать номер
+      if (!isMobile){
+        e.preventDefault();
+        hidePhoneTooltip();
+        showPhoneTooltip();
+      }
+    });
+  }
+
+  // клик вне меню — закрыть меню и спрятать номер
+  document.addEventListener('click', (event)=>{
+    const withinMenu = menu.contains(event.target);
+    const withinFab  = callFab.contains(event.target);
+
+    if (!withinMenu && !withinFab){
+      if (open){
+        open = false;
+        menu.classList.remove('open');
+      }
+      hidePhoneTooltip();
+    }
   }, {capture:true});
 
   mount.appendChild(callFab);
   document.body.appendChild(menu);
 }
+
 
 /* ====== BOOT ====== */
 document.addEventListener('DOMContentLoaded', async ()=>{
