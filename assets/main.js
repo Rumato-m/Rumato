@@ -102,7 +102,7 @@ function injectWidgetStyles(){
     --pill-h:26px;
   }
 
-    /* Круги (кошик + контакти) */
+     /* Круги (кошик + контакти) */
   .cart-fab,
   .call-fab{
     position:fixed;
@@ -119,21 +119,20 @@ function injectWidgetStyles(){
     transition:transform .15s ease, box-shadow .2s ease, opacity .15s ease;
   }
 
-  /* кошик как был – зелёный */
+  /* кошик – как был, зелёный */
   .cart-fab{
     border:2px solid var(--r-green);
     color:var(--r-green);
     bottom:92px;
   }
 
-  /* контакты – строгий чёрный круг с трубкой */
+  /* контакты – строгий чёрный круг */
   .call-fab{
-    border:2px solid #111;
+    border:1.5px solid #111;
     color:#111;
     bottom:20px;
     text-decoration:none;
-    font-size:22px;
-    font-weight:700;
+    font-size:0;
   }
 
   .cart-fab:hover,
@@ -142,49 +141,35 @@ function injectWidgetStyles(){
     box-shadow:0 10px 26px rgba(0,0,0,.18);
   }
 
-  /* подпись внутри круга кошика – остаётся */
-  .fab-pill{
-    position:absolute;
-    left:50%;
-    top:50%;
-    transform:translate(-50%,-50%);
-    height:var(--pill-h);
-    line-height:var(--pill-h);
-    padding:0 12px;
-    border-radius:999px;
-    white-space:nowrap;
-    background:#fff;
-    border:2px solid var(--r-green);
-    color:var(--r-green);
-    font-size:12px;
-    font-weight:800;
-    letter-spacing:.2px;
-    font-variant-numeric:tabular-nums;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    box-shadow:0 2px 6px rgba(0,0,0,.10);
-    pointer-events:none;
+  /* иконка внутри главного круга */
+  .call-fab .call-icon{
+    width:22px;
+    height:22px;
+    display:block;
+    background-repeat:no-repeat;
+    background-position:center;
+    background-size:contain;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7.5 3.5l3 2c.3.2.5.5.6.8l.5 2.3a1 1 0 0 1-.3.9l-1.3 1.3a12 12 0 0 0 4.8 4.8l1.3-1.3a1 1 0 0 1 .9-.3l2.3.5c.3.1.6.3.8.6l2 3a1 1 0 0 1-.2 1.3l-1.5 1.5c-.3.3-.8.5-1.2.5C13 22 7 16 3.7 9.2a2 2 0 0 1 .4-2.2L5.6 5.5a1 1 0 0 1 1.3-.2z' fill='none' stroke='%23111' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   }
 
-  /* Меню контактів (два строгих кружка) */
+  /* Меню контактів – два кружка вертикально над основним */
   .contact-menu{
     position:fixed;
-    bottom:20px;
-    right:calc(var(--fab-right) + var(--fab-size) + 30px);
+    bottom:calc(20px + var(--fab-size) + 10px);
+    right:var(--fab-right);
     display:flex;
-    gap:10px;
-    flex-direction:row-reverse;
+    flex-direction:column;
+    gap:8px;
     z-index:2147483001;
     pointer-events:none;
     opacity:0;
-    transform:translateX(6px);
+    transform:translateY(6px);
     transition:opacity .15s ease, transform .15s ease;
   }
   .contact-menu.open{
     pointer-events:auto;
     opacity:1;
-    transform:translateX(0);
+    transform:translateY(0);
   }
 
   .contact-subfab{
@@ -192,7 +177,7 @@ function injectWidgetStyles(){
     height:48px;
     border-radius:50%;
     background:#fff;
-    border:2px solid #111;
+    border:1.5px solid #111;
     color:#111;
     display:grid;
     place-items:center;
@@ -200,15 +185,42 @@ function injectWidgetStyles(){
     cursor:pointer;
     position:relative;
     text-decoration:none;
-    font-size:18px;
-    font-weight:700;
-    line-height:1;
+    font-size:0;
   }
   .contact-subfab:hover{
     transform:translateY(-1px);
   }
 
-  /* маленькая чёрная пилюля с номером для десктопа */
+  .contact-subfab .icon{
+    width:20px;
+    height:20px;
+    display:block;
+    background-repeat:no-repeat;
+    background-position:center;
+    background-size:contain;
+  }
+
+  .contact-subfab .icon-phone{
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7.5 3.5l3 2c.3.2.5.5.6.8l.5 2.3a1 1 0 0 1-.3.9l-1.3 1.3a12 12 0 0 0 4.8 4.8l1.3-1.3a1 1 0 0 1 .9-.3l2.3.5c.3.1.6.3.8.6l2 3a1 1 0 0 1-.2 1.3l-1.5 1.5c-.3.3-.8.5-1.2.5C13 22 7 16 3.7 9.2a2 2 0 0 1 .4-2.2L5.6 5.5a1 1 0 0 1 1.3-.2z' fill='none' stroke='%23111' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  }
+
+  .contact-subfab .icon-chat{
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4 6.5h16a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1h-6.2L10 19.5v-3H4a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1z' fill='none' stroke='%23111' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  }
+
+  .visually-hidden{
+    position:absolute;
+    width:1px;
+    height:1px;
+    padding:0;
+    margin:-1px;
+    overflow:hidden;
+    clip:rect(0,0,0,0);
+    white-space:nowrap;
+    border:0;
+  }
+
+  /* тултип с номером для десктопа */
   .phone-tooltip{
     position:fixed;
     padding:6px 10px;
@@ -239,10 +251,11 @@ function injectWidgetStyles(){
     .cart-fab{ bottom:88px; }
     .call-fab{ bottom:16px; }
     .contact-menu{
-      right:calc(var(--fab-right-sm) + var(--fab-size-sm) + 30px);
-      bottom:16px;
+      bottom:calc(16px + var(--fab-size-sm) + 10px);
+      right:var(--fab-right-sm);
     }
   }
+
 
   .contact-subfab:hover{ transform:translateY(-1px); }
 
@@ -930,22 +943,24 @@ function initCallWidget(){
   callFab.type = 'button';
   callFab.setAttribute('aria-label','Контакти');
 
-  const icon = document.createElement('span');
-  icon.className = 'call-icon';
-  icon.textContent = '☎';
-  callFab.appendChild(icon);
+ const icon = document.createElement('span');
+icon.className = 'call-icon';
+callFab.appendChild(icon);
+
 
   // два строгих кружка-опции
   const menu = document.createElement('div');
   menu.className = 'contact-menu';
   menu.innerHTML = `
-    <a class="contact-subfab" data-type="phone" href="${tel}" aria-label="Подзвонити">
-      <span>☎</span>
-    </a>
-    <a class="contact-subfab" data-type="chat" href="${chatHref}" aria-label="Чат">
-      <span>✉</span>
-    </a>
-  `;
+  <a class="contact-subfab" data-type="phone" href="${tel}" aria-label="Подзвонити">
+    <span class="icon icon-phone" aria-hidden="true"></span>
+    <span class="visually-hidden">Подзвонити</span>
+  </a>
+  <a class="contact-subfab" data-type="chat" href="${chatHref}" aria-label="Чат">
+    <span class="icon icon-chat" aria-hidden="true"></span>
+    <span class="visually-hidden">Чат</span>
+  </a>
+`;
 
   let open = false;
 
