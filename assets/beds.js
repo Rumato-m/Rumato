@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   // --- File naming for previews ---
-  const TRY_EXTS = ['png', 'jpg', 'jpeg', 'PNG', 'JPG', 'JPEG'];
+  const TRY_EXTS = ['webp', 'png', 'jpg', 'jpeg', 'WEBP', 'PNG', 'JPG', 'JPEG'];
 
   function buildCode() {
     const m = state.sleepplace.match(/^(\d{3})/);
@@ -309,7 +309,10 @@ document.addEventListener('DOMContentLoaded', () => {
   function applyBedFabricSelection() {
     const o = bedFabricOverlay;
     if (!o.selectedSample || !o.currentCard) return;
+
+    // просто применяем выбранный url как фон
     o.currentCard.style.backgroundImage = `url('${o.selectedSample.url}')`;
+
     state.fabric = o.currentFabric;
     updateMainPrice();
     closeBedFabricOverlay();
@@ -438,6 +441,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const firstTile = tiles[0];
       if (folder && firstTile) {
+        // стартовая картинка — просто jpg, чтобы всё стабильно работало
         card.style.backgroundImage = `url('./filter/stof/${folder}/${firstTile}.jpg')`;
       }
 
@@ -454,7 +458,6 @@ document.addEventListener('DOMContentLoaded', () => {
           const sw = document.createElement('button');
           sw.className = 'sw';
           sw.style.background = `url('${v.url}') center/cover no-repeat`;
-          sw.innerHTML = `<span class="sw-badge">${v.name}</span>`;
           sw.onclick = () => {
             card.style.backgroundImage = `url('${v.url}')`;
             state.fabric = fab.code;

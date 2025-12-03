@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   window.addEventListener('resize', equalizePillWidths);
 
-  // Построение имени файла превью по конфигу
+  // Построение базового имени файла (без расширения)
   const suf = (left, right) => (left ? 'y' : '') + (right ? 'p' : '');
 
   function buildFilename(){
@@ -89,7 +89,8 @@ document.addEventListener('DOMContentLoaded', () => {
       let base = (w <= 240) ? '1' : (w <= 320) ? '2' : '3';
       if (state.chaise === 'right') base += 'r';
       else if (state.chaise === 'left') base += 'l';
-      return `./${SOFA_BASE}/${base}${suf(state.removeArmL, state.removeArmR)}.png`;
+      // без расширения — только базовый путь
+      return `./${SOFA_BASE}/${base}${suf(state.removeArmL, state.removeArmR)}`;
     }
 
     // Кутовий варіант
@@ -105,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let baseCorner = mapRight[`${g(len1)}-${g(len2)}`] || 5;
     if (state.shape === 'corner-left') baseCorner += 'l';
-    return `./${SOFA_BASE}/${baseCorner}${suf(state.removeArmL, state.removeArmR)}.png`;
+    return `./${SOFA_BASE}/${baseCorner}${suf(state.removeArmL, state.removeArmR)}`;
   }
 
   // Обновление габарита кресла от глубины сиденья
@@ -128,13 +129,25 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Обновление превью дивана и цены
+  // Обновление превью дивана и цены (webp → png → jpg → jpeg)
   function updatePreview(){
-    const url = buildFilename();
-    const testImg = new Image();
-    testImg.onload = () => { el.preview.src = url; };
-    testImg.onerror = () => { el.preview.src = PLACEHOLDER_IMG; };
-    testImg.src = url;
+    const base = buildFilename();
+    const exts = ['webp', 'png', 'jpg', 'jpeg'];
+    let i = 0;
+
+    const tryNext = () => {
+      if (i >= exts.length){
+        el.preview.src = PLACEHOLDER_IMG;
+        return;
+      }
+      const url = `${base}.${exts[i++]}`;
+      const testImg = new Image();
+      testImg.onload = () => { el.preview.src = url; };
+      testImg.onerror = tryNext;
+      testImg.src = url;
+    };
+
+    tryNext();
 
     updatePrice();
     updateChairGabarit();
@@ -196,10 +209,10 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   // Опис кожної тканини (для модалки "Про тканину")
- const FABRIC_INFO = {
-  f01: {
-    title: 'Тканина Lili',
-    body: `Тканина Lili — м’який мікровелюр для диванів та м’яких меблів повсякденного використання. 
+  const FABRIC_INFO = {
+    f01: {
+      title: 'Тканина Lili',
+      body: `Тканина Lili — м’який мікровелюр для диванів та м’яких меблів повсякденного використання. 
 Відрізняється приємною тактильною фактурою та стабільним кольором у світлих відтінках.
 
 Переваги тканини Lili:
@@ -213,11 +226,11 @@ document.addEventListener('DOMContentLoaded', () => {
 • Регулярне чищення пилососом із м’якою насадкою допоможе зберегти структуру мікровелюру;
 • Для видалення плям використовуйте делікатні засоби без абразивів;
 • У зонах активного користування обирайте практичні середні відтінки.`
-  },
+    },
 
-  f02: {
-    title: 'Тканина Lotus',
-    body: `Тканина Lotus — щільна зносостійка оббивка типу «велюр-вельвет» для диванів та м’яких меблів. 
+    f02: {
+      title: 'Тканина Lotus',
+      body: `Тканина Lotus — щільна зносостійка оббивка типу «велюр-вельвет» для диванів та м’яких меблів. 
 Завдяки фактурі поверхні створює глибину кольору та витриманий характер інтер’єру.
 
 Переваги тканини Lotus:
@@ -230,11 +243,11 @@ document.addEventListener('DOMContentLoaded', () => {
 • Свіжі плями видаляйте вологою тканиною без абразивів;
 • Уникайте агресивних хімічних засобів і тривалого впливу прямого сонця;
 • Для зон частого використання обирайте помірні, не надто світлі тони.`
-  },
+    },
 
-  f03: {
-    title: 'Тканина Alpaca',
-    body: `Тканина Alpaca — фактурне букле (bouclé) із вираженим об’ємним переплетенням. 
+    f03: {
+      title: 'Тканина Alpaca',
+      body: `Тканина Alpaca — фактурне букле (bouclé) із вираженим об’ємним переплетенням. 
 Підходить для диванів із глибоким сидінням, де важливі тактильність і комфорт.
 
 Ключові характеристики:
@@ -253,11 +266,11 @@ document.addEventListener('DOMContentLoaded', () => {
 • Регулярно пилососьте з м’якою насадкою, щоб зберегти об’єм букле;
 • Використовуйте м’які засоби для локального очищення без абразивів;
 • У зонах активного використання надавайте перевагу практичним кольорам.`
-  },
+    },
 
-  f04: {
-    title: 'Тканина Spark',
-    body: `Тканина Spark — щільний меблевий велюр із просоченням «антикіготь» і водовідштовхувальним ефектом. 
+    f04: {
+      title: 'Тканина Spark',
+      body: `Тканина Spark — щільний меблевий велюр із просоченням «антикіготь» і водовідштовхувальним ефектом. 
 Розроблена для диванів, ліжок і крісел, що зазнають щоденного навантаження.
 
 Ключові характеристики:
@@ -277,8 +290,9 @@ document.addEventListener('DOMContentLoaded', () => {
 • Свіжі плями промокайте вологою тканиною без абразивів;
 • Уникайте агресивних засобів і надмірного тертя;
 • Для зон інтенсивного використання обирайте відтінки середньої насиченості.`
-  }
-};
+    }
+  };
+
   // === Повноекранна палiтра тканини для мобiльних (дивани) ===
   const fabricOverlayMobile = {
     backdrop: null,
@@ -357,6 +371,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const sw = document.createElement('button');
       sw.type = 'button';
       sw.className = 'sofa-fabric-swatch';
+      // простой url(), webp уже выберем через resolveValidURL
       sw.style.backgroundImage = `url('${sample.url}')`;
       sw.innerHTML = `<span class="sw-badge">${sample.name}</span>`;
 
@@ -401,12 +416,14 @@ document.addEventListener('DOMContentLoaded', () => {
   function applyMobileFabricSelection(){
     const o = fabricOverlayMobile;
     if (!o.selectedSample || !o.currentCard) return;
+
+    // применяем выбранную текстуру как фон
     o.currentCard.style.backgroundImage = `url('${o.selectedSample.url}')`;
+
     state.fabric = o.currentFabric;
     updatePreview();
     closeFabricOverlayMobile();
   }
-
 
   // Структура папок образцов
   const fabricFolder = code => `./filter/stof/${Number(code.replace('f','')) || 1}`;
@@ -414,8 +431,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // Проверка доступных URL для конкретного образца
   function resolveValidURL(basePath, name){
     const candidates = [
+      `${basePath}/${name}.webp`,
       `${basePath}/${name}.jpg`,
       `${basePath}/${name}.jpeg`,
+      `${basePath}/c${name}.webp`,
       `${basePath}/c${name}.jpg`,
       `${basePath}/c${name}.jpeg`
     ];
@@ -493,7 +512,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const valid = urls.filter(x => x.url);
 
       if (valid.length){
-        card.style.backgroundImage = `url('${valid[0].url}')`;
+        const first = valid[0];
+        // фон карточки = первый валидный url (webp или jpg — что найдём)
+        card.style.backgroundImage = `url('${first.url}')`;
       } else {
         card.style.background = '#f3f4f6';
       }
@@ -505,7 +526,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const palette = document.createElement('div');
       palette.className = 'palette';
 
-            // раскрытие палитри по кліку на назві тканини
+      // раскрытие палитри по кліку на назві тканини
       title.addEventListener('click', () => {
         const isMobile = window.matchMedia && window.matchMedia('(max-width: 600px)').matches;
 
@@ -519,7 +540,7 @@ document.addEventListener('DOMContentLoaded', () => {
           return;
         }
 
-        // На десктопі залишаємо стару поведінку (палiтра всередині картки)
+        // На десктопі — палiтра всередині картки
         const open = palette.style.display === 'grid';
         palette.style.display = open ? 'none' : 'grid';
 
@@ -551,7 +572,6 @@ document.addEventListener('DOMContentLoaded', () => {
           samples: valid
         });
       });
-
 
       // нижняя панель:
       // слева "Про тканину" (открывает модалку),
