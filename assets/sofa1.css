@@ -181,3 +181,49 @@ body { padding: 0 var(--page-pad); overflow-x: hidden; }
     text-align: center;
   }
 }
+/* === Фікс: картинка починається чітко від краю === */
+body {
+  padding: 0;
+}
+
+.sofa-card {
+  padding: 0;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  width: 100vw;
+}
+
+.sofa-card img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  object-position: center center;
+}
+/* === Фикс: картинка с края, но кадрирование и текст как раньше === */
+
+/* убираем общий паддинг, чтобы не было зазора слева */
+body {
+  padding: 0;
+}
+
+/* возвращаем нормальные паддинги карточки, но двигаем её ровно от края */
+.sofa-card {
+  /* как было, чтобы текст и сетка не ломались */
+  padding: clamp(6px, 1.2vw, 16px) var(--page-pad) clamp(6px, 1.2vw, 16px) 0;
+  width: 100vw;
+  max-width: 100vw;
+
+  /* ключевое: тянем блок от самого левого края вьюпорта */
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+}
+
+/* оставляем старое кадрирование по высоте */
+.sofa-card img {
+  width: 100%;
+  height: clamp(280px, 42vw, 520px);
+  object-fit: cover;
+  object-position: 50% 50%;
+  display: block;
+}
