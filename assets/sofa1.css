@@ -227,3 +227,26 @@ body {
   object-position: 50% 50%;
   display: block;
 }
+/* === Мобільний режим: картинка на всю ширину екрану (SOFAS) === */
+@media (max-width: 900px) {
+  .sofa-card {
+    grid-template-columns: 1fr;                 /* одна колонка */
+    padding: 0;                                 /* без внутренних отступов у блока */
+    margin-left: calc(50% - 50vw);              /* тянем секцию від краю до краю */
+    margin-right: calc(50% - 50vw);
+  }
+
+  .sofa-card img {
+    width: 100vw;                               /* картинка на всю ширину екрана */
+    max-width: 100vw;
+    height: auto;                               /* без фиксованої висоти, як фото */
+    object-fit: cover;
+    object-position: center center;
+  }
+
+  .sofa-info {
+    padding: 16px 16px 24px;                    /* текст уже в «чистій» коробці */
+    text-align: left;
+    align-items: flex-start;
+  }
+}
