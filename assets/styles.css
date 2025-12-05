@@ -1062,8 +1062,8 @@ body.is-shrink .nav a + a::before{
 
 /* Картинка Санты в кружке */
 .call-fab-icon {
-  width: 180%;
-  height: 180%;
+  width: 185%;
+  height: 185%;
   display: block;
   object-fit: contain;
   pointer-events: none;
