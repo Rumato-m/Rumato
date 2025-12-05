@@ -994,3 +994,60 @@ body.is-shrink .nav a + a::before{
   border-color: var(--accent) !important;
   color: #fff !important;
 }
+/* === Центрирование футера (исправление выравнивания) === */
+.site-footer {
+  background: #f9f9f9;
+  border-top: 1px solid #ddd;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+}
+
+.footer-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;       /* 👈 вместо flex-start */
+  width: 100%;
+  padding: 30px var(--footer-pad-x);
+  box-sizing: border-box;
+  min-height: var(--footer-height);
+  gap: 20px;
+}
+
+.footer-left {
+  font-size: var(--footer-left-size);
+  font-weight: 800;
+  color: #000;
+  display: flex;
+  align-items: center;        /* 👈 теперь центр по вертикали */
+}
+
+.footer-right {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: right;
+  justify-content: center;    /* 👈 центрирование по вертикали */
+}
+
+.footer-right p {
+  margin: 0;
+  font-size: var(--footer-right-size);
+  color: #333;
+}
+
+/* адаптив на мобильном */
+@media (max-width: 768px) {
+  .footer-inner {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 24px var(--footer-pad-x);
+    gap: 10px;
+  }
+  .footer-right {
+    text-align: center;
+    align-items: center;
+  }
+}
