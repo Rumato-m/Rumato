@@ -1051,3 +1051,30 @@ body.is-shrink .nav a + a::before{
     align-items: center;
   }
 }
+/* ==== Контактный виджет с Сантой — финальная версия ==== */
+
+/* Кнопка остаётся кругом, как задано в injectWidgetStyles,
+   только убираем зелёную рамку и тень */
+.call-fab {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Картинка Санты в кружке */
+.call-fab-icon {
+  width: 180%;
+  height: 180%;
+  display: block;
+  object-fit: contain;
+  pointer-events: none;
+  transform: translate(-0%, -10%);
+}
+/* Іконки в кнопках чату/дзвінка */
+.contact-subfab img.subfab-icon {
+  width: 140%;
+  height: 140%;
+  object-fit: contain;
+  display: block;
+  pointer-events: none;
+  transform: translate(-0%, -10%);
+}

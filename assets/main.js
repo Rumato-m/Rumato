@@ -564,14 +564,16 @@ function initCartWidget(){
 
   const fab = document.createElement('button');
   fab.className = 'cart-fab';
-  fab.setAttribute('aria-label','Кошик');
+  fab.setAttribute('aria-label', 'Кошик');
   fab.style.display = (cartStore.total() > 0) ? 'grid' : 'none';
 
+  // как было изначально — плашка с суммой
   const pill = document.createElement('span');
   pill.className = 'fab-pill';
   pill.textContent = fmtUAH(cartStore.total());
   fab.appendChild(pill);
   mount.appendChild(fab);
+
 
   const backdrop = document.createElement('div');
   backdrop.className = 'cart-backdrop';
@@ -816,48 +818,64 @@ function initCartWidget(){
 
 /* ===== Контакти (круг + 2 пігулки) ===== */
 
-function initCallWidget(){
+/* ===== Контакти (круг + 2 пігулки з іконками) ===== */
+
+function initCallWidget() {
   const mount = document.getElementById('call-widget-root');
   if (!mount) return;
 
   injectWidgetStyles();
 
   const tel = mount.getAttribute('data-tel') || 'tel:+380000000000';
-  const chatHref = mount.getAttribute('data-chat') ||
-    (document.querySelector('.footer-right a[href^="mailto:"]')?.getAttribute('href') || 'mailto:info@example.com');
+  const chatHref =
+    mount.getAttribute('data-chat') ||
+    (document.querySelector('.footer-right a[href^="mailto:"]')?.getAttribute('href') ||
+      'mailto:info@example.com');
 
+  // ==== головна кнопка Санта ====
   const callFab = document.createElement('button');
   callFab.className = 'call-fab';
-  callFab.setAttribute('type','button');
-  callFab.setAttribute('aria-label','Контакти');
+  callFab.setAttribute('type', 'button');
+  callFab.setAttribute('aria-label', 'Контакти');
 
-  const pill = document.createElement('span');
-  pill.className = 'fab-pill';
-  pill.textContent = 'Контакти';
-  callFab.appendChild(pill);
+  const santaImg = document.createElement('img');
+  santaImg.src = './images/sofas/santa.png';
+  santaImg.alt = '';
+  santaImg.className = 'call-fab-icon';
+  callFab.appendChild(santaImg);
 
+  // ==== підменю з двома іконками ====
   const menu = document.createElement('div');
   menu.className = 'contact-menu';
   menu.innerHTML = `
-    <a class="contact-subfab" href="${tel}" aria-label="Подзвонити">☎</a>
-    <a class="contact-subfab" href="${chatHref}" aria-label="Чат">💬</a>
+    <a class="contact-subfab" href="${tel}" aria-label="Подзвонити">
+      <img src="./images/sofas/call.png" alt="Call" class="subfab-icon">
+    </a>
+    <a class="contact-subfab" href="${chatHref}" aria-label="Чат">
+      <img src="./images/sofas/chat.png" alt="Chat" class="subfab-icon">
+    </a>
   `;
 
   let open = false;
-  callFab.addEventListener('click', (e)=>{
+  callFab.addEventListener('click', (e) => {
     e.stopPropagation();
     open = !open;
     menu.classList.toggle('open', open);
   });
-  document.addEventListener('click', ()=>{
-    if (!open) return;
-    open = false;
-    menu.classList.remove('open');
-  }, {capture:true});
+  document.addEventListener(
+    'click',
+    () => {
+      if (!open) return;
+      open = false;
+      menu.classList.remove('open');
+    },
+    { capture: true }
+  );
 
   mount.appendChild(callFab);
   document.body.appendChild(menu);
 }
+
 
 /* ====== BOOT ====== */
 document.addEventListener('DOMContentLoaded', async ()=>{
