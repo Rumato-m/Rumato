@@ -381,11 +381,21 @@ input[type="checkbox"].toggle:checked + .switch::before{left:24px;}
     max-width: 100%;
   }
 
-  .sofa-card > img {
+  /* картинка в hero через <picture> – показываем целиком */
+  .sofa-card picture {
+    display: block;
+    margin: 0;
+  }
+
+  .sofa-card picture img {
     display: block;
     width: 100%;
-    height: auto;
+    height: auto;          /* без фиксированной высоты */
+    object-fit: contain;   /* показываем всю картинку без обрезки */
+    object-position: center center;
+    margin: 0;
   }
+
 
   /* ---------- 2. НАЗВАНИЕ + ОПИСАНИЕ ---------- */
   .sofa-info {
