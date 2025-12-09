@@ -382,18 +382,29 @@ input[type="checkbox"].toggle:checked + .switch::before{left:24px;}
   }
 
   /* картинка в hero через <picture> – показываем целиком */
+    /* ---------- 1. HERO-ПРЕВЬЮ ---------- */
+  .sofa-card {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;                /* сбрасываем calc(50% - 50vw) */
+    padding: 0;
+    overflow: hidden;         /* предотвращает вылезание */
+  }
+
   .sofa-card picture {
     display: block;
+    width: 100%;
+    max-width: 100%;
     margin: 0;
   }
 
   .sofa-card picture img {
     display: block;
     width: 100%;
-    height: auto;          /* без фиксированной высоты */
-    object-fit: contain;   /* показываем всю картинку без обрезки */
+    height: auto;
+    object-fit: contain;       /* показываем всю картинку */
     object-position: center center;
-    margin: 0;
   }
 
 
