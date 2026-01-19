@@ -60,7 +60,84 @@ input[type="checkbox"].toggle:checked + .switch{background:var(--accent);}
 input[type="checkbox"].toggle:checked + .switch::before{left:24px;}
 
 /* Modals */
-.fabric-modal-backdrop,.article-modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.4);display:none;align-items:center;justify-content:center;z-index:2147483001;padding:24px;}
+.fabric-modal-backdrop,.article-modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.4);display:none;align-items:center;justify-content:center;z-index:2147483001;padding:24px;}/* ===== FULLSCREEN FABRIC WHEEL (mobile palette) ===== */
+.fabric-wheel-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.7);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:2147483600;
+  padding:16px;
+}
+
+.fabric-wheel-overlay.is-open{
+  display:flex;
+}
+
+.fabric-wheel-box{
+  width:100%;
+  max-width:420px;
+  max-height:90vh;
+  background:#fff;
+  border-radius:18px;
+  padding:20px 16px 24px;
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+  box-shadow:0 24px 60px rgba(0,0,0,0.35);
+}
+
+.fabric-wheel-close{
+  border:0;
+  background:transparent;
+  align-self:flex-end;
+  font-size:18px;
+  line-height:1;
+  cursor:pointer;
+}
+
+.fabric-wheel-title{
+  font-size:15px;
+  font-weight:600;
+}
+
+.fabric-wheel-preview{
+  width:100%;
+  height:96px;          /* примерно те самые ~3 см на экране */
+  border-radius:12px;
+  background-size:cover;
+  background-position:center;
+}
+
+.fabric-wheel-code{
+  font-size:13px;
+  color:#6b7280;
+  text-align:center;
+}
+
+.fabric-wheel-controls{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+}
+
+.fabric-wheel-controls .wheel-btn{
+  flex:1;
+  padding:10px 0;
+  border-radius:999px;
+  border:1px solid #d1d5db;
+  background:#f9fafb;
+  font-size:14px;
+  font-weight:600;
+  cursor:pointer;
+}
+
+.fabric-wheel-controls .wheel-btn:active{
+  background:#e5e7eb;
+}
+
 .article-modal-backdrop{z-index:2147483000;}
 .fabric-modal-box,.article-modal-box{background:#fff;border-radius:14px;max-width:560px;max-height:80vh;overflow:auto;box-shadow:0 24px 60px rgba(0,0,0,.4);padding:24px 24px 32px;color:#111;position:relative;}
 .fabric-modal-close,.article-modal-close{appearance:none;border:0;background:transparent;font-size:16px;font-weight:600;color:#111;cursor:pointer;position:absolute;top:16px;right:20px;}
@@ -150,9 +227,6 @@ input[type="checkbox"].toggle:checked + .switch::before{left:24px;}
 }
 
 
-/* Footer width guard */
-[data-include="footer"],footer,.site-footer{max-width:none!important;width:100%!important;margin-left:0!important;margin-right:0!important;}
-
 .addon-row{
   display: flex;
   align-items: stretch;       /* тянем блоки по высоте */
@@ -200,4 +274,371 @@ input[type="checkbox"].toggle:checked + .switch::before{left:24px;}
   .article-divider{
     display: none;
   }
+}
+/* === Повноекранна палiтра тканини (мобільна версія ліжок) === */
+.bed-fabric-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.6);
+  display:none;
+  align-items:stretch;
+  justify-content:center;
+  z-index:2147483600;
+}
+
+.bed-fabric-overlay.is-open{
+  display:flex;
+}
+
+.bed-fabric-box{
+  margin:16px;
+  background:#fff;
+  border-radius:16px;
+  width:100%;
+  max-width:480px;
+  display:flex;
+  flex-direction:column;
+  padding:16px 16px 24px;
+  box-shadow:0 20px 50px rgba(0,0,0,0.35);
+}
+
+.bed-fabric-title{
+  font-size:15px;
+  font-weight:600;
+  text-align:center;
+  margin-bottom:8px;
+}
+
+.bed-fabric-grid{
+  flex:1;
+  overflow-y:auto;
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr)); /* 2 квадрата в ряд */
+  gap:10px;
+  padding-top:8px;
+  padding-bottom:8px;
+}
+
+.bed-fabric-swatch{
+  position:relative;
+  width:100%;
+  aspect-ratio:1/1;      /* квадрат */
+  border-radius:12px;
+  border:none;
+  padding:0;
+  background-size:cover;
+  background-position:center;
+  cursor:pointer;
+}
+
+.bed-fabric-swatch.is-selected{
+  outline:2px solid var(--accent);
+  outline-offset:2px;
+}
+
+/* кругла плаваюча кнопка "Обрати" */
+.bed-fabric-choose{
+  position:fixed;
+  display:none;
+  padding:8px 14px;
+  border-radius:999px;
+  border:none;
+  background:var(--accent);
+  color:#fff;
+  font-size:13px;
+  font-weight:600;
+  z-index:2147483601;
+  box-shadow:0 6px 16px rgba(0,0,0,0.35);
+}
+
+/* ================= MOBILE LAYOUT (≤768px) ================= */
+@media (max-width: 768px) {
+
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+  /* отключаем плавный скролл на мобилках — меньше лагов */
+  html {
+    scroll-behavior: auto;
+  }
+
+  /* общий отступ для блоков */
+  main {
+    padding: 0;
+  }
+
+  /* ---------- 1. HERO-ПРЕВЬЮ ---------- */
+  .sofa-card {
+    display: block;
+    margin: 0 0 16px;
+    padding: 0;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /* картинка в hero через <picture> – показываем целиком */
+    /* ---------- 1. HERO-ПРЕВЬЮ ---------- */
+  .sofa-card {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;                /* сбрасываем calc(50% - 50vw) */
+    padding: 0;
+    overflow: hidden;         /* предотвращает вылезание */
+  }
+
+  .sofa-card picture {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+  }
+
+  .sofa-card picture img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;       /* показываем всю картинку */
+    object-position: center center;
+  }
+
+
+  /* ---------- 2. НАЗВАНИЕ + ОПИСАНИЕ ---------- */
+  .sofa-info {
+    padding: 0 16px 24px;
+    max-width: 100%;
+  }
+
+  .sofa-info h1 {
+    font-size: 24px;
+    margin: 8px 0 6px;
+  }
+
+  /* ---------- 3. ФИЛЬТРЫ: НАЗВАНИЕ СВЕРХУ, ОКНО СНИЗУ ---------- */
+  .filter-strip {
+    padding: 0 16px;
+    margin: 0 0 20px;
+    width: 100%;
+  }
+
+  .filter-bar {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    border-radius: 0;
+    white-space: normal;
+  }
+
+  .filter-item {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+    width: 100%;
+  }
+
+  .filter-item .label,
+  .filter-item label {
+    font-size: 14px;
+  }
+
+  .select,
+  .filter-item select,
+  .filter-item .option-list,
+  .filter-item .option-list button {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    text-align: left;
+  }
+
+  .filter-sep {
+    display: none;
+  }
+
+  /* ---------- 4. ПРЕВЬЮ – ТОЛЬКО ВИД СВЕРХУ ---------- */
+  .filter-preview {
+    padding: 0 16px;
+    margin: 0 0 24px;
+    width: 100%;
+  }
+
+  .preview-grid {
+    display: block;
+  }
+
+  #filterPreviewLeft {
+    display: none;
+  }
+
+  .preview-grid img,
+  #filterPreviewRight {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: 0;
+  }
+
+  /* ---------- 5. ТКАНИ – ЛЕНТЫ НА ВСЮ ШИРИНУ ---------- */
+  .fabric-selector {
+    padding: 0 16px 24px;
+    height: auto;          /* не фиксируем 300px как на десктопе */
+    border: none;
+    border-radius: 0;
+    background: transparent;
+  }
+
+  .fabric-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+  }
+
+  /* сама лента-превью ткани */
+  .fabric-card {
+    position: relative;
+    width: 100%;
+    min-height: 90px;      /* ~3 см на экране айфона */
+    height: 90px;
+    border-radius: 12px;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+  }
+
+  /* заголовок ткани сверху ленты */
+  .fabric-title {
+    position: absolute;
+    left: 16px;
+    right: 16px;
+    bottom: 10px;
+    top: auto;
+    display: block;
+    padding: 0;
+    font-size: 13px;
+    font-weight: 600;
+    color: #111;
+    text-align: left;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.35);
+  }
+
+  .fabric-title::after {
+    display: none; /* убираем подсказку из десктопной версии */
+  }
+
+  /* в самой карточке палетки нет – только в полноэкранном режиме */
+  .palette {
+    display: none !important;
+  }
+
+  .fabric-select {
+    padding: 8px 4px 16px;
+    border: none;
+    background: transparent;
+  }
+
+  /* ---------- 6. ЦЕНА + КНОПКА ---------- */
+  .action-bar {
+    padding: 0 16px 24px;
+    margin: 0;
+    width: 100%;
+    display: block;
+  }
+
+  .action-bar .price {
+    margin-bottom: 12px;
+  }
+
+  .action-bar .btn-primary,
+  .action-bar button {
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 10px;
+  }
+
+  /* ---------- 7. ДОП. ТОВАРЫ – ПО ОДНОЙ КАРТОЧКЕ ---------- */
+  .addons {
+    padding: 0 16px 32px;
+  }
+
+  .addon-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+  }
+
+  .addon-card {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .addon-media {
+    width: 100%;
+    min-height: 220px;
+    background-size: cover;
+    background-position: center;
+  }
+
+  /* ---------- 8. СТАТЬИ – ОДНА КОЛОНКА ---------- */
+  .articles {
+    padding: 0 16px 12px;
+    margin: 16px 0 0;
+  }
+
+  .article-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 100%;
+  }
+
+  .article-card {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /* показываем только первую статью, всё, что ниже – скрываем */
+  .article-grid > .article-card:nth-of-type(n + 2) {
+    display: none;
+  }
+
+  /* на мобиле разделитель не нужен */
+  .article-divider {
+    display: none;
+  }
+
+  .article-card img {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin-bottom: 12px;
+  }
+
+  /* ---------- 9. ПОДВАЛ ---------- */
+  .site-footer {
+    padding: 24px 16px;
+    margin: 0;
+    width: 100%;
+  }
+}
+
+/* Цвет ссылки "Меню" в шапке (глобально, не только мобилка) */
+.site-header a,
+.site-header a:visited {
+  color: #111827;
+  text-decoration: none;
+}
+.site-header a:hover {
+  color: var(--r-green);
 }
