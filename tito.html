@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="index, follow" />
+
+  <title>Ліжко Tito — дизайнерське ліжко під замовлення | Rumato</title>
+  <meta name="description" content="Ліжко Tito — архітектурна простота, чіткі пропорції та комфорт. Індивідуальні розміри, тканини, підйомний механізм." />
+
+  <link rel="canonical" href="https://rumato.com.ua/Tito.html" />
+  <meta property="og:title" content="Ліжко Tito — дизайнерське ліжко під замовлення" />
+  <meta property="og:description" content="Ліжко Tito — архітектурна простота, чітка геометрія та тактильний комфорт." />
+  <meta property="og:type" content="product" />
+  <meta property="og:image" content="https://rumato.com.ua/images/sofas/tito/preview-main.png" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap" as="style">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="./assets/styles.css">
+  <link rel="preload" href="./assets/beds.css" as="style">
+  <link rel="stylesheet" href="./assets/beds.css">
+</head>
+
+<body data-model="tito">
+  <!-- Header include -->
+  <div data-include="header"></div>
+
+  <div class="top-accent-bar" role="status">Вам дуже пасує:</div>
+
+  <!-- Hero -->
+  <section class="sofa-card">
+    <picture>
+      <source srcset="./images/sofas/tito/preview-main.webp" type="image/webp">
+      <img id="heroImg"
+           alt="Ліжко Tito — головний візуал"
+           loading="eager" decoding="async"
+           src="./images/sofas/tito/preview-main.png"
+           width="1600" height="520">
+    </picture>
+
+    <div class="sofa-info">
+      <h1 class="model-title">TITO</h1>
+
+      <!-- SEO / assistive text -->
+      <div class="sr-only" lang="uk">
+        Ліжко Tito — дизайнерське ліжко з чіткою геометрією, створене для спокійного та впевненого інтер’єру.
+      </div>
+      <div class="sr-only" lang="ru">
+        Кровать Tito — дизайнерская кровать на заказ с индивидуальными параметрами. Доставка по всей Украине.
+      </div>
+
+      <p>
+        Це ліжко з м’якою архітектурою.
+Його форма плавна й об’ємна, без різких кутів, але з чітко зібраною геометрією. Низький силует і округлий контур створюють відчуття спокою та захищеності — ніби простір навколо стає тихішим. Узголів’я переходить у корпус єдиною лінією, формуючи монолітний, але тактильний об’єм. Тканина працює зі світлом делікатно: підкреслює глибину форми, м’якість радіусів і ручну роботу. Tito добре вписується в сучасні, мінімалістичні та арт-інтер’єри, де важливі не жести, а відчуття — тілесні, спокійні, справжні.
+      </p>
+    </div>
+  </section>
+
+  <!-- Filters -->
+  <section class="filter-strip" id="filterStrip" aria-label="Фільтри конфігурації Tito">
+    <div class="filter-bar" id="filterBar" role="toolbar" aria-label="Фільтри конфігурації">
+      <div class="filter-item">
+        <label class="label" for="sleepSize">Спальне місце</label>
+        <select id="sleepSize" class="select select-center" aria-label="Вибір спального місця">
+          <option value="160x200" selected>160 × 200</option>
+          <option value="180x200">180 × 200</option>
+          <option value="200x200">200 × 200</option>
+        </select>
+      </div>
+
+      <span class="filter-sep" aria-hidden="true"></span>
+
+      <div class="filter-item">
+        <label class="label" for="borderSelect">Товщина борта</label>
+        <select id="borderSelect" class="select select-center" aria-label="Товщина борта">
+          <option value="20" selected>20 см</option>
+        </select>
+      </div>
+
+      <span class="filter-sep" aria-hidden="true"></span>
+
+      <div class="filter-item">
+        <label class="label" for="liftSelect">Підйомний механізм</label>
+        <select id="liftSelect" class="select select-center" aria-label="Підйомний механізм">
+          <option value="off" selected>Ні</option>
+          <option value="on">Так</option>
+        </select>
+      </div>
+    </div>
+  </section>
+
+  <!-- Double preview (должно подтягиваться из ./images/sofas/tito/ через beds.js) -->
+  <section class="filter-preview" id="filterPreview" aria-live="polite" aria-label="Попередній перегляд">
+    <div class="preview-card">
+      <div class="preview-grid">
+        <img id="filterPreviewLeft" alt="Перегляд ліжка — основний ракурс" src="" loading="lazy" decoding="async" width="800" height="400">
+        <img id="filterPreviewRight" alt="Перегляд ліжка зверху — габарити" src="" loading="lazy" decoding="async" width="800" height="400">
+      </div>
+    </div>
+  </section>
+
+  <!-- Fabrics -->
+  <section class="fabric-selector" id="fabricSelector" aria-label="Вибір тканини та кольору">
+    <div class="fabric-grid" id="fabricGrid"></div>
+  </section>
+
+  <!-- Price & CTA -->
+  <section class="action-bar" id="actionBar" aria-label="Підсумкова вартість">
+    <div class="price">Ціна: <strong id="priceValue">—</strong></div>
+    <button type="button" id="addToCart" class="btn-primary">Додати в кошик</button>
+  </section>
+
+  <!-- Addons (3 в ряд) -->
+  <section class="addons" id="extraItems" aria-label="Додаткові вироби">
+    <div class="addons-header"><span>Додатково:</span></div>
+
+    <div class="addon-grid">
+      <article class="addon-card" data-item="chair">
+        <div class="addon-media" style="background-image:url('./images/sofas/tito/1 tito.png')"></div>
+        <div class="addon-row">
+          <div class="addon-body">
+            <div class="addon-title">Матрас Лотос-Гуру</div>
+            <div class="addon-gabarit">Габарит: <span id="chairSize" class="addon-gabarit-val">160×200</span></div>
+            <div class="addon-price">Ціна: <span class="addon-price-val" data-price-for="chair">10 000 ₴</span></div>
+            <button class="article-link spec-link" data-spec="chair" type="button">Характеристики</button>
+          </div>
+          <div class="addon-ctrl">
+            <button class="btn-add" data-item="chair">Додати</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="addon-card" data-item="pouf">
+        <div class="addon-media" style="background-image:url('./images/sofas/tito/2 tito.png')"></div>
+        <div class="addon-row">
+          <div class="addon-body">
+            <div class="addon-title">Матрас Лотос-Етерно</div>
+            <div class="addon-gabarit">Габарит: <span id="poufSize" class="addon-gabarit-val">160×200</span></div>
+            <div class="addon-price">Ціна: <span class="addon-price-val" data-price-for="pouf">10 000 ₴</span></div>
+            <button class="article-link spec-link" data-spec="pouf" type="button">Характеристики</button>
+          </div>
+          <div class="addon-ctrl">
+            <button class="btn-add" data-item="pouf">Додати</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="addon-card" data-item="static">
+        <div class="addon-media" style="background-image:url('./images/sofas/tito/3 tito.png')"></div>
+        <div class="addon-row">
+          <div class="addon-body">
+            <div class="addon-title">Висувна столешня 2 шт.</div>
+            <div class="addon-gabarit">Габарит: <span class="addon-gabarit-val">120×40</span></div>
+            <div class="addon-price">Ціна: <span class="addon-price-val">5 000 ₴</span></div>
+            <button class="article-link spec-link" data-spec="cushion-rect" type="button"></button>
+          </div>
+          <div class="addon-ctrl">
+            <button class="btn-add" data-item="static">Додати</button>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- Articles (вернул как в первой версии) -->
+  <section class="articles" aria-label="Корисні поради та натхнення">
+    <div class="article-grid">
+      <article class="article-card">
+        <h3>20 днів щоб створювати те, що стане частиною вашого дому:</h3>
+        <p>
+          Є речі, яким потрібно дозріти. Ми не поспішаємо з тим, що справді цінуємо, і не створюємо наполовину те, що має зробити ваш дім теплішим. Так само і ваш майбутній диван чи ліжко. Вони не народжуються миттєво, їх не можна заздалегідь сховати на склад і чекати, поки хтось обере саме їх.
+
+          Кожен виріб починається з вашого рішення, з вашого бачення комфорту. Ви обираєте форму, розмір, колір і тканину, а ми уважно слухаємо, пояснюємо деталі, пропонуємо рішення та супроводжуємо на кожному етапі. Це спільна подорож, у якій ваш майбутній предмет інтер’єру проходить шлях від ідеї до теплих рук майстра.
+
+          Ми не прискорюємо те, що потребує часу. Тому що справжня річ, створена саме для вас, не може бути випадковою. Вона має жити у вашому ритмі, відповідати вашим очікуванням і приносити радість багато років.
+
+          Саме тому важливо враховувати: від моменту замовлення до того дня, коли диван або ліжко з’являться у вашому домі, пройде щонайменше двадцять днів. Це час, необхідний для того, щоб створити річ, у якій буде частинка вашого характеру та нашого ремесла.
+
+          І коли цей день настане, коли ви вперше торкнетеся тканини, сядете, ляжете, вдихнете запах нового дому — очікування виправдає себе повністю. Бо речі, зроблені з увагою, ніколи не бувають швидкими, зате завжди стають незамінними.
+        </p>
+      </article>
+
+      <div class="article-divider"></div>
+
+      <article class="article-card">
+        <h3>Tito — спокій, що має форму:</h3>
+        <p> У цьому ліжку немає демонстративності — воно існує як тиха опора простору. Його округлий, зібраний об’єм сприймається цілісно, майже як скульптура, що м’яко осідає в кімнаті й одразу задає їй темп. Світло ковзає по тканині, затримується в радіусах, підкреслює глибину форми та створює відчуття тепла без надмірної м’якості.
+
+Tito не прагне огортати — він підтримує. Периметр ліжка формує відчутну, але ненав’язливу межу, в якій зручно зупинитися, спертися, змінити положення тіла й думок. Узголів’я працює як спокійний фон для вечора: читання, тиші, повільних розмов або просто паузи після дня. Низька посадка й широка основа дають відчуття стабільності, ніби ліжко заземлює простір і повертає увагу до себе.
+
+Форма Tito врівноважує геометрію інтер’єру — пом’якшує лінії, робить кімнату більш стриманою, людяною, зібраною. Воно не вимагає фокусу, але природно стає точкою тяжіння. Тут немає заданих сценаріїв: лише можливість бути в своєму ритмі, без напруги й поспіху.
+
+Tito — це не акцент і не декорація. Це стан рівноваги, який з часом стає звичним і необхідним. Ліжко, що не пояснює комфорт, а просто дозволяє його відчути.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <!-- Article modal -->
+  <div class="article-modal-backdrop" id="articleModal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="article-modal-box">
+      <button class="article-modal-close" id="articleClose" aria-label="Закрити">✕</button>
+      <h4 class="article-modal-title" id="articleTitle"></h4>
+      <div class="article-modal-body" id="articleBody"></div>
+    </div>
+  </div>
+
+  <!-- Fabric modal -->
+  <div class="fabric-modal-backdrop" id="fabricModal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="fabric-modal-box">
+      <button class="fabric-modal-close" id="fabricClose" aria-label="Закрити">✕</button>
+      <h4 class="fabric-modal-title" id="fabricTitle"></h4>
+      <div class="fabric-modal-body" id="fabricBody"></div>
+    </div>
+  </div>
+
+  <!-- RU SEO blocks -->
+  <div class="sr-only" lang="ru">
+    Купить дизайнерскую кровать Tito — точные размеры, ткани премиум-класса, опции: подъёмный механизм, ниша для хранения.
+  </div>
+
+  <!-- Footer include -->
+  <div data-include="footer"></div>
+
+  <!-- JS -->
+  <script src="./assets/main.js" defer></script>
+  <script src="./assets/beds.js" defer></script>
+</body>
+</html>

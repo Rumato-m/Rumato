@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     kornilon: 'images/sofas/kornilon',
     kubo: 'images/sofas/kornilon',
     zefir: 'images/sofas/zefir',
-    model4: 'images/sofas/kornilon',
+    tito: 'images/sofas/tito',
     model5: 'images/sofas/kornilon'
   };
   const SOFA_BASE = MODEL_ASSET_BASE[model] || MODEL_ASSET_BASE.kornilon;
@@ -55,9 +55,9 @@ document.addEventListener('DOMContentLoaded', () => {
     premiumFabrics: ['f02', 'f03', 'f04'],   
     fabricMarkup: 0.10       
     },
-    model4: {
-      base: { '160x200': 26000, '180x200': 27000, '200x200': 29000 },
-      defaultBase: 25500,
+    tito: {
+      base: { '160x200': 33500, '180x200': 34500, '200x200': 35200 },
+      defaultBase: 33500,
       liftExtra: 2200,
       premiumFabrics: ['f02', 'f03', 'f04'],
       fabricMarkup: 0.11
